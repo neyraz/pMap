@@ -1730,7 +1730,11 @@ function updateMapNote(doc) {
 function circularSVG(doc, W, H, v, opts = {}) {
   const S = state.settings, n = doc.seq.length, it = collectMapItems(doc);
   const fz = S.mapFont, T = S.featThick * clamp(Math.pow(v.zoom, 0.22), 1, 1.6), GAP = Math.max(3, T * 0.22);
-  const R = Math.min(W * 0.27, H * 0.33) * v.zoom; const cx = W / 2 + v.panX, cy = H / 2 + v.panY;
+  // the circle is centred in the space right of the show/hide icons, and kept small enough to leave room for labels
+  const lx = opts.export ? 6 : 68, ox = (lx - 6) / 2;
+  const cx = W / 2 + ox + v.panX, cy = H / 2 + v.panY;
+  let R0 = Math.min(W * 0.27, H * 0.33) * v.zoom, limited = false;
+  const off = S.featPos === 'off'; // features on the backbone line, or beside it (outside)
   const rot = (v.rot || 0) * Math.PI / 180;
   const ang = p => (p / n) * 2 * Math.PI - Math.PI / 2 + rot;
   const pt = (r, a) => [cx + r * Math.cos(a), cy + r * Math.sin(a)];
@@ -1738,11 +1742,22 @@ function circularSVG(doc, W, H, v, opts = {}) {
   const out = [];
   out.push(`<rect x="0" y="0" width="${W}" height="${H}" fill="${opts.white ? '#ffffff' : THEME.bg}" data-kind="bg"/>`);
   // visual minimum size for small features (in bp at the backbone radius)
-  const minBp = S.minFeat / (2 * Math.PI * Math.max(R, 1)) * n;
+  const minBp = S.minFeat / (2 * Math.PI * Math.max(R0, 1)) * n;
   const widened = it.feats.map(f => f.len >= minBp ? f : { start: mod(f.start - (minBp - f.len) / 2, n), len: minBp });
   const featLanes = laneAssign(widened, n); const nLanes = Math.max(1, ...featLanes.map(l => l + 1));
-  const laneR = L => R - L * (T + GAP);
-  const innerFeat = laneR(nLanes - 1) - T / 2;
+  { // leave about 100 px for labels beside the outermost ring (primers, coverage and reads add rings outside the features)
+    const nP0 = it.prim.length ? Math.max(...laneAssign(it.prim.map(x => x.site), n)) + 1 : 0, nR0 = it.reads.length ? Math.max(...laneAssign(it.reads.map(x => traceSpan(x.a)), n)) + 1 : 0;
+    const extra = (off ? 6 + nLanes * (T + GAP) : T / 2) + (it.cov ? 9 : 0) + (nP0 ? 8 + nP0 * 8 : 4) + (nR0 ? 4 + nR0 * 9 : 0) + 12;
+    // beside the circle labels need ~110 px; above and below they sit side by side and need only ~2 lines
+    const top = opts.export ? 14 : 50, fitW = (W - lx - 6) / 2 - extra - clamp(W * 0.14, 64, 110), fitH = (H - top - 22) / 2 - extra - 34;
+    const fit = Math.min(fitW, fitH, W * 0.36, H * 0.42);
+    R0 = Math.max(fit, Math.min(W, H) * 0.2) * v.zoom; limited = true;
+  }
+  // off the line: features run outside the backbone, so the backbone circle is drawn a little smaller (unless already fitted)
+  const R = off && !limited ? Math.max(R0 * 0.55, R0 - (6 + nLanes * (T + GAP)) * 0.7) : R0;
+  const laneR = L => off ? R + 6 + T / 2 + L * (T + GAP) : R - L * (T + GAP);
+  const featOut = off ? laneR(nLanes - 1) + T / 2 : R + T / 2;
+  const innerFeat = off ? R - 4 : laneR(nLanes - 1) - T / 2;
   const orfLanes = laneAssign(it.orfs, n); const nOrf = it.orfs.length ? Math.max(...orfLanes) + 1 : 0;
   const orfR = L => innerFeat - 8 - L * 6;
   const tickR = (nOrf ? orfR(nOrf - 1) : innerFeat) - 6;
@@ -1750,10 +1765,10 @@ function circularSVG(doc, W, H, v, opts = {}) {
   // primer lanes (outside the backbone)
   const pLanes = laneAssign(it.prim.map(x => x.site), n);
   const nP = it.prim.length ? Math.max(...pLanes) + 1 : 0;
-  const covW = it.cov ? 9 : 0, covR = R + T / 2 + 5.5; // coverage ring just outside the features
-  const primR = L => R + T / 2 + covW + 8 + L * 8;
+  const covW = it.cov ? 9 : 0, covR = featOut + 5.5; // coverage ring just outside the features
+  const primR = L => featOut + covW + 8 + L * 8;
   const rLanes = laneAssign(it.reads.map(x => traceSpan(x.a)), n); const nR = it.reads.length ? Math.max(...rLanes) + 1 : 0;
-  const primOut = R + T / 2 + covW + (nP ? 8 + nP * 8 : 4);
+  const primOut = featOut + covW + (nP ? 8 + nP * 8 : 4);
   const readR = L => primOut + 7 + L * 9;
   const outerR = primOut + (nR ? 4 + nR * 9 : 0);
   const RL = outerR + 22;
@@ -1771,12 +1786,13 @@ function circularSVG(doc, W, H, v, opts = {}) {
     else out.push(`<path d="M${P(r1, a0)} L${P(r2, a0)} A${r2},${r2} 0 ${big} 1 ${P(r2, a1)} L${P(r1, a1)} A${r1},${r1} 0 ${big} 0 ${P(r1, a0)} Z" fill="${THEME.sel}"/>`);
   }
   // search hits
-  const hitR = R + T / 2 + 3;
+  const hitR = featOut + 3;
   (doc._hits || []).slice(0, 300).forEach(h => { const [a0, a1] = widen(ang(h.start), ang(h.start + h.len), hitR); out.push(`<path d="M${P(hitR, a0)} A${hitR},${hitR} 0 0 1 ${P(hitR, a1)}" stroke="${THEME.hit.replace(/[\d.]+\)$/, '0.95)')}" stroke-width="6" fill="none"/>`); });
   // backbone
   out.push(`<circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${THEME.ink2}" stroke-width="1.6" data-kind="ring"/>`);
   out.push(`<circle cx="${cx}" cy="${cy}" r="${R - 3.2}" fill="none" stroke="${THEME.line2}" stroke-width="1" data-kind="ring"/>`);
   for (const c of doc.colorRanges) { const a0 = ang(c.start), a1 = ang(c.start + c.len); const big = c.len / n > 0.5 ? 1 : 0; out.push(`<path d="M${P(R - 1.6, a0)} A${R - 1.6},${R - 1.6} 0 ${big} 1 ${P(R - 1.6, a1)}" stroke="${c.color}" stroke-width="3.2" fill="none" opacity=".85"/>`); }
+  const leaderSlot = out.length; out.push(''); // label leader lines go here, under features, primers and reads
   // coverage ring: green both strands, amber one strand, red low quality only, thin grey not covered
   if (it.cov) it.cov.segs.forEach((g, i) => {
     const col = covColor(g.cls), w = g.cls === COV.NONE ? 1.4 : 4.5, attrs = `data-kind="coverage" data-id="${i}" style="cursor:pointer"`;
@@ -1826,7 +1842,7 @@ function circularSVG(doc, W, H, v, opts = {}) {
     const r = readR(rLanes[i]); const [a0, a1] = widen(ang(al.start), ang(al.start + al.len), r);
     out.push(arcArrow(cx, cy, r, 4.5, a0, a1, al.strand, n, al.len, THEME.read, THEME.read, 0.5, `data-kind="read" data-id="${t.id}"`, 0.92, 7));
     al.diffs.filter(d => d.sure).slice(0, 400).forEach(d => { const aa = ang(d.pos + 0.5); const [x1, y1] = pt(r - 6, aa), [x2, y2] = pt(r + 6, aa); out.push(`<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="${THEME.bad || '#d64545'}" stroke-width="1.8" pointer-events="none"/>`); });
-    if (S.readLabels === 'all') labels.push({ a: (a0 + a1) / 2, text: t.name + (al.sure ? ` (${al.sure} diff.)` : ''), color: THEME.read, r0: r + 3, kind: 'read', id: t.id, pri: 2, size: fz * 0.95 });
+    if (S.readLabels === 'all') labels.push({ a: (a0 + a1) / 2, text: t.name + (al.sure ? ` (${al.sure} diff.)` : ''), color: THEME.read, r0: r + 3, kind: 'read', id: t.id, pri: 0.5, size: fz * 0.95 });
   });
   // enzymes
   it.enz.forEach(s => {
@@ -1837,8 +1853,8 @@ function circularSVG(doc, W, H, v, opts = {}) {
   it.comments.forEach(c => { const a = ang(c.pos + 0.5); const [x, y] = pt(R, a); out.push(`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4" fill="${THEME.comment}" stroke="${THEME.bg}" stroke-width="1.2" data-kind="comment" data-id="${c.id}" style="cursor:pointer"/>`); labels.push({ a, text: '✎ ' + c.text.slice(0, 28), color: THEME.comment, r0: R + 4, kind: 'comment', id: c.id, pri: 1, size: fz * 0.95 }); });
   // labels: whole map visible → stacked columns; zoomed in → labels placed beside their features
   const top = opts.export ? 14 : 50; // keep clear of the map's corner buttons
-  const lx = opts.export ? 6 : 68; // keep clear of the show/hide icon column
-  out.push(whole ? placeLabelsStacked(labels, cx, cy, RL, W, H, top, lx) : placeLabelsLocal(labels, cx, cy, RL, W, H, top, lx));
+  const lab = placeLabelsFan(labels, { cx, cy, Rin: outerR + 8, W, H, minX: lx, minY: top, whole });
+  out[leaderSlot] = lab.lines; out.push(lab.texts);
   // hover marker + position badge
   if (state.hoverPos != null && state.hoverSrc === 'map') {
     const a = ang(state.hoverPos); const [x1, y1] = pt(Math.max(4, tickR - 2), a), [x2, y2] = pt(outerR + 6, a);
@@ -1860,7 +1876,7 @@ function circularSVG(doc, W, H, v, opts = {}) {
     const sum = traceSummary(doc), pctC = Math.round(100 * (sum.cnt[COV.ONE] + sum.cnt[COV.BOTH]) / n);
     out.push(`<text x="${cx.toFixed(1)}" y="${(y0 + shown.length * lh + 2 + fs * 0.95).toFixed(1)}" text-anchor="middle" dominant-baseline="central" font-size="${(fs * 0.66).toFixed(1)}" font-weight="600" fill="${THEME.read}" data-kind="coverage" data-id="sum" style="cursor:pointer">${sum.reads.length} read${sum.reads.length > 1 ? 's' : ''} · ${pctC}% covered${sum.sure ? ` · ${sum.sure} diff.` : ''}</text>`);
   }
-  MAPGEO = { type: 'circular', cx, cy, R, rot, n, ringIn: Math.max(0, tickR - 20), ringOut: outerR + 10 };
+  MAPGEO = { type: 'circular', ox, cx, cy, R, rot, n, ringIn: Math.max(0, tickR - 20), ringOut: outerR + 10 };
   return out.join('');
 }
 function fmtK(p) { return p >= 1e6 ? (p / 1e6).toFixed(p % 1e6 ? 1 : 0) + ' M' : p >= 1e4 ? (p / 1e3).toFixed(p % 1e3 ? 1 : 0) + ' k' : fmt(p); }
@@ -1882,61 +1898,61 @@ function arcArrow(cx, cy, r, T, a0, a1, strand, n, len, fill, stroke, sw, attrs,
 function labelSVG(l, x, y, anchor) {
   return `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" font-size="${l.size}" font-weight="${l.weight || 400}" fill="${l.color}" text-anchor="${anchor}" dominant-baseline="central" data-kind="${l.kind}" data-id="${esc(l.id)}" style="cursor:pointer">${xmlEsc(l.text)}</text>`;
 }
-function placeLabelsStacked(labels, cx, cy, RL, W, H, minY = 14, minX = 6) {
-  const out = []; const maxY = H - 14;
-  const sides = { L: [], R: [] };
-  labels.forEach(l => { const c = Math.cos(l.a); l.iy = cy + RL * Math.sin(l.a); (c >= 0 ? sides.R : sides.L).push(l); });
-  for (const k of ['L', 'R']) {
-    let arr = sides[k]; if (!arr.length) continue;
-    const gap = Math.max(...arr.map(l => l.size)) * 1.32;
-    const cap = Math.floor((maxY - minY) / gap);
-    arr = arr.sort((a, b) => a.pri - b.pri).slice(0, cap).sort((a, b) => a.iy - b.iy);
-    // cluster relaxation: overlapping labels form groups centred on their ideal positions
-    const cl = arr.map(l => ({ items: [l], sum: l.iy }));
-    const place = c => { const m = c.sum / c.items.length; c.top = clamp(m - (c.items.length - 1) * gap / 2, minY, maxY - (c.items.length - 1) * gap); };
-    cl.forEach(place);
-    for (let merged = true; merged;) {
-      merged = false;
-      for (let i = 0; i < cl.length - 1; i++) { const A = cl[i], B = cl[i + 1]; if (A.top + A.items.length * gap > B.top) { A.items.push(...B.items); A.sum += B.sum; place(A); cl.splice(i + 1, 1); merged = true; break; } }
-    }
-    cl.forEach(c => c.items.forEach((l, i) => l.y = c.top + i * gap));
-    arr.forEach(l => {
-      const dy = l.y - cy; const inside = RL * RL - dy * dy; const dx = inside > 0 ? Math.sqrt(inside) : 0; const tw = textW(l.text, l.size, l.weight || 400);
-      l.x = k === 'R' ? cx + Math.max(dx, 16) + 6 : cx - Math.max(dx, 16) - 6;
-      if (k === 'R' && l.x + tw > W - 6) l.x = Math.max(cx + 10, W - 6 - tw);
-      if (k === 'L' && l.x - tw < minX) l.x = Math.min(cx - 10, minX + tw);
-      const ax = cx + l.r0 * Math.cos(l.a), ay = cy + l.r0 * Math.sin(l.a);
-      const er = RL - 14, mx = cx + er * Math.cos(l.a), my = cy + er * Math.sin(l.a);
-      const ex = k === 'R' ? l.x - 3 : l.x + 3;
-      out.push(`<polyline data-for="${l.kind}|${esc(l.id)}" points="${ax.toFixed(1)},${ay.toFixed(1)} ${mx.toFixed(1)},${my.toFixed(1)} ${ex.toFixed(1)},${l.y.toFixed(1)}" fill="none" stroke="${l.color}" stroke-opacity=".42" stroke-width="0.85"/>`);
-      out.push(labelSVG(l, l.x, l.y, k === 'R' ? 'start' : 'end'));
-    });
-  }
-  return out.join('');
-}
-function placeLabelsLocal(labels, cx, cy, RL, W, H, minY = 14, minX = 2) { // zoomed in: each label sits next to its feature
-  const out = []; const boxes = [];
-  const vis = labels.filter(l => { const x = cx + l.r0 * Math.cos(l.a), y = cy + l.r0 * Math.sin(l.a); return x > -8 && x < W + 8 && y > -8 && y < H + 8; });
-  vis.sort((a, b) => a.pri - b.pri || a.a - b.a);
+/* Labels around a circular map. Each label is tried at positions close to its feature: first a little further
+   along the circle, then further out. A position is taken only if the label does not overlap another label or
+   the map, and its leader line stays outside the map without crossing another leader or label. Leader lines are
+   drawn underneath features, primers and reads, so they never cover them or their labels. */
+const LAB_CANDS = (() => { const c = []; for (let k = 0; k <= 12; k++) for (let j = -30; j <= 30; j++) c.push([j, k, Math.abs(j) + k * 1.35]); return c.sort((x, y) => x[2] - y[2]); })();
+let _labCache = null;
+function placeLabelsFan(labels, g) {
+  const key = [g.cx, g.cy, g.Rin, g.W, g.H, g.minX, g.minY].map(v => Math.round(v * 10)).join(',') + '|' + labels.map(l => l.kind + l.id + ':' + l.a.toFixed(4) + ':' + l.r0.toFixed(1) + ':' + l.text + ':' + l.size + l.color + (l.weight || '') + (l.pri)).join('|');
+  if (_labCache && _labCache.key === key) return _labCache.res;
+  const { cx, cy, Rin } = g, Re = Rin - 4, minX = g.minX, maxX = g.W - 4, minY = g.minY, maxY = g.H - 22;
+  const boxes = [], segs = [], lines = [], texts = [];
+  const cross = (a, b) => { // do segments a and b cross?
+    const d = (p, q, r) => (q[0] - p[0]) * (r[1] - p[1]) - (q[1] - p[1]) * (r[0] - p[0]);
+    const p1 = [a[0], a[1]], p2 = [a[2], a[3]], q1 = [b[0], b[1]], q2 = [b[2], b[3]];
+    return d(p1, p2, q1) * d(p1, p2, q2) < 0 && d(q1, q2, p1) * d(q1, q2, p2) < 0;
+  };
+  const segBox = (sg, bx) => { // does a segment touch a box (shrunk by 1 px)?
+    const b = [bx[0] + 1, bx[1] + 1, bx[2] - 1, bx[3] - 1]; const inB = (x, y) => x > b[0] && x < b[2] && y > b[1] && y < b[3];
+    if (inB(sg[0], sg[1]) || inB(sg[2], sg[3])) return true;
+    return [[b[0], b[1], b[2], b[1]], [b[2], b[1], b[2], b[3]], [b[2], b[3], b[0], b[3]], [b[0], b[3], b[0], b[1]]].some(e => cross(sg, e));
+  };
+  const segDist = sg => { const [x1, y1, x2, y2] = sg, dx = x2 - x1, dy = y2 - y1, L2 = dx * dx + dy * dy || 1; const t = clamp(((cx - x1) * dx + (cy - y1) * dy) / L2, 0, 1); return Math.hypot(x1 + t * dx - cx, y1 + t * dy - cy); };
+  const boxDist = b => Math.hypot(Math.max(b[0] - cx, 0, cx - b[2]), Math.max(b[1] - cy, 0, cy - b[3]));
+  const over = (a, b) => a[0] < b[2] + 2 && b[0] < a[2] + 2 && a[1] < b[3] + 1 && b[1] < a[3] + 1;
+  const vis = labels.filter(l => { const x = cx + l.r0 * Math.cos(l.a), y = cy + l.r0 * Math.sin(l.a); return x > -8 && x < g.W + 8 && y > -8 && y < g.H + 8; });
+  const norm = a => mod(a + Math.PI / 2, 2 * Math.PI); // 0 at the top, clockwise
+  vis.sort((p, q) => p.pri - q.pri || norm(p.a) - norm(q.a));
   for (const l of vis) {
-    const tw = textW(l.text, l.size, l.weight || 400), lh = l.size * 1.3; const c = Math.cos(l.a), s = Math.sin(l.a);
+    const lh = l.size * 1.28, tw = textW(l.text, l.size, l.weight || 400);
+    const E = [cx + Re * Math.cos(l.a), cy + Re * Math.sin(l.a)];
     let placed = null;
-    for (let k = 0; k < 9 && !placed; k++) {
-      const r = RL + k * lh * 1.05; let x = cx + r * c, y = cy + r * s, anchor, bx;
-      if (Math.abs(c) < 0.28) { anchor = 'middle'; bx = x - tw / 2; y += s > 0 ? lh * 0.35 : -lh * 0.35; }
-      else if (c > 0) { anchor = 'start'; bx = x; } else { anchor = 'end'; bx = x - tw; }
-      const box = [bx - 3, y - lh / 2, bx + tw + 3, y + lh / 2];
-      if (box[0] < minX || box[2] > W - 2 || box[1] < minY || box[3] > H - 22) continue;
-      if (boxes.some(b => b[0] < box[2] && box[0] < b[2] && b[1] < box[3] && box[1] < b[3])) continue;
-      placed = { x, y, anchor, r, box };
+    for (const strict of l.pri === 0 ? [2, 1, 0] : [2]) { // features never disappear: relax the rules if needed
+      for (const [j, k] of LAB_CANDS) {
+        const Rl = Rin + 4 + k * lh * 1.15, th = l.a + j * (lh * 1.05 / Rl), c = Math.cos(th), sn = Math.sin(th);
+        let px = cx + Rl * c, py = cy + Rl * sn, anchor, box, ex, ey;
+        if (Math.abs(c) < 0.3) { anchor = 'middle'; py += sn > 0 ? lh * 0.5 : -lh * 0.5; box = [px - tw / 2 - 2, py - lh / 2, px + tw / 2 + 2, py + lh / 2]; ex = px; ey = sn > 0 ? box[1] : box[3]; }
+        else if (c > 0) { anchor = 'start'; box = [px - 1, py - lh / 2, px + tw + 2, py + lh / 2]; ex = px - 2; ey = py; }
+        else { anchor = 'end'; box = [px - tw - 2, py - lh / 2, px + 1, py + lh / 2]; ex = px + 2; ey = py; }
+        if (box[0] < minX || box[2] > maxX || box[1] < minY || box[3] > maxY) continue;
+        if (boxDist(box) < Rin - 2) continue;                       // label would sit on the map
+        if (boxes.some(b => over(b, box))) continue;               // overlaps another label
+        const sg = [E[0], E[1], ex, ey];
+        if (strict >= 1 && segDist(sg) < Re - 1.5) continue;       // leader would cut across the map
+        if (strict >= 2 && (segs.some(o => cross(o, sg)) || boxes.some(b => segBox(sg, b)) || segs.some(o => segBox(o, box)))) continue; // crossings
+        placed = { box, px, py, anchor, sg }; break;
+      }
+      if (placed) break;
     }
-    if (!placed) continue;
-    boxes.push(placed.box);
-    const ax = cx + l.r0 * Math.cos(l.a), ay = cy + l.r0 * Math.sin(l.a); const er = placed.r - 4;
-    out.push(`<line data-for="${l.kind}|${esc(l.id)}" x1="${ax.toFixed(1)}" y1="${ay.toFixed(1)}" x2="${(cx + er * c).toFixed(1)}" y2="${(cy + er * s).toFixed(1)}" stroke="${l.color}" stroke-opacity=".42" stroke-width="0.85"/>`);
-    out.push(labelSVG(l, placed.x, placed.y, placed.anchor));
+    if (!placed) continue; // crowded: this enzyme or primer label is left out (hover still names it)
+    boxes.push(placed.box); segs.push(placed.sg);
+    const A = [cx + l.r0 * Math.cos(l.a), cy + l.r0 * Math.sin(l.a)];
+    lines.push(`<polyline data-for="${l.kind}|${esc(l.id)}" points="${A[0].toFixed(1)},${A[1].toFixed(1)} ${placed.sg[0].toFixed(1)},${placed.sg[1].toFixed(1)} ${placed.sg[2].toFixed(1)},${placed.sg[3].toFixed(1)}" fill="none" stroke="${l.color}" stroke-opacity=".5" stroke-width="0.85"/>`);
+    texts.push(labelSVG(l, placed.px, placed.py, placed.anchor));
   }
-  return out.join('');
+  const res = { lines: lines.join(''), texts: texts.join('') }; _labCache = { key, res }; return res;
 }
 
 /* ---------------- linear ---------------- */
@@ -2041,7 +2057,8 @@ function linearSVG(doc, W, H, v, opts = {}) {
     });
     out.push(`<text x="${lab.c}" y="${y - 5}" font-size="${efz}" fill="${col}" text-anchor="middle" data-kind="primer" data-id="${p.id}" style="cursor:pointer">${xmlEsc(p.name)}</text>`);
   });
-  // features
+  // features (on the line: a backbone line runs through the first lane of features)
+  if (S.featPos !== 'off' && featsV.length) out.push(`<line x1="${ax0}" x2="${ax1}" y1="${y0 + FT / 2}" y2="${y0 + FT / 2}" stroke="${THEME.ink2}" stroke-width="1.6" pointer-events="none"/>`);
   featsV.forEach((f, i) => {
     const y = y0 + fl[i] * (FT + FG); const fc = featColor(f), st = featStroke(fc);
     visParts(f).forEach(([a, b], k, arr) => {
@@ -2114,7 +2131,7 @@ function initMapEvents() {
     if (v.mapType === 'circular') {
       if (e.shiftKey) { v.rot = mod((v.rot || 0) + Math.sign(e.deltaY || e.deltaX) * 4, 360); renderMap(); return; }
       const f = Math.exp(-e.deltaY * 0.0015); const nz = clamp(v.zoom * f, 0.4, 60);
-      const rc = svg.getBoundingClientRect(); const mx = e.clientX - rc.left - rc.width / 2, my = e.clientY - rc.top - rc.height / 2;
+      const rc = svg.getBoundingClientRect(); const mx = e.clientX - rc.left - rc.width / 2 - (g.ox || 0), my = e.clientY - rc.top - rc.height / 2;
       v.panX = mx - (mx - v.panX) * (nz / v.zoom); v.panY = my - (my - v.panY) * (nz / v.zoom); v.zoom = nz;
     } else {
       const n = doc.seq.length; const [a, b] = v.lin; const span = b - a;
@@ -2633,7 +2650,7 @@ const LS = { get(k, d) { try { const v = localStorage.getItem(k); return v == nu
 })();
 const DEFAULT_SETTINGS = { show: { features: true, primers: true, enzymes: true, orfs: false, comments: true, traces: true }, comp: true, trans: true, frames: false, aa3: false, group: true, enzFilter: 'unique6', minAnneal: 15, orfMin: 100, tm: { ...TM_DEFAULTS }, lock: false, split: 0.5,
   theme: 'system', uiFont: 13, seqFont: 13, mapFont: 10.5, featThick: 18, minFeat: 8, enzPos: true, boldUnique: true, bpr: 0, panel: true,
-  labelStyle: 'auto', colorScheme: 'soft', colorMode: 'file', customColors: {}, chrom: true, traceH: 46, trimQ: 'yellow', readLabels: 'hover', readMap: 'both' };
+  labelStyle: 'auto', colorScheme: 'soft', colorMode: 'file', customColors: {}, chrom: true, traceH: 46, trimQ: 'yellow', readLabels: 'hover', readMap: 'both', featPos: 'on' };
 const state = {
   docs: [], activeId: null, view: 'split', tab: 'features',
   settings: Object.assign(clone(DEFAULT_SETTINGS), LS.get('pmap.settings', {})),
@@ -3763,6 +3780,7 @@ function settingsDialog() {
     ${row('Label text size', range('stMapF', 8, 15, 0.5, S.mapFont), 'Feature, enzyme and primer labels on the map')}
     ${row('Feature thickness', range('stThick', 8, 32, 1, S.featThick), 'Height of feature arrows on circular and linear maps')}
     ${row('Minimum feature size', range('stMin', 0, 24, 1, S.minFeat), 'Very short features are drawn at least this long so they stay easy to see and click')}
+    ${row('Features on the map', `<div class="seg" id="stFeatPos"><button data-p="on" class="${S.featPos !== 'off' ? 'on' : ''}">On the line</button><button data-p="off" class="${S.featPos === 'off' ? 'on' : ''}">Off the line</button></div>`, 'On the line: features sit on the DNA backbone. Off the line: the backbone is drawn on its own and features run beside it.')}
     ${row('Feature labels', `<select id="stLabels">${[['auto', 'Inside the arrow when it fits, otherwise outside'], ['inside', 'Inside the arrow only (shortened if needed)'], ['outside', 'Always outside, with leader lines'], ['off', 'Hidden']].map(([k, l]) => `<option value="${k}" ${S.labelStyle === k ? 'selected' : ''}>${l}</option>`).join('')}</select>`)}
     ${row('Enzyme labels', chk('stEnzPos', S.enzPos, 'Show cut position') + chk('stBold', S.boldUnique, 'Bold unique cutters'))}
   </div>
@@ -3797,6 +3815,7 @@ function settingsDialog() {
       $('#stReadMap', m).onchange = e => { S.readMap = e.target.value; live(); };
       $('#stReadLab', m).onchange = e => { S.readLabels = e.target.value; live(); };
       $('#stLabels', m).onchange = e => { S.labelStyle = e.target.value; live(); syncShowMenu(); };
+      $('#stFeatPos', m).onclick = e => { const b = e.target.closest('button'); if (!b) return; S.featPos = b.dataset.p; $$('#stFeatPos button', m).forEach(x => x.classList.toggle('on', x === b)); live(); };
       const types = () => { const C = schemeColors(); $('#stTypes', m).innerHTML = COLOR_KEYS.map(([k, l]) => `<label class="ctype"><input type="color" data-ck="${esc(k)}" value="${C[k]}"><span>${l}</span></label>`).join(''); $$('#stTypes [data-ck]', m).forEach(inp => inp.oninput = () => { if (S.colorScheme !== 'custom') { S.customColors = { ...schemeColors() }; S.colorScheme = 'custom'; $('#stScheme', m).value = 'custom'; } S.customColors[inp.dataset.ck] = inp.value; live(); }); };
       types();
       $('#stScheme', m).onchange = e => { const v = e.target.value; if (v === 'custom' && !Object.keys(S.customColors || {}).length) S.customColors = { ...schemeColors() }; S.colorScheme = v; types(); live(); };
