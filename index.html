@@ -9,10 +9,11 @@
    Text sizes use rem so the "Interface text size" setting scales the whole UI. */
 :root{
   --bg:#eef1f5; --surface:#ffffff; --surface2:#f6f8fb; --surface3:#e9edf3; --line:#dbe1e9; --line2:#c9d2dd;
-  --ink:#1e2834; --ink2:#3d4a5a; --muted:#66748a; --faint:#97a2b2;
+  --ink:#1e2834; --ink2:#3d4a5a; --muted:#536076; --faint:#5f6b7d; /* muted and faint text reach WCAG AA (4.5:1) on every surface */
   --accent:#5a7db5; --accent-ink:#ffffff; --accent-soft:#e2eaf6; --accent-line:#b9cbe6;
   --sel:rgba(90,125,181,.18); --sel-strong:rgba(90,125,181,.34); --hit:rgba(222,176,72,.38); --hover:rgba(30,40,52,.05);
   --good:#4f9472; --warn:#b98326; --bad:#c06262;
+  --good-ink:#2f6f50; --warn-ink:#8a5d12; --bad-ink:#a33d3d; --accent-text:#4a6ea8; --accent-strong:#4a6ea8; --read-ink:#3f6db3; /* text versions that reach 4.5:1 */
   --enz:#5a6a80; --read:#4f7fc4; --primer:#4e9a74; --orf:#b49a6a; --comment:#c07f3a;
   --brand-green:#4f9a30; --brand-blue:#2d8bc9; --brand-pink:#d4627a; --logo-line:#26313d;
   --shadow:0 1px 2px rgba(20,30,45,.06),0 8px 28px rgba(20,30,45,.09);
@@ -23,10 +24,11 @@
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
   --bg:#0f1318; --surface:#161b22; --surface2:#1b2129; --surface3:#232b35; --line:#2a333f; --line2:#38434f;
-  --ink:#e0e6ee; --ink2:#c2ccd8; --muted:#8d99aa; --faint:#5f6b7b;
+  --ink:#e0e6ee; --ink2:#c2ccd8; --muted:#a3aebd; --faint:#8692a3;
   --accent:#8eaee3; --accent-ink:#0f1318; --accent-soft:#1f2b3d; --accent-line:#34486a;
   --sel:rgba(142,174,227,.20); --sel-strong:rgba(142,174,227,.38); --hit:rgba(230,190,90,.30); --hover:rgba(255,255,255,.05);
   --good:#78bf98; --warn:#d9ad5a; --bad:#de8a8a;
+  --good-ink:var(--good); --warn-ink:var(--warn); --bad-ink:var(--bad); --accent-text:var(--accent); --accent-strong:var(--accent); --read-ink:var(--read);
   --enz:#a3b3c8; --read:#86aee6; --primer:#79c19b; --orf:#cdb07a; --comment:#e0a060;
   --brand-green:#93d36c; --brand-blue:#74c3f0; --brand-pink:#f29aa9; --logo-line:#26313d;
   --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 28px rgba(0,0,0,.38);
@@ -34,10 +36,11 @@
 }}
 :root[data-theme="dark"]{
   --bg:#0f1318; --surface:#161b22; --surface2:#1b2129; --surface3:#232b35; --line:#2a333f; --line2:#38434f;
-  --ink:#e0e6ee; --ink2:#c2ccd8; --muted:#8d99aa; --faint:#5f6b7b;
+  --ink:#e0e6ee; --ink2:#c2ccd8; --muted:#a3aebd; --faint:#8692a3;
   --accent:#8eaee3; --accent-ink:#0f1318; --accent-soft:#1f2b3d; --accent-line:#34486a;
   --sel:rgba(142,174,227,.20); --sel-strong:rgba(142,174,227,.38); --hit:rgba(230,190,90,.30); --hover:rgba(255,255,255,.05);
   --good:#78bf98; --warn:#d9ad5a; --bad:#de8a8a;
+  --good-ink:var(--good); --warn-ink:var(--warn); --bad-ink:var(--bad); --accent-text:var(--accent); --accent-strong:var(--accent); --read-ink:var(--read);
   --enz:#a3b3c8; --read:#86aee6; --primer:#79c19b; --orf:#cdb07a; --comment:#e0a060;
   --brand-green:#93d36c; --brand-blue:#74c3f0; --brand-pink:#f29aa9; --logo-line:#26313d;
   --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 28px rgba(0,0,0,.38);
@@ -78,14 +81,14 @@ body.is-home.nodocs .doctabs{visibility:hidden}
 /* buttons */
 .btn{border:1px solid var(--line2);background:var(--surface);border-radius:7px;padding:5px 11px;cursor:pointer;color:var(--ink2);white-space:nowrap;transition:background .12s,border-color .12s;display:inline-flex;align-items:center;gap:6px}
 .btn:hover{background:var(--surface2);border-color:var(--accent-line)}
-.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary{background:var(--accent-strong);border-color:var(--accent-strong);color:var(--accent-ink)}
 .btn.primary:hover{filter:brightness(1.06)}
 .btn.ghost{border-color:transparent;background:transparent}
 .btn.ghost:hover{background:var(--surface3)}
 .btn.sm{padding:3px 9px}
 .btn.lg{padding:9px 16px;font-size:1.04rem;border-radius:9px}
 .btn.ghostline{background:transparent}
-.btn.danger{color:var(--bad)}
+.btn.danger{color:var(--bad-ink)}
 .btn:disabled{opacity:.45;cursor:default}
 .iconbtn{border:1px solid transparent;background:transparent;border-radius:8px;width:32px;height:32px;cursor:pointer;color:var(--ink2);display:inline-grid;place-items:center;font-size:1.15rem;line-height:1}
 .iconbtn:hover{background:var(--surface3)}
@@ -210,9 +213,9 @@ input.seqin,textarea.seqin{font-family:var(--mono);letter-spacing:.03em}
 .swatch{width:14px;height:14px;border-radius:4px;border:1px solid rgba(0,0,0,.18);flex:none;cursor:pointer;padding:0}
 .eye{border:0;background:transparent;cursor:pointer;color:var(--faint);padding:0 2px;font-size:.92rem}
 .chip{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:1px 8px;font-size:.85rem;background:var(--surface3);color:var(--ink2)}
-.chip.good{background:color-mix(in srgb,var(--good) 18%,transparent);color:var(--good)}
-.chip.warn{background:color-mix(in srgb,var(--warn) 20%,transparent);color:var(--warn)}
-.chip.bad{background:color-mix(in srgb,var(--bad) 18%,transparent);color:var(--bad)}
+.chip.good{background:color-mix(in srgb,var(--good) 18%,transparent);color:var(--good-ink)}
+.chip.warn{background:color-mix(in srgb,var(--warn) 20%,transparent);color:var(--warn-ink)}
+.chip.bad{background:color-mix(in srgb,var(--bad) 18%,transparent);color:var(--bad-ink)}
 .kv{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;font-size:.92rem}
 .kv dt{color:var(--muted)} .kv dd{margin:0;font-variant-numeric:tabular-nums}
 .empty{color:var(--faint);padding:14px 4px;text-align:center}
@@ -286,7 +289,7 @@ canvas.gel{width:100%;border-radius:8px;display:block;background:#1b1f26}
 .ph{margin:14px 0 6px;font-size:.82rem;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);font-weight:600}
 .pseq2{font-family:var(--mono);font-size:.9rem;line-height:1.75;color:var(--ink2);max-height:240px;overflow:auto;white-space:nowrap;border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:var(--surface)}
 .pseq2 .pnum{color:var(--faint);user-select:none}
-.pseq2 .pstop{color:var(--bad)}
+.pseq2 .pstop{color:var(--bad-ink)}
 .pcomp{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:2px 14px;font-size:.86rem}
 .pcomp .pc{display:grid;grid-template-columns:auto 1fr auto auto;gap:6px;align-items:baseline;border-bottom:1px solid var(--line);padding:2px 0;color:var(--muted)}
 .pcomp .pc b{color:var(--ink);font-family:var(--mono)}
@@ -377,7 +380,7 @@ canvas.gel{width:100%;border-radius:8px;display:block;background:#1b1f26}
 .item.tr .trx:hover{color:var(--bad)}
 .qwrap{cursor:ew-resize;touch-action:none;user-select:none}
 .trrange{margin:0 0 4px}
-.linkbtn{border:0;background:none;color:var(--accent);cursor:pointer;padding:0 2px;font:inherit;text-decoration:underline}
+.linkbtn{border:0;background:none;color:var(--accent-text);cursor:pointer;padding:0 2px;font:inherit;text-decoration:underline}
 
 /* show menu: label style */
 .menu.checks label.selrow{display:flex;align-items:center;gap:8px;justify-content:space-between;padding-top:6px}
@@ -387,7 +390,7 @@ canvas.gel{width:100%;border-radius:8px;display:block;background:#1b1f26}
 .item.tr{display:block;cursor:default;padding:8px 8px 9px}
 .item.tr .trtop{display:flex;align-items:center;gap:6px}
 .item.tr .trtop .nm{min-width:0}
-.item.tr .trdir{color:var(--read);font-weight:700}
+.item.tr .trdir{color:var(--read-ink);font-weight:700}
 .item.tr .grow{flex:1}
 .item.tr .qspark{display:block;margin:6px 0 4px;color:var(--ink);border-radius:3px;background:var(--surface2)}
 .trchips{display:flex;flex-wrap:wrap;gap:4px;margin:4px 0 6px}
@@ -458,7 +461,7 @@ canvas.gel{width:100%;border-radius:8px;display:block;background:#1b1f26}
   .hero-name{font-size:3.2rem}
 }
 @media (max-width:560px){ .tiles{grid-template-columns:1fr} .tsep{display:none} }
-.trwarn{color:var(--warn);margin-top:2px}
+.trwarn{color:var(--warn-ink);margin-top:2px}
 
 </style>
 </head>
@@ -667,7 +670,8 @@ const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': 
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const fmt = n => Number(n).toLocaleString('en-US');
 const clone = o => JSON.parse(JSON.stringify(o));
-const stripHtml = s => String(s || '').replace(/<br\s*\/?>/gi, '\n').replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').trim();
+const stripHtml = s => String(s || '').replace(/<br\s*\/?>/gi, '\n').replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&(#39|apos);/g, "'")
+  .replace(/&#(\d+);/g, (m, d) => String.fromCodePoint(+d)).replace(/&#x([0-9a-f]+);/gi, (m, h) => String.fromCodePoint(parseInt(h, 16))).replace(/&amp;/g, '&').trim();
 const mod = (a, n) => ((a % n) + n) % n;
 
 const COMP = {};
@@ -778,6 +782,16 @@ function subseq(doc, start, len) {
   return o;
 }
 function featSeq(doc, f) { const s = subseq(doc, f.start, f.len); return f.strand === -1 ? revcomp(s) : s; }
+// reading frame of a coding feature: /codon_start 2 or 3 skips bases at its 5′ end
+const cdsPhase = f => { const c = +((f.quals || {}).codon_start); return c === 2 || c === 3 ? c - 1 : 0; };
+// Segments of a feature (from SnapGene files) are stored relative to the feature start: {off, len, name, color, gap}.
+// They are written back only while they still tile the feature exactly (an edit inside the feature makes it one segment).
+function segmentsOK(f, n) {
+  const S = f.segments; if (!Array.isArray(S) || S.length < 2 || f.len > n) return false; let end = 0;
+  for (const s of S) { if (typeof s.off !== 'number' || !(s.len > 0) || s.off !== end) return false; end = s.off + s.len; }
+  return end === f.len;
+}
+function flipSegments(f) { if (Array.isArray(f.segments)) f.segments = f.segments.map(s => ({ ...s, off: f.len - s.off - s.len })).reverse(); }
 function rangeEnd(r) { return r.start + r.len; } // exclusive, may exceed n when wrapping
 function inRange(pos, r, n) { // pos is a base index
   const d = mod(pos - r.start, n); return d < r.len;
@@ -870,7 +884,7 @@ function setOrigin(doc, p) { // rotate circular sequence so p becomes position 0
 function reverseComplementAll(doc) {
   const n = doc.seq.length; doc.seq = revcomp(doc.seq);
   const fl = r => { r.start = mod(n - (r.start + r.len), n); };
-  doc.features.forEach(f => { fl(f); f.strand = -f.strand || 0; });
+  doc.features.forEach(f => { fl(f); f.strand = -f.strand || 0; flipSegments(f); });
   doc.colorRanges.forEach(fl); doc.comments.forEach(c => c.pos = n - 1 - c.pos);
   bump(doc);
 }
@@ -906,7 +920,9 @@ function parseSnapGene(buf, fileName) {
   const doc = newDoc({ name: fileName.replace(/\.[^.]+$/, '') });
   let i = 0, featXml = null, primerXml = null, notesXml = null, colorXml = null;
   while (i + 5 <= u8.length) {
-    const t = u8[i], L = dv.getUint32(i + 1); const body = u8.subarray(i + 5, i + 5 + L); i += 5 + L;
+    const t = u8[i], L = dv.getUint32(i + 1);
+    if (i + 5 + L > u8.length) throw new Error('This .dna file is incomplete or damaged: it ends in the middle of its data. Download or copy it again.');
+    const body = u8.subarray(i + 5, i + 5 + L); i += 5 + L;
     if (t === 0) { doc.circular = !!(body[0] & 1); doc.seq = cleanSeq(dec.decode(body.subarray(1))); }
     else if (t === 1) { /* protein sequence file — not supported */ }
     else if (t === 10) featXml = dec.decode(body);
@@ -921,13 +937,14 @@ function parseSnapGene(buf, fileName) {
     for (const F of x.querySelectorAll('Feature')) {
       const segs = [...F.querySelectorAll('Segment')].map(S => {
         const [a, b] = (S.getAttribute('range') || '1-1').split('-').map(Number);
-        return { a, b, name: S.getAttribute('name') || '', color: S.getAttribute('color'), translated: S.getAttribute('translated') === '1' };
+        return { a: clamp(a || 1, 1, n), b: clamp(b || 1, 1, n), name: S.getAttribute('name') || '', color: S.getAttribute('color'), translated: S.getAttribute('translated') === '1', gap: S.getAttribute('type') === 'gap' };
       });
       if (!segs.length) continue;
+      // segments are listed along the top strand: the feature runs from the first segment to the last one,
+      // across the origin when a segment wraps or a segment starts before the previous one
       const first = segs[0], last = segs[segs.length - 1];
-      let a = Math.min(...segs.map(s => s.a)), b = Math.max(...segs.map(s => s.b));
-      if (segs.some(s => s.b < s.a)) { a = first.a; b = last.b; }
-      const start = a - 1, len = b >= a ? b - a + 1 : (n - a + 1) + b;
+      const wraps = segs.some((s, k) => s.b < s.a || (k > 0 && s.a < segs[k - 1].a));
+      const start = first.a - 1, len = Math.min(n, wraps ? (n - first.a + 1) + last.b : Math.max(1, last.b - first.a + 1));
       const dir = +(F.getAttribute('directionality') || 0);
       const quals = {};
       for (const Q of F.querySelectorAll(':scope > Q')) {
@@ -941,7 +958,7 @@ function parseSnapGene(buf, fileName) {
         notes: quals.note || '', quals, translate: segs.some(s => s.translated) || type === 'CDS'
       });
       delete f.quals.note; delete f.quals.translation;
-      if (segs.length > 1) f.segments = segs.map(s => ({ start: s.a - 1, len: s.b - s.a + 1, name: s.name, color: toHex(s.color) }));
+      if (segs.length > 1) f.segments = segs.map(s => ({ off: mod(s.a - 1 - start, n), len: s.b >= s.a ? s.b - s.a + 1 : n - s.a + 1 + s.b, name: s.name, color: toHex(s.color), ...(s.gap ? { gap: true } : {}) }));
       if (type === 'source') f.visible = false; // whole-sequence 'source' features are hidden, as in SnapGene
       doc.features.push(f);
     }
@@ -1023,7 +1040,7 @@ function parseGenBank(text) {
     if (d && d !== '.') doc.notes.description = d;
     if (accession && accession !== '.') doc.notes.fields.Accession = accession;
     if (organism && organism !== '.') doc.notes.fields.Organism = organism;
-    if (keywords && keywords !== '.') doc.notes.fields.Keywords = keywords;
+    if (keywords && keywords !== '.') doc.notes.fields.Keywords = keywords.replace(/\.$/, ''); // the final period ends the KEYWORDS line
     if (comment.length) doc.notes.fields.Comment = comment.join(' ').slice(0, 2000);
     // features
     const feats = []; let cur = null, lastQ = null;
@@ -1125,22 +1142,26 @@ function parseFeatureTable(text) {
 async function parseFile(file) {
   const name = file.name, ext = (name.match(/\.([^.]+)$/) || [])[1]?.toLowerCase() || '';
   const buf = await file.arrayBuffer(); const u8 = new Uint8Array(buf);
+  if (!u8.length) throw new Error('The file is empty.');
   if (u8[0] === 9 && dec.decode(u8.subarray(5, 13)) === 'SnapGene') return { docs: parseSnapGene(buf, name) };
   if (isABIF(u8)) return { trace: parseAB1(buf, name) };
   if (/^(ab1|abi|scf)$/.test(ext)) throw new Error('This trace file could not be read. pMap reads ABI .ab1 files.');
-  const text = dec.decode(u8);
-  return parseText(text, name, ext);
+  // text files: UTF-8, or UTF-16 with a byte-order mark (Windows Notepad “Unicode”)
+  const text = u8[0] === 0xFF && u8[1] === 0xFE ? new TextDecoder('utf-16le').decode(u8) : u8[0] === 0xFE && u8[1] === 0xFF ? new TextDecoder('utf-16be').decode(u8) : dec.decode(u8);
+  try { return parseText(text, name, ext); }
+  catch (e) { if (ext === 'dna') throw new Error('This is not a SnapGene .dna file, or the file is damaged.'); throw e; }
 }
 function parseText(text, name = 'sequence', ext = '') {
-  const t = text.trimStart();
-  if (t.startsWith('{')) { const j = JSON.parse(t); if ((j.app === 'pMap' || j.app === 'Vectra') && j.docs) return { session: j }; if (Array.isArray(j.library) || Array.isArray(j)) return { library: j.library || j }; throw new Error('Unknown JSON file.'); }
+  const t = text.replace(/^﻿/, '').trimStart();
+  if (t.startsWith('{')) { let j; try { j = JSON.parse(t); } catch (e) { throw new Error('This JSON file could not be read: it is not valid JSON (it may be incomplete).'); } if ((j.app === 'pMap' || j.app === 'Vectra') && j.docs) return { session: j }; if (Array.isArray(j.library) || Array.isArray(j)) return { library: j.library || j }; throw new Error('Unknown JSON file.'); }
   const base = name.replace(/\.[^.]+$/, '');
   const named = docs => { if (docs.length === 1 && base && !/^(pasted|sequence)$/i.test(base) && !/^https?:/.test(name)) docs[0].name = base; return docs; };
   if (/^LOCUS/m.test(t.slice(0, 2000))) return { docs: named(parseGenBank(t)) };
   if (/^ID\s/.test(t)) return { docs: named(parseGenBank(emblToGenBank(t))) };
   if (t.startsWith('>')) { const d = parseFasta(t); if (!d.length) throw new Error('FASTA file has no sequence.'); return { docs: d }; }
   if (ext === 'csv' || ext === 'tsv' || /^[^\n]*(,|\t)[^\n]*\n/.test(t) && /feature|name|label/i.test(t.split('\n')[0])) return { table: parseFeatureTable(t) };
-  const s = cleanSeq(t); if (s.length && s.length >= t.replace(/\s/g, '').length * 0.9) return { docs: [newDoc({ name: name.replace(/\.[^.]+$/, ''), seq: s })] };
+  // plain bases (position numbers are ignored)
+  const s = cleanSeq(t); if (s.length && s.length >= t.replace(/[\s\d\/]/g, '').length * 0.9) return { docs: [newDoc({ name: name.replace(/\.[^.]+$/, ''), seq: s })] };
   throw new Error('Unrecognised file format.');
 }
 
@@ -1165,7 +1186,7 @@ function toGenBank(doc) {
   const L = [];
   L.push(`LOCUS       ${locus} ${String(n).padStart(11)} bp    DNA     ${(doc.circular ? 'circular' : 'linear').padEnd(8)} SYN ${date}`);
   L.push(`DEFINITION  ${(doc.notes.description || doc.name).replace(/\s*\n\s*/g, ' ')}.`);
-  L.push('ACCESSION   .', 'VERSION     .', 'KEYWORDS    ' + (doc.notes.fields.Keywords || '.'), 'SOURCE      ' + (doc.notes.fields.Organism || 'synthetic DNA construct'), '  ORGANISM  ' + (doc.notes.fields.Organism || 'synthetic DNA construct'));
+  L.push('ACCESSION   .', 'VERSION     .', 'KEYWORDS    ' + (doc.notes.fields.Keywords ? doc.notes.fields.Keywords.replace(/\.?$/, '.') : '.'), 'SOURCE      ' + (doc.notes.fields.Organism || 'synthetic DNA construct'), '  ORGANISM  ' + (doc.notes.fields.Organism || 'synthetic DNA construct'));
   const com = [];
   for (const [k, v] of Object.entries(doc.notes.fields || {})) if (!['Keywords', 'Organism'].includes(k)) com.push(`${k}: ${v}`);
   doc.comments.forEach(c => com.push(`Comment at ${c.pos + 1}: ${c.text}`));
@@ -1178,7 +1199,7 @@ function toGenBank(doc) {
     L.push(gbQual('label', f.name));
     for (const [k, v] of Object.entries(f.quals || {})) if (v !== '' && v != null && k !== 'label') L.push(gbQual(k, v));
     if (f.notes) L.push(gbQual('note', f.notes));
-    if (f.type === 'CDS' && f.translate) { const p = translate(featSeq(doc, f)).replace(/\*$/, ''); if (p && !p.includes('*')) L.push(gbQual('translation', p)); }
+    if (f.type === 'CDS' && f.translate) { const P = proteinOf(doc, f); if (P.full && !P.full.includes('*')) L.push(gbQual('translation', P.full)); } // honours codon_start; an alternative start codon reads as Met
     L.push(gbQual('ApEinfo_fwdcolor', f.color)); L.push(gbQual('ApEinfo_revcolor', f.color));
     if (f.strand === 0) L.push(gbQual('note', 'direction: NONE'));
   }
@@ -1210,8 +1231,10 @@ function toSnapGene(doc) {
   const feats = doc.features.map((f, i) => {
     const dir = f.strand === 1 ? ' directionality="1"' : f.strand === -1 ? ' directionality="2"' : '';
     const tr = f.translate ? ' translated="1"' : '';
-    const segs = (f.segments && f.segments.length ? f.segments : [{ start: f.start, len: f.len, name: '', color: f.color }])
-      .map(s => `<Segment${s.name ? ` name="${X(s.name)}"` : ''} range="${rng(s.start, s.len)}" color="${X(toHex(s.color) || toHex(f.color) || '#c3cbd6')}" type="standard"${tr}/>`).join('');
+    // segments kept from a SnapGene file keep their own colors unless the feature has been recolored since
+    const multi = segmentsOK(f, n), ownCol = multi && toHex(f.color) === toHex(f.segments[0].color);
+    const segs = (multi ? f.segments : [{ off: 0, len: f.len, name: '' }])
+      .map(s => `<Segment${s.name ? ` name="${X(s.name)}"` : ''} range="${rng(f.start + s.off, s.len)}" color="${X((ownCol && toHex(s.color)) || toHex(f.color) || '#c3cbd6')}" type="${s.gap ? 'gap' : 'standard'}"${s.gap ? '' : tr}/>`).join('');
     const quals = Object.entries(f.quals || {}).filter(([k, v]) => v !== '' && v != null && !['label', 'note', 'translation'].includes(k))
       .map(([k, v]) => `<Q name="${X(k)}">${/^-?\d+$/.test(String(v)) && k !== 'gene' ? `<V int="${v}"/>` : `<V text="${html(v)}"/>`}</Q>`).join('');
     const note = f.notes ? `<Q name="note"><V text="${html(f.notes)}"/></Q>` : '';
@@ -1220,7 +1243,8 @@ function toSnapGene(doc) {
   packet(10, `<?xml version="1.0"?><Features nextValidID="${feats.length}">${feats.join('')}</Features>`);
   const now = new Date(); const iso = d => (d && !isNaN(new Date(d)) ? new Date(d) : now).toISOString().replace(/\.\d+Z$/, 'Z');
   const prims = doc.primers.map((p, i) => {
-    const sites = primerSites(doc, p.seq).map(s => { const ann = p.seq.slice(p.seq.length - s.len).toUpperCase(); const tm = Math.round(tmNN(ann, state.settings.tm)); const loc = rng(s.start, s.len); const one = simp => `<BindingSite${simp ? ' simplified="1"' : ''} location="${loc}" boundStrand="${s.strand === 1 ? 0 : 1}" annealedBases="${ann}" meltingTemperature="${tm}"><Component hybridizedRange="${loc}" bases="${ann}"/></BindingSite>`; return one(false) + one(true); }).join('');
+    // primer binding sites are written 0-based ("start-end", inclusive), unlike feature segments, as SnapGene itself writes them
+    const sites = primerSites(doc, p.seq).map(s => { const ann = p.seq.slice(p.seq.length - s.len).toUpperCase(); const tm = Math.round(tmNN(ann, state.settings.tm)); const loc = `${s.start}-${mod(s.start + s.len - 1, n)}`; const one = simp => `<BindingSite${simp ? ' simplified="1"' : ''} location="${loc}" boundStrand="${s.strand === 1 ? 0 : 1}" annealedBases="${ann}" meltingTemperature="${tm}"><Component hybridizedRange="${loc}" bases="${ann}"/></BindingSite>`; return one(false) + one(true); }).join('');
     return `<Primer recentID="${i}" name="${X(p.name)}" sequence="${X(p.seq.toUpperCase())}" description="${html(p.notes)}" dateAdded="${iso(p.date)}">${sites}</Primer>`;
   });
   packet(5, `<?xml version="1.0"?><Primers nextValidID="${prims.length}"><HybridizationParams minContinuousMatchLen="10" allowMismatch="1" minMeltingTemperature="40" showAdditionalFivePrimeMatches="1" minimumFivePrimeAnnealing="${state.settings.minAnneal || 15}"/>${prims.join('')}</Primers>`);
@@ -1244,7 +1268,15 @@ function toSnapGene(doc) {
 function toFasta(name, seq, desc = '') { return `>${name.replace(/\s+/g, '_')}${desc ? ' ' + desc.replace(/\s*\n\s*/g, ' ') : ''}\n${seq.match(/.{1,70}/g)?.join('\n') || ''}\n`; }
 function csvCell(v) { const s = String(v ?? ''); return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; }
 function serializeDoc(doc) { const o = {}; for (const k in doc) if (!k.startsWith('_')) o[k] = doc[k]; return clone(o); }
-function deserializeDoc(o) { const d = newDoc(clone(o)); d.id = uid(); d._undo = []; d._redo = []; d._ver = 1; d.dirty = false; d.features.forEach(f => { if (f.type === 'source' && !f.userShown) f.visible = false; }); return d; }
+function deserializeDoc(o) {
+  const d = newDoc(clone(o)); d.id = uid(); d._undo = []; d._redo = []; d._ver = 1; d.dirty = false; const n = d.seq.length || 1;
+  d.features.forEach(f => {
+    if (f.type === 'source' && !f.userShown) f.visible = false;
+    // segments saved by earlier versions used absolute positions
+    if (Array.isArray(f.segments) && f.segments.length && typeof f.segments[0].off !== 'number') f.segments = f.segments.map(s => ({ name: s.name || '', color: s.color, off: mod((s.start || 0) - f.start, n), len: s.len > 0 ? s.len : s.len + n }));
+  });
+  return d;
+}
 
 /* ============================================================
    BIO TOOLS: restriction enzymes, digest, Tm, primer design,
@@ -1394,10 +1426,13 @@ function primerSites(doc, pseq, minAnneal) {
   if (L < minAnneal || !n) return (c.psites[key] = out);
   const hay = doc.circular ? s + s.slice(0, Math.min(L, n)) : s;
   const core = P.slice(L - minAnneal); // 3' end
+  // forward sites: find the 3' core, then extend towards the primer's 5' end (across the origin of a circular sequence)
   let i = hay.indexOf(core);
-  while (i !== -1 && i < n + minAnneal) {
-    let k = minAnneal; while (k < L && i + minAnneal - k - 1 >= 0 && hay[i + minAnneal - k - 1] === P[L - k - 1]) k++;
-    const start = i + minAnneal - k; if (start < n) out.push({ start: mod(start, n), len: k, strand: 1, full: k === L });
+  while (i !== -1 && i < n) {
+    let k = minAnneal;
+    if (doc.circular) while (k < L && k < n && s[mod(i + minAnneal - k - 1, n)] === P[L - k - 1]) k++;
+    else while (k < L && i + minAnneal - k - 1 >= 0 && s[i + minAnneal - k - 1] === P[L - k - 1]) k++;
+    out.push({ start: mod(i + minAnneal - k, n), len: k, strand: 1, full: k === L });
     i = hay.indexOf(core, i + 1);
   }
   const rc = revcomp(P); const rcore = rc.slice(0, minAnneal);
@@ -1533,12 +1568,13 @@ function searchDNA(doc, query, mism = 0, indels = false, maxHits = 2000) {
 function searchProtein(doc, query, maxHits = 500) {
   const q = query.toUpperCase().replace(/[^A-Z*]/g, ''); const out = []; if (!q) return out;
   const n = doc.seq.length; const s = doc.circular ? doc.seq + doc.seq.slice(0, q.length * 3 + 2) : doc.seq;
-  const re = new RegExp(q.replace(/X/g, '.').replace(/\*/g, '\\*'), 'g');
+  const re = new RegExp(q.replace(/X/g, '.').replace(/\*/g, '\\*'), 'g'); const rs = revcomp(s);
   for (let fr = 0; fr < 3; fr++) {
     const p = translate(s.slice(fr)); let m; re.lastIndex = 0;
-    while ((m = re.exec(p))) { const st = fr + m.index * 3; if (st < n) out.push({ start: st, len: q.length * 3, strand: 1, mm: 0, frame: '+' + (fr + 1) }); re.lastIndex = m.index + 1; if (out.length > maxHits) return out; }
-    const rs = revcomp(s); const pr = translate(rs.slice(fr)); re.lastIndex = 0;
-    while ((m = re.exec(pr))) { const endRc = fr + m.index * 3 + q.length * 3; const st = s.length - endRc; if (st >= 0 && st < n) out.push({ start: st, len: q.length * 3, strand: -1, mm: 0, frame: '−' + (fr + 1) }); re.lastIndex = m.index + 1; if (out.length > maxHits) return out; }
+    while ((m = re.exec(p))) { const st = fr + m.index * 3; if (st < n) out.push({ start: st, len: q.length * 3, strand: 1, mm: 0, frame: '+' + (st % 3 + 1) }); re.lastIndex = m.index + 1; if (out.length > maxHits) return out; }
+    const pr = translate(rs.slice(fr)); re.lastIndex = 0;
+    // reverse frames are counted from the 3′ end of the sequence itself (not of the copy extended across the origin)
+    while ((m = re.exec(pr))) { const endRc = fr + m.index * 3 + q.length * 3; const st = s.length - endRc; if (st >= 0 && st < n) out.push({ start: st, len: q.length * 3, strand: -1, mm: 0, frame: '−' + (mod(n - st - q.length * 3, 3) + 1) }); re.lastIndex = m.index + 1; if (out.length > maxHits) return out; }
   }
   return out;
 }
@@ -1565,8 +1601,9 @@ function findORFs(doc, minAA) {
     }
   };
   if (n) { const str = doc.circular ? s + s.slice(0, Math.min(n, 6000)) : s; scan(str, 1); scan(revcomp(str), -1); }
-  const seen = new Set(); const uniq = out.filter(o => { const k = (o.strand === 1 ? o.start + o.len : o.start) + ':' + o.strand; if (seen.has(k) || o.len > n) return false; seen.add(k); return true; });
-  uniq.sort((a, b) => b.len - a.len);
+  // one ORF per stop codon, the longest: on a circular sequence the same stop is also reached from an internal ATG after the origin
+  out.sort((a, b) => b.len - a.len);
+  const seen = new Set(); const uniq = out.filter(o => { const k = (o.strand === 1 ? mod(o.start + o.len, n) : o.start) + ':' + o.strand; if (seen.has(k) || o.len > n) return false; seen.add(k); return true; });
   c.orfs = uniq; c.orfsMin = minAA; return uniq;
 }
 
@@ -1672,7 +1709,7 @@ function collectMapItems(doc) {
   const prim = S.primers ? primerSitesAll(doc) : [];
   const enzN = S.enzymes ? shownEnzymes(doc, state.settings) : [];
   const sites = findEnzymeSites(doc); const enz = [];
-  enzN.forEach(nm => sites[nm].forEach(s => enz.push({ ...s, unique: sites[nm].length === 1 })));
+  enzN.forEach(nm => sites[nm].forEach(s => enz.push({ ...s, unique: sites[nm].length === 1, k: sites[nm].length })));
   const mixed = enz.some(e => !e.unique); enz.forEach(e => e.bold = state.settings.boldUnique && mixed && e.unique);
   const orfs = S.orfs ? findORFs(doc, state.settings.orfMin).slice(0, 60) : [];
   const comments = S.comments ? doc.comments : [];
@@ -1806,6 +1843,7 @@ function circularSVG(doc, W, H, v, opts = {}) {
     const a = ang(p); const [x1, y1] = pt(tickR, a), [x2, y2] = pt(tickR - 5, a);
     if ((x1 < -20 || x1 > W + 20 || y1 < -20 || y1 > H + 20)) continue;
     out.push(`<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="${THEME.faint}" stroke-width="1"/>`);
+    if (tickR < 50) continue; // a very small map (a short pane): tick marks only, numbers would pile up in the centre
     const lbl = p === 0 ? '1' : fmtK(p); const rt = tickR - 10 - Math.abs(Math.cos(a)) * textW(lbl, tfz) / 2 - Math.abs(Math.sin(a)) * tfz * 0.62;
     const [tx, ty] = pt(rt, a);
     out.push(`<text x="${tx.toFixed(1)}" y="${ty.toFixed(1)}" font-size="${tfz}" fill="${THEME.muted}" text-anchor="middle" dominant-baseline="central">${lbl}</text>`);
@@ -1834,7 +1872,7 @@ function circularSVG(doc, W, H, v, opts = {}) {
   // primers
   it.prim.forEach(({ p, site }, i) => {
     const r = primR(pLanes[i]); let [a0, a1] = widen(ang(site.start), ang(site.start + site.len), r); const col = p.color || THEME.primer;
-    out.push(arcArrow(cx, cy, r, 4.5, a0, a1, site.strand, n, site.len, col, col, 0.5, `data-kind="primer" data-id="${p.id}"`, 1, 7));
+    out.push(arcArrow(cx, cy, r, 4.5, a0, a1, site.strand, n, site.len, col, col, 0.5, `data-kind="primer" data-id="${p.id}" data-site="${site.start}:${site.strand}"`, 1, 7));
     labels.push({ a: (a0 + a1) / 2, text: p.name, color: col, r0: r + 3, kind: 'primer', id: p.id, pri: 2, size: fz * 0.95 });
   });
   // sequencing reads: thin arrows outside the primers, red ticks where the read differs from the sequence
@@ -1844,11 +1882,13 @@ function circularSVG(doc, W, H, v, opts = {}) {
     al.diffs.filter(d => d.sure).slice(0, 400).forEach(d => { const aa = ang(d.pos + 0.5); const [x1, y1] = pt(r - 6, aa), [x2, y2] = pt(r + 6, aa); out.push(`<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="${THEME.bad || '#d64545'}" stroke-width="1.8" pointer-events="none"/>`); });
     if (S.readLabels === 'all') labels.push({ a: (a0 + a1) / 2, text: t.name + (al.sure ? ` (${al.sure} diff.)` : ''), color: THEME.read, r0: r + 3, kind: 'read', id: t.id, pri: 0.5, size: fz * 0.95 });
   });
-  // enzymes
+  // enzymes: with very many sites (the "All" filter on a large sequence) only the 300 rarest cutters are offered a label;
+  // every site keeps its tick, and hovering it names the enzyme
+  const enzLab = it.enz.length > 300 ? new Set(it.enz.slice().sort((x, y) => x.k - y.k || x.cut - y.cut).slice(0, 300)) : null;
   it.enz.forEach(s => {
     const a = ang(s.cut); const [x1, y1] = pt(R - 6, a), [x2, y2] = pt(R + 6, a);
     out.push(`<line data-for="enzyme|${s.enz}:${s.pos}" x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="${THEME.enz}" stroke-width="1.3"/>`);
-    labels.push({ a, text: enzLabel(s), color: THEME.enz, r0: R + 6, kind: 'enzyme', id: s.enz + ':' + s.pos, pri: 1, size: fz * 0.95, weight: s.bold ? 650 : 400 });
+    if (!enzLab || enzLab.has(s)) labels.push({ a, text: enzLabel(s), color: THEME.enz, r0: R + 6, kind: 'enzyme', id: s.enz + ':' + s.pos, pri: 1, size: fz * 0.95, weight: s.bold ? 650 : 400 });
   });
   it.comments.forEach(c => { const a = ang(c.pos + 0.5); const [x, y] = pt(R, a); out.push(`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4" fill="${THEME.comment}" stroke="${THEME.bg}" stroke-width="1.2" data-kind="comment" data-id="${c.id}" style="cursor:pointer"/>`); labels.push({ a, text: '✎ ' + c.text.slice(0, 28), color: THEME.comment, r0: R + 4, kind: 'comment', id: c.id, pri: 1, size: fz * 0.95 }); });
   // labels: whole map visible → stacked columns; zoomed in → labels placed beside their features
@@ -1867,10 +1907,10 @@ function circularSVG(doc, W, H, v, opts = {}) {
   const words = doc.name.split(/(?<=[_\s-])/); const lines = []; let cur = '';
   for (const w of words) { if (cur && textW(cur + w, fs, 650) > maxW) { lines.push(cur); cur = w; } else cur += w; }
   if (cur) lines.push(cur);
-  const shown = lines.slice(0, 3); if (lines.length > 3) shown[2] = shown[2].replace(/.$/, '…');
+  const shown = tickR >= 45 ? lines.slice(0, 3) : []; if (lines.length > 3 && shown.length) shown[2] = shown[2].replace(/.$/, '…'); // no room inside a small map: length only
   const lh = fs * 1.18; const y0 = cy - (shown.length * lh) / 2 + lh * 0.5 - fs * 0.35;
   shown.forEach((ln, i) => out.push(`<text x="${cx.toFixed(1)}" y="${(y0 + i * lh).toFixed(1)}" text-anchor="middle" dominant-baseline="central" font-size="${fs.toFixed(1)}" font-weight="650" fill="${THEME.ink}">${xmlEsc(ln)}</text>`));
-  out.push(`<text x="${cx.toFixed(1)}" y="${(y0 + shown.length * lh + 2).toFixed(1)}" text-anchor="middle" dominant-baseline="central" font-size="${(fs * 0.72).toFixed(1)}" fill="${THEME.muted}">${fmt(n)} bp</text>`);
+  if (tickR >= 26) out.push(`<text x="${cx.toFixed(1)}" y="${(y0 + shown.length * lh + 2).toFixed(1)}" text-anchor="middle" dominant-baseline="central" font-size="${(fs * 0.72).toFixed(1)}" fill="${THEME.muted}">${fmt(n)} bp</text>`);
   // "one label for all reads": a summary line in the centre of the map
   if (S.readLabels === 'summary' && (it.cov || it.reads.length)) {
     const sum = traceSummary(doc), pctC = Math.round(100 * (sum.cnt[COV.ONE] + sum.cnt[COV.BOTH]) / n);
@@ -1903,12 +1943,13 @@ function labelSVG(l, x, y, anchor) {
    the map, and its leader line stays outside the map without crossing another leader or label. Leader lines are
    drawn underneath features, primers and reads, so they never cover them or their labels. */
 const LAB_CANDS = (() => { const c = []; for (let k = 0; k <= 12; k++) for (let j = -30; j <= 30; j++) c.push([j, k, Math.abs(j) + k * 1.35]); return c.sort((x, y) => x[2] - y[2]); })();
+const LAB_CANDS_NEAR = LAB_CANDS.filter(([j, k]) => Math.abs(j) <= 20 && k <= 8); // enzymes, primers and reads: a label far from its site helps little
 let _labCache = null;
 function placeLabelsFan(labels, g) {
   const key = [g.cx, g.cy, g.Rin, g.W, g.H, g.minX, g.minY].map(v => Math.round(v * 10)).join(',') + '|' + labels.map(l => l.kind + l.id + ':' + l.a.toFixed(4) + ':' + l.r0.toFixed(1) + ':' + l.text + ':' + l.size + l.color + (l.weight || '') + (l.pri)).join('|');
   if (_labCache && _labCache.key === key) return _labCache.res;
   const { cx, cy, Rin } = g, Re = Rin - 4, minX = g.minX, maxX = g.W - 4, minY = g.minY, maxY = g.H - 22;
-  const boxes = [], segs = [], lines = [], texts = [];
+  const boxes = [], segs = [], rads = [], lines = [], texts = []; // rads: the short radial leg of each leader (site → elbow)
   const cross = (a, b) => { // do segments a and b cross?
     const d = (p, q, r) => (q[0] - p[0]) * (r[1] - p[1]) - (q[1] - p[1]) * (r[0] - p[0]);
     const p1 = [a[0], a[1]], p2 = [a[2], a[3]], q1 = [b[0], b[1]], q2 = [b[2], b[3]];
@@ -1928,9 +1969,11 @@ function placeLabelsFan(labels, g) {
   for (const l of vis) {
     const lh = l.size * 1.28, tw = textW(l.text, l.size, l.weight || 400);
     const E = [cx + Re * Math.cos(l.a), cy + Re * Math.sin(l.a)];
+    const A = [cx + l.r0 * Math.cos(l.a), cy + l.r0 * Math.sin(l.a)], rad = [A[0], A[1], E[0], E[1]];
+    const radCut = segs.some(o => cross(o, rad)); // another leader already runs across this one's elbow
     let placed = null;
     for (const strict of l.pri === 0 ? [2, 1, 0] : [2]) { // features never disappear: relax the rules if needed
-      for (const [j, k] of LAB_CANDS) {
+      for (const [j, k] of (l.pri === 0 ? LAB_CANDS : LAB_CANDS_NEAR)) {
         const Rl = Rin + 4 + k * lh * 1.15, th = l.a + j * (lh * 1.05 / Rl), c = Math.cos(th), sn = Math.sin(th);
         let px = cx + Rl * c, py = cy + Rl * sn, anchor, box, ex, ey;
         if (Math.abs(c) < 0.3) { anchor = 'middle'; py += sn > 0 ? lh * 0.5 : -lh * 0.5; box = [px - tw / 2 - 2, py - lh / 2, px + tw / 2 + 2, py + lh / 2]; ex = px; ey = sn > 0 ? box[1] : box[3]; }
@@ -1941,14 +1984,13 @@ function placeLabelsFan(labels, g) {
         if (boxes.some(b => over(b, box))) continue;               // overlaps another label
         const sg = [E[0], E[1], ex, ey];
         if (strict >= 1 && segDist(sg) < Re - 1.5) continue;       // leader would cut across the map
-        if (strict >= 2 && (segs.some(o => cross(o, sg)) || boxes.some(b => segBox(sg, b)) || segs.some(o => segBox(o, box)))) continue; // crossings
+        if (strict >= 2 && (radCut || segs.some(o => cross(o, sg)) || rads.some(o => cross(o, sg)) || boxes.some(b => segBox(sg, b)) || segs.some(o => segBox(o, box)))) continue; // crossings
         placed = { box, px, py, anchor, sg }; break;
       }
       if (placed) break;
     }
     if (!placed) continue; // crowded: this enzyme or primer label is left out (hover still names it)
-    boxes.push(placed.box); segs.push(placed.sg);
-    const A = [cx + l.r0 * Math.cos(l.a), cy + l.r0 * Math.sin(l.a)];
+    boxes.push(placed.box); segs.push(placed.sg); rads.push(rad);
     lines.push(`<polyline data-for="${l.kind}|${esc(l.id)}" points="${A[0].toFixed(1)},${A[1].toFixed(1)} ${placed.sg[0].toFixed(1)},${placed.sg[1].toFixed(1)} ${placed.sg[2].toFixed(1)},${placed.sg[3].toFixed(1)}" fill="none" stroke="${l.color}" stroke-opacity=".5" stroke-width="0.85"/>`);
     texts.push(labelSVG(l, placed.px, placed.py, placed.anchor));
   }
@@ -2053,7 +2095,7 @@ function linearSVG(doc, W, H, v, opts = {}) {
     visParts(site).forEach(([a, b]) => {
       const [x0, x1] = xs(a, b); const tip = Math.min(6, (x1 - x0) * 0.6);
       const d = site.strand === 1 ? `M${x0},${y - 2.5} L${x1 - tip},${y - 2.5} L${x1},${y} L${x1 - tip},${y + 2.5} L${x0},${y + 2.5}Z` : `M${x1},${y - 2.5} L${x0 + tip},${y - 2.5} L${x0},${y} L${x0 + tip},${y + 2.5} L${x1},${y + 2.5}Z`;
-      out.push(`<path d="${d}" fill="${col}" data-kind="primer" data-id="${p.id}" style="cursor:pointer"/>`);
+      out.push(`<path d="${d}" fill="${col}" data-kind="primer" data-id="${p.id}" data-site="${site.start}:${site.strand}" style="cursor:pointer"/>`);
     });
     out.push(`<text x="${lab.c}" y="${y - 5}" font-size="${efz}" fill="${col}" text-anchor="middle" data-kind="primer" data-id="${p.id}" style="cursor:pointer">${xmlEsc(p.name)}</text>`);
   });
@@ -2180,14 +2222,15 @@ function initMapEvents() {
     if (d.mode === 'click' && still) clickMapObject(doc, d.el, e);
     if (d.mode === 'pan' && still) setSel(doc, { start: mapPos(e).pos, len: 0 }, 'map');
   });
-  svg.addEventListener('dblclick', e => { const doc = activeDoc(); const el = e.target.closest('[data-kind]'); if (!doc || !el) return; if (el.dataset.kind === 'feature') editFeatureDialog(doc, doc.features.find(f => f.id === el.dataset.id)); if (el.dataset.kind === 'primer') editPrimerDialog(doc, doc.primers.find(p => p.id === el.dataset.id)); if (el.dataset.kind === 'comment') editCommentDialog(doc, doc.comments.find(c => c.id === el.dataset.id)); if (el.dataset.kind === 'read') { const t = (doc.traces || []).find(x => x.id === el.dataset.id); if (t) openTraceViewer(doc, t); } });
+  // the pointer is captured by the map while pressed, so the double-click arrives on the map itself: look up what is under it
+  svg.addEventListener('dblclick', e => { const doc = activeDoc(); const el = (document.elementFromPoint(e.clientX, e.clientY) || e.target).closest('[data-kind]'); if (!doc || !el) return; if (el.dataset.kind === 'feature') editFeatureDialog(doc, doc.features.find(f => f.id === el.dataset.id)); if (el.dataset.kind === 'primer') editPrimerDialog(doc, doc.primers.find(p => p.id === el.dataset.id)); if (el.dataset.kind === 'comment') editCommentDialog(doc, doc.comments.find(c => c.id === el.dataset.id)); if (el.dataset.kind === 'read') { const t = (doc.traces || []).find(x => x.id === el.dataset.id); if (t) openTraceViewer(doc, t); } });
   svg.addEventListener('pointerleave', () => { setMapHL(null); state.hoverPos = null; hideTip(); scheduleMapRender(); updateStatus(); });
   svg.addEventListener('contextmenu', e => { e.preventDefault(); const doc = activeDoc(); if (!doc || !MAPGEO) return; const el = e.target.closest('[data-kind]'); showContextMenu(e, doc, mapPos(e).pos, el); });
 }
 function clickMapObject(doc, el) {
   const k = el.dataset.kind, id = el.dataset.id;
   if (k === 'feature') { const f = doc.features.find(x => x.id === id); if (f) { setSel(doc, { start: f.start, len: f.len }, 'map'); state.mapFeat = f.id; focusItem('features', f.id); } }
-  else if (k === 'primer') { const p = doc.primers.find(x => x.id === id); if (p) { const s = primerSites(doc, p.seq)[0]; if (s) setSel(doc, { start: s.start, len: s.len }, 'map'); focusItem('primers', p.id); } }
+  else if (k === 'primer') { const p = doc.primers.find(x => x.id === id); if (p) { const ss = primerSites(doc, p.seq); const s = ss.find(x => `${x.start}:${x.strand}` === el.dataset.site) || ss[0]; if (s) setSel(doc, { start: s.start, len: s.len }, 'map'); focusItem('primers', p.id); } }
   else if (k === 'enzyme') { const [nm, pos] = id.split(':'); const e2 = ENZ_BY_NAME[nm]; setSel(doc, { start: +pos, len: e2.site.length }, 'map'); }
   else if (k === 'comment') { const c = doc.comments.find(x => x.id === id); if (c) setSel(doc, { start: c.pos, len: 1 }, 'map'); }
   else if (k === 'read') { const t = (doc.traces || []).find(x => x.id === id); if (t) { const a = alignTrace(doc, t); if (!a.fail) setSel(doc, traceSpan(a), 'map'); state.focus.traces = t.id; if (state.settings.panel) switchTab('traces'); } }
@@ -2384,12 +2427,12 @@ function drawRow(ctx, doc, r, y, W) {
   // translations
   ctx.font = `${f - 1}px ${THEME.mono}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
   for (const it of row.trans) {
-    const fe = it.f; const yy = y + row.yTrans + it.L * SVH.trans;
+    const fe = it.f; const yy = y + row.yTrans + it.L * SVH.trans; const cp = cdsPhase(fe);
     for (let p = it.a; p < it.b; p++) {
-      const d = fe.strand === -1 ? mod(fe.start + fe.len - 1 - p, n) : mod(p - fe.start, n);
-      const k = Math.floor(d / 3), ph = d % 3; if (k * 3 + 3 > fe.len) continue;
+      const d = (fe.strand === -1 ? mod(fe.start + fe.len - 1 - p, n) : mod(p - fe.start, n)) - cp; if (d < 0) continue;
+      const k = Math.floor(d / 3), ph = d % 3; if (cp + k * 3 + 3 > fe.len) continue;
       const j = p - base; ctx.fillStyle = featColor(fe); ctx.globalAlpha = k % 2 ? 0.22 : 0.42; ctx.fillRect(svX(j), yy + 1, (SV.gap && j % 10 === 9) ? SV.cw : (svX(j + 1) - svX(j)), SVH.trans - 2); ctx.globalAlpha = 1;
-      const codonStart = fe.strand === -1 ? mod(fe.start + fe.len - 3 * k - 3, n) : mod(fe.start + 3 * k, n);
+      const codonStart = fe.strand === -1 ? mod(fe.start + fe.len - cp - 3 * k - 3, n) : mod(fe.start + cp + 3 * k, n);
       if (S.aa3 || ph === 1) {
         let c = subseq(doc, codonStart, 3); if (fe.strand === -1) c = revcomp(c); const aa = codonAA(c);
         const ch = S.aa3 ? (AA3[aa] || 'Xaa')[fe.strand === -1 ? 2 - ph : ph] : aa;
@@ -2772,7 +2815,7 @@ function showHoverInfo(doc, pos, el, e, h) {
   else if (kind === 'primer') { const p = h?.item || doc.primers.find(x => x.id === id); if (p) { const st = primerStats(p.seq, state.settings.tm); tip = `${p.name} (${p.seq.length} nt)\n${p.seq}\nTm ${st.tm.toFixed(1)} °C · GC ${st.gc.toFixed(0)}%`; } }
   else if (kind === 'enzyme') { const nm = h ? h.item.enz : id.split(':')[0]; const s = h ? h.item : null; const z = ENZ_BY_NAME[nm]; const k = findEnzymeSites(doc)[nm].length; tip = `${nm}  ${z.site}\n${k === 1 ? 'Unique cutter' : k + ' sites'}${s ? ' · cuts after ' + fmt(s.cut) : ''} · ${z.overhang === 0 ? 'blunt' : z.overhang > 0 ? z.overhang + '-nt 3′ overhang' : -z.overhang + '-nt 5′ overhang'}`; }
   else if (kind === 'comment') { const c = h?.item || doc.comments.find(x => x.id === id); if (c) tip = `Comment at ${fmt(c.pos + 1)}\n${c.text}`; }
-  else if (kind === 'trans' && h) { const f = h.item; const d = f.strand === -1 ? mod(f.start + f.len - 1 - h.idx, n) : mod(h.idx - f.start, n); const k = Math.floor(d / 3); let c = subseq(doc, f.strand === -1 ? f.start + f.len - 3 * k - 3 : f.start + 3 * k, 3); if (f.strand === -1) c = revcomp(c); const aa = codonAA(c); tip = `${f.name}: ${AA3[aa] || aa}${k + 1} (codon ${c})`; }
+  else if (kind === 'trans' && h) { const f = h.item, cp = cdsPhase(f); const d = (f.strand === -1 ? mod(f.start + f.len - 1 - h.idx, n) : mod(h.idx - f.start, n)) - cp; if (d >= 0) { const k = Math.floor(d / 3); let c = subseq(doc, f.strand === -1 ? f.start + f.len - cp - 3 * k - 3 : f.start + cp + 3 * k, 3); if (f.strand === -1) c = revcomp(c); const aa = codonAA(c); tip = `${f.name}: ${AA3[aa] || aa}${k + 1} (codon ${c})`; } }
   else if (kind === 'read') {
     const t = h ? h.item.t : (doc.traces || []).find(x => x.id === id); const a = t && alignTrace(doc, t);
     if (t && a && !a.fail) {
@@ -2884,7 +2927,11 @@ async function handleFiles(files, target) {
   if (traces.length) attachTraces(traces, newDocs);
   return newDocs;
 }
-function openFilePicker(accept, cb) { const inp = $('#fileInput'); inp.value = ''; inp.onchange = () => { const fl = [...inp.files]; if (fl.length) (cb || handleFiles)(fl); }; if (accept) inp.setAttribute('accept', accept); inp.click(); }
+function openFilePicker(accept, cb) { // accept: file types for this picker only (the default list is restored next time)
+  const inp = $('#fileInput'); inp.value = ''; if (inp.dataset.accept == null) inp.dataset.accept = inp.getAttribute('accept') || '';
+  inp.setAttribute('accept', accept || inp.dataset.accept);
+  inp.onchange = () => { const fl = [...inp.files]; if (fl.length) (cb || handleFiles)(fl); }; inp.click();
+}
 
 /* ---------- sessions & autosave ---------- */
 function sessionJSON() { return { app: 'pMap', version: 1, saved: new Date().toISOString(), activeIndex: state.docs.findIndex(d => d.id === state.activeId), settings: state.settings, docs: state.docs.map(serializeDoc) }; }
@@ -2975,10 +3022,22 @@ async function menuAction(act) {
     case 'savePrimerCSV': download(safeName(doc.name) + '_primers.csv', 'name,sequence,length,Tm,GC,sites,note\n' + doc.primers.map(p => { const st = primerStats(p.seq, state.settings.tm); return [p.name, p.seq, p.seq.length, st.tm.toFixed(1), st.gc.toFixed(1), primerSites(doc, p.seq).length, p.notes].map(csvCell).join(','); }).join('\n')); break;
     case 'insertSeq': insertDialog(); break;
     case 'replaceSel': if (!doc._sel?.len) return toast('Select a region first.'); insertDialog(); break;
-    case 'rcSel': { if (isLocked()) return lockedMsg(); const s = doc._sel; if (!s?.len) return toast('Select a region first.'); const ann = annotationsInRange(doc, s); const L = s.len; ann.features.forEach(f => { f.start = L - f.start - f.len; f.strand = -f.strand || 0; }); ann.colorRanges.forEach(c => c.start = L - c.start - c.len); const rc = revcomp(subseq(doc, s.start, L)); pushUndo(doc, 'Reverse-complement selection'); const p = applyDelete(doc, s); applyInsert(doc, p, rc); ann.features.forEach(f => doc.features.push(mkFeature({ ...f, id: uid(), start: f.start + p }))); setSel(doc, { start: p, len: L }, 'seq'); afterEdit('Reverse-complemented selection'); break; }
+    case 'rcSel': { if (isLocked()) return lockedMsg(); const s = doc._sel; if (!s?.len) return toast('Select a region first.'); const ann = annotationsInRange(doc, s); const L = s.len; ann.features.forEach(f => { f.start = L - f.start - f.len; f.strand = -f.strand || 0; flipSegments(f); }); ann.colorRanges.forEach(c => c.start = L - c.start - c.len); const rc = revcomp(subseq(doc, s.start, L)); pushUndo(doc, 'Reverse-complement selection'); const p = applyDelete(doc, s); applyInsert(doc, p, rc); ann.features.forEach(f => doc.features.push(mkFeature({ ...f, id: uid(), start: f.start + p }))); ann.colorRanges.forEach(c => doc.colorRanges.push({ ...c, start: c.start + p })); setSel(doc, { start: p, len: L }, 'seq'); afterEdit('Reverse-complemented selection'); break; }
     case 'rcAll': if (isLocked()) return lockedMsg(); pushUndo(doc, 'Reverse-complement sequence'); reverseComplementAll(doc); afterEdit('Reverse-complemented the whole sequence'); break;
     case 'setOrigin': { if (!doc.circular) return toast('Only circular sequences have an origin to move.'); if (isLocked()) return lockedMsg(); const p = doc._sel?.start || 0; if (!p) return toast('Place the cursor where the new origin should be.'); pushUndo(doc, 'Set origin'); setOrigin(doc, p); doc._sel = { start: 0, len: 0 }; afterEdit(`Origin moved: base ${fmt(p + 1)} is now position 1`); break; }
-    case 'toggleTopo': pushUndo(doc, 'Change topology'); doc.circular = !doc.circular; doc.view.mapType = doc.circular ? 'circular' : 'linear'; bump(doc); afterEdit(doc.circular ? 'Sequence is now circular' : 'Sequence is now linear'); break;
+    case 'toggleTopo': {
+      pushUndo(doc, 'Change topology'); doc.circular = !doc.circular; doc.view.mapType = doc.circular ? 'circular' : 'linear'; let split = 0;
+      if (!doc.circular && n) { // a linear molecule has no origin to cross: features and base colors that cross it are split in two
+        const cut = (r, mk) => { const b = r.start + r.len - n; const tail = mk({ ...clone(r), start: 0, len: b }); r.len = n - r.start; return [r, tail]; };
+        doc.features = doc.features.flatMap(f => {
+          if (f.len >= n) { f.start = 0; f.len = n; return [f]; } if (f.start + f.len <= n) return [f];
+          split++; delete f.segments; const nm = f.name; f.name = nm + ' (part 1)';
+          return cut(f, o => mkFeature({ ...o, id: uid(), name: nm + ' (part 2)' }));
+        });
+        doc.colorRanges = doc.colorRanges.flatMap(c => c.start + c.len <= n ? [c] : cut(c, o => o));
+      }
+      bump(doc); afterEdit(doc.circular ? 'Sequence is now circular' : `Sequence is now linear${split ? `. ${split} feature${split > 1 ? 's' : ''} crossing the origin ${split > 1 ? 'were' : 'was'} split in two` : ''}`); break;
+    }
     case 'colorSel': colorSelDialog(doc); break;
     case 'clearColors': if (!doc.colorRanges.length) return; pushUndo(doc, 'Clear base colors'); doc.colorRanges = []; afterEdit('Base colors cleared'); break;
     case 'gotoPos': { const r = await openModal({ title: 'Go to position', body: `<label class="field"><span>Position (1–${fmt(n)})</span><input type="number" id="gPos" min="1" max="${n}" style="width:140px"></label>`, buttons: [{ label: 'Cancel', value: null }, { label: 'Go', primary: true, action: m => { m._p = +$('#gPos', m).value; state._goto = m._p; } }] }); if (r && state._goto) { const p = clamp(state._goto - 1, 0, n); setSel(doc, { start: p, len: 0 }, 'panel'); } break; }
@@ -3108,7 +3167,7 @@ function init() {
   if (auto && auto.docs && auto.docs.length) {
     const box = $('#restoreBox'); box.hidden = false;
     box.innerHTML = `<span>Restore your last session (${auto.docs.length} file${auto.docs.length > 1 ? 's' : ''}, ${esc(new Date(auto.saved).toLocaleString())})?</span><button class="btn primary sm" id="rsYes">Restore</button><button class="btn sm" id="rsNo">Discard</button>`;
-    $('#rsYes').onclick = () => loadSession(auto, true); $('#rsNo').onclick = () => { LS.del('pmap.autosave'); LS.del('vectra.autosave'); box.hidden = true; };
+    $('#rsYes').onclick = () => { box.hidden = true; loadSession(auto); }; $('#rsNo').onclick = () => { LS.del('pmap.autosave'); LS.del('vectra.autosave'); box.hidden = true; };
   }
   renderAll();
 }
@@ -3280,7 +3339,7 @@ function panelPrimers(el, doc) {
       <input type="checkbox" data-chk="${p.id}" ${chk.has(p.id) ? 'checked' : ''} aria-label="Select ${esc(p.name)}">
       <button class="swatch" data-color="${p.id}" style="background:${p.color || THEME.primer || '#4e9a74'}" title="Change color"></button>
       <div style="min-width:0"><div class="nm">${esc(p.name)}</div><div class="sub mono">${primerTailHTML(doc, p)}</div></div>
-      <div class="meta">${st.tm.toFixed(1)} °C<br>${p.seq.length} nt · ${sites.length ? sites.length + (sites.length === 1 ? ' site' : ' sites') : '<span style="color:var(--bad)">no site</span>'}</div>
+      <div class="meta">${st.tm.toFixed(1)} °C<br>${p.seq.length} nt · ${sites.length ? sites.length + (sites.length === 1 ? ' site' : ' sites') : '<span style="color:var(--bad-ink)">no site</span>'}</div>
     </div>`).join('')}</div>` : '<div class="empty">No primers yet. Select a region and add a primer, or use Design.</div>'}</div>
   <div class="sec card" ${chk.size ? '' : 'hidden'}>
     <div class="row between"><b>${chk.size} selected</b><button class="btn sm ghost" id="pNone">Clear</button></div>
@@ -3406,7 +3465,7 @@ async function designPrimersDialog(doc) {
           } else {
             opt.step = clamp(+$('#dStep', m).value, 150, 2000); opt.both = $('#dBoth', m).checked;
             const ps = designSeqPrimers(doc, region, opt);
-            $('#dInfo', m).textContent = `${ps.length} primer(s)`;
+            $('#dInfo', m).textContent = ps.length ? `${ps.length} primer(s)` : region.len < 200 ? 'The target region is too short for sequencing primers. Select at least 200 bp, or clear the selection to cover the whole sequence.' : 'No suitable primers found. Try a wider length range.';
             $('#dRes', m).innerHTML = ps.length ? `<table class="tbl"><tr><th>Position</th><th>Sequence 5′→3′</th><th>Tm</th><th>GC</th><th></th></tr>${ps.map((p, i) => `<tr><td>${fmt(p.start + 1)} ${p.rev ? '←' : '→'}</td><td class="mono">${p.seq}</td><td>${p.st.tm.toFixed(1)}</td><td>${p.st.gc.toFixed(0)}%</td><td><button class="btn sm" data-add="${i}">Add</button></td></tr>`).join('')}</table><div class="row" style="margin-top:8px"><button class="btn sm" id="dAddAll">Add all</button></div>` : '';
             const add = (list) => { pushUndo(doc, 'Add sequencing primers'); const base = doc.name.replace(/\s+/g, '_').slice(0, 12); list.forEach(p => doc.primers.push(mkPrimer({ name: `${base}_seq${p.rev ? 'R' : 'F'}${p.start + 1}`, seq: p.seq, notes: 'Sequencing primer' }))); bump(doc); afterEdit(`Added ${list.length} primer(s)`); };
             $('#dRes', m).querySelectorAll('[data-add]').forEach(b => b.onclick = () => { add([ps[+b.dataset.add]]); b.textContent = 'Added'; b.disabled = true; });
@@ -3567,9 +3626,10 @@ function panelTools(el, doc) {
 /* ---------------- protein view ---------------- */
 // Translation of a CDS (or any range): honours codon_start, reads a bacterial alternative start codon as Met
 function proteinOf(doc, f) {
-  let nt = featSeq(doc, f); const cs = +((f.quals || {}).codon_start) || 1; if (cs > 1 && cs <= 3) nt = nt.slice(cs - 1);
+  let nt = featSeq(doc, f); const ph = cdsPhase(f); if (ph) nt = nt.slice(ph);
   let prot = translate(nt); const notes = []; const start = nt.slice(0, 3).toUpperCase(), isCDS = f.type === 'CDS' || f.translate;
-  if (isCDS && prot[0] !== 'M' && ['GTG', 'TTG', 'CTG', 'ATT', 'ATC', 'ATA'].includes(start)) { prot = 'M' + prot.slice(1); notes.push(`Start codon ${start} is read as Met (as in bacteria)`); }
+  if (ph) notes.push(`Translation starts at base ${ph + 1} of the feature (codon_start ${ph + 1})`);
+  else if (isCDS && prot[0] !== 'M' && ['GTG', 'TTG', 'CTG', 'ATT', 'ATC', 'ATA'].includes(start)) { prot = 'M' + prot.slice(1); notes.push(`Start codon ${start} is read as Met (as in bacteria)`); }
   if (prot.endsWith('*')) prot = prot.slice(0, -1); else if (isCDS && prot.length) notes.push('No stop codon at the end');
   const inner = prot.indexOf('*'); if (inner >= 0) { notes.push(`Stop codon inside the sequence at amino acid ${inner + 1}: properties are for the protein up to that stop`); }
   if (nt.length % 3) notes.push(`${nt.length % 3} extra base${nt.length % 3 > 1 ? 's' : ''} at the end ignored`);
@@ -3762,7 +3822,7 @@ function helpDialog() {
   <tr><td><b>Colors</b></td><td>Settings → Feature colors: choose a color scheme, color features by type, or edit the color of each type.</td></tr>
   <tr><td><b>Right-click</b></td><td>Add features, primers or comments, translate, color bases, set origin.</td></tr>
   </table>
-  <p class="small">Tm: SantaLucia 1998 nearest-neighbour with von Ahsen Mg²⁺ salt correction. Restriction data: ${ENZYMES.length} common commercial enzymes. Trace quality trimming uses Mott’s method (error probability cut-off 0.05). SnapGene .dna export writes the sequence, topology, features, primers, notes and base colors; SnapGene recalculates enzymes when it opens the file.</p></div>` });
+  <p class="small">Tm: SantaLucia 1998 nearest-neighbour with von Ahsen Mg²⁺ salt correction. Restriction data: ${ENZYMES.length} common commercial enzymes. Trace quality trimming uses Mott’s method with the cut-off chosen in Settings → Sequencing traces (quality 20, about 1 error in 100 bases, by default). SnapGene .dna export writes the sequence, topology, features, primers, notes and base colors; SnapGene recalculates enzymes when it opens the file.</p></div>` });
 }
 
 /* ---------------- settings ---------------- */
@@ -4141,9 +4201,9 @@ function diffEffect(doc, d) {
     if (f.type !== 'CDS' && !f.translate) { out.push(esc(f.name)); continue; }
     if (d.kind === 'ins' || d.kind === 'del') { out.push(`${esc(f.name)}: frameshift`); continue; }
     if (d.kind !== 'sub') { out.push(esc(f.name)); continue; }
-    const dd = f.strand === -1 ? mod(f.start + f.len - 1 - d.pos, n) : mod(d.pos - f.start, n); const k = Math.floor(dd / 3), ph = dd % 3;
-    if (k * 3 + 3 > f.len) { out.push(esc(f.name)); continue; }
-    let c = subseq(doc, f.strand === -1 ? f.start + f.len - 3 * k - 3 : f.start + 3 * k, 3); if (f.strand === -1) c = revcomp(c);
+    const cp = cdsPhase(f); const dd = (f.strand === -1 ? mod(f.start + f.len - 1 - d.pos, n) : mod(d.pos - f.start, n)) - cp; const k = Math.floor(dd / 3), ph = dd % 3;
+    if (dd < 0 || cp + k * 3 + 3 > f.len) { out.push(esc(f.name)); continue; }
+    let c = subseq(doc, f.strand === -1 ? f.start + f.len - cp - 3 * k - 3 : f.start + cp + 3 * k, 3); if (f.strand === -1) c = revcomp(c);
     const nb = f.strand === -1 ? COMP[d.readB] : d.readB; const c2 = c.slice(0, ph) + nb + c.slice(ph + 1);
     const a1 = codonAA(c), a2 = codonAA(c2);
     out.push(`${esc(f.name)}: ${a1 === a2 ? `silent (${a1}${k + 1})` : `<b>${a1}${k + 1}${a2 === '*' ? '*' : a2}</b>${a2 === '*' ? ' (stop)' : ''}`}`);
@@ -4186,7 +4246,7 @@ function panelTraces(el, doc) {
       ${on && !a.fail ? diffTable(doc, t, a) : ''}
     </div>`; }).join('')}</div></div>
   ${T.length ? `<div class="sec small">QV is the Phred quality value of a base call: QV 20 means about 1 error in 100 bases, QV 30 about 1 in 1,000. Low-quality read ends (shaded in the bar) are trimmed before aligning. Differences at bases below QV 20 are listed separately as low quality.</div>` : ''}`;
-  $('#trAdd', el).onclick = () => openFilePicker('.ab1,.abi,.ab!', handleFiles);
+  $('#trAdd', el).onclick = () => openFilePicker('.ab1,.abi', handleFiles);
   el.querySelectorAll('.item.tr').forEach(it => { it.onmouseenter = () => setMapHL('read|' + it.dataset.trace); it.onmouseleave = () => setMapHL(null); });
   el.querySelectorAll('.item.tr').forEach(it => it.addEventListener('click', e => { if (e.target.closest('button,tr')) return; state.focus.traces = state.focus.traces === it.dataset.trace ? null : it.dataset.trace; renderSide(); }));
   const T_ = id => T.find(t => t.id === id);
@@ -4357,7 +4417,9 @@ function openTraceViewer(doc, t, diffIndex, atPos) {
       $('#tvVs', m).oninput = e => { st.vs = +e.target.value; draw(); };
       $('#tvQ', m).onchange = e => { st.showQ = e.target.checked; draw(); };
       if (ok) { $('#tvRef', m).onchange = e => { st.showRef = e.target.checked; draw(); }; const pv = $('#tvPrev', m), nx = $('#tvNext', m); if (pv) pv.onclick = () => goto(st.cur - 1); if (nx) nx.onclick = () => goto(st.cur + 1); }
-      m.addEventListener('keydown', e => { if (e.target.matches('input,select')) return; if (e.key === 'ArrowRight' && ord.length) { e.preventDefault(); goto(st.cur + 1); } else if (e.key === 'ArrowLeft' && ord.length) { e.preventDefault(); goto(st.cur - 1); } });
+      // keys are caught on the dialog element, which is shared by all dialogs: each handler removes itself once this viewer is closed
+      const onKey = h => { const fn = e => { if (!wrap.isConnected) { m.removeEventListener('keydown', fn); return; } h(e); }; m.addEventListener('keydown', fn); };
+      onKey(e => { if (e.target.matches('input,select')) return; if (e.key === 'ArrowRight' && ord.length) { e.preventDefault(); goto(st.cur + 1); } else if (e.key === 'ArrowLeft' && ord.length) { e.preventDefault(); goto(st.cur - 1); } });
       // drag across bases to select them; Ctrl+C copies them as shown (reverse reads are shown reverse-complemented)
       const baseAt = e => { const x = e.clientX - wrap.getBoundingClientRect().left + wrap.scrollLeft - 44; let best = -1, bd = 1e9; for (let b = 0; b < L; b++) { const dd = Math.abs(bx(b) - x); if (dd < bd) { bd = dd; best = b; } } return best; };
       const selText = () => { if (st.sa == null) return ''; const lo = Math.min(st.sa, st.sb), hi = Math.max(st.sa, st.sb); const sq = t.seq.slice(lo, hi + 1); return flip ? revcomp(sq) : sq; };
@@ -4366,7 +4428,7 @@ function openTraceViewer(doc, t, diffIndex, atPos) {
       const selInfo = () => { const lo = Math.min(st.sa, st.sb), hi = Math.max(st.sa, st.sb); btnCopy.disabled = btnUse.disabled = false; info.innerHTML = `Selected <b>${fmt(hi - lo + 1)}</b> bases (read bases ${fmt(lo + 1)}–${fmt(hi + 1)}). Press <kbd>Ctrl</kbd>+<kbd>C</kbd> or <b>Copy</b> to copy them, or <b>Align selection only</b> to align just this part.`; };
       btnCopy.onclick = copySelection;
       btnUse.onclick = () => { const lo = Math.min(st.sa, st.sb), hi = Math.max(st.sa, st.sb); if (hi - lo < 20) return toast('Select at least 20 bases to align.', true); t.range = [lo, hi + 1]; SV.key = ''; renderAll(); scheduleAutosave(); closeModal(null); const x = alignTrace(doc, t); toast(x.fail ? `${t.name}: bases ${fmt(lo + 1)}–${fmt(hi + 1)} do not match ${doc.name}` : `${t.name}: aligned bases ${fmt(lo + 1)}–${fmt(hi + 1)}, ${x.sure ? x.sure + ' difference(s)' : 'no differences'}`, !!x.fail); openTraceViewer(doc, t); };
-      m.addEventListener('keydown', e => { if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'c' && st.sa != null && !e.target.matches('input,textarea')) { e.preventDefault(); copySelection(); } else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'a' && !e.target.matches('input,textarea')) { e.preventDefault(); st.sa = 0; st.sb = L - 1; selInfo(); draw(); } });
+      onKey(e => { if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'c' && st.sa != null && !e.target.matches('input,textarea')) { e.preventDefault(); copySelection(); } else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'a' && !e.target.matches('input,textarea')) { e.preventDefault(); st.sa = 0; st.sb = L - 1; selInfo(); draw(); } });
       let pd = null;
       wrap.addEventListener('pointerdown', e => { if (e.button !== 0 || e.clientY - wrap.getBoundingClientRect().top > wrap.clientHeight) return; const b = baseAt(e); if (b < 0) return; pd = { b, x: e.clientX }; wrap.setPointerCapture(e.pointerId); });
       wrap.addEventListener('pointermove', e => { if (!pd) return; if (Math.abs(e.clientX - pd.x) > 4) { st.sa = pd.b; st.sb = baseAt(e); draw(); const r = wrap.getBoundingClientRect(); if (e.clientX > r.right - 30) wrap.scrollLeft += 14; else if (e.clientX < r.left + 30) wrap.scrollLeft -= 14; } });
