@@ -11,7 +11,7 @@
   --bg:#eef1f5; --surface:#ffffff; --surface2:#f6f8fb; --surface3:#e9edf3; --line:#dbe1e9; --line2:#c9d2dd;
   --ink:#1e2834; --ink2:#3d4a5a; --muted:#536076; --faint:#5f6b7d; /* muted and faint text reach WCAG AA (4.5:1) on every surface */
   --accent:#5a7db5; --accent-ink:#ffffff; --accent-soft:#e2eaf6; --accent-line:#b9cbe6;
-  --sel:rgba(90,125,181,.18); --sel-strong:rgba(90,125,181,.34); --hit:rgba(222,176,72,.38); --hover:rgba(30,40,52,.05);
+  --sel:rgba(74,118,190,.30); --sel-strong:rgba(74,118,190,.46); --sel-line:rgba(52,96,170,.95); --hit:rgba(222,176,72,.45); --hover:rgba(30,40,52,.05);
   --good:#4f9472; --warn:#b98326; --bad:#c06262;
   --good-ink:#2f6f50; --warn-ink:#8a5d12; --bad-ink:#a33d3d; --accent-text:#4a6ea8; --accent-strong:#4a6ea8; --read-ink:#335d9c; /* text versions that reach 4.5:1 */
   --enz:#5a6a80; --read:#4f7fc4; --primer:#4e9a74; --orf:#b49a6a; --comment:#c07f3a;
@@ -26,7 +26,7 @@
   --bg:#0f1318; --surface:#161b22; --surface2:#1b2129; --surface3:#232b35; --line:#2a333f; --line2:#38434f;
   --ink:#e0e6ee; --ink2:#c2ccd8; --muted:#a3aebd; --faint:#8692a3;
   --accent:#8eaee3; --accent-ink:#0f1318; --accent-soft:#1f2b3d; --accent-line:#34486a;
-  --sel:rgba(142,174,227,.20); --sel-strong:rgba(142,174,227,.38); --hit:rgba(230,190,90,.30); --hover:rgba(255,255,255,.05);
+  --sel:rgba(120,165,245,.34); --sel-strong:rgba(130,175,250,.52); --sel-line:rgba(150,190,255,.95); --hit:rgba(230,190,90,.38); --hover:rgba(255,255,255,.05);
   --good:#78bf98; --warn:#d9ad5a; --bad:#de8a8a;
   --good-ink:var(--good); --warn-ink:var(--warn); --bad-ink:var(--bad); --accent-text:var(--accent); --accent-strong:var(--accent); --read-ink:var(--read);
   --enz:#a3b3c8; --read:#86aee6; --primer:#79c19b; --orf:#cdb07a; --comment:#e0a060;
@@ -38,7 +38,7 @@
   --bg:#0f1318; --surface:#161b22; --surface2:#1b2129; --surface3:#232b35; --line:#2a333f; --line2:#38434f;
   --ink:#e0e6ee; --ink2:#c2ccd8; --muted:#a3aebd; --faint:#8692a3;
   --accent:#8eaee3; --accent-ink:#0f1318; --accent-soft:#1f2b3d; --accent-line:#34486a;
-  --sel:rgba(142,174,227,.20); --sel-strong:rgba(142,174,227,.38); --hit:rgba(230,190,90,.30); --hover:rgba(255,255,255,.05);
+  --sel:rgba(120,165,245,.34); --sel-strong:rgba(130,175,250,.52); --sel-line:rgba(150,190,255,.95); --hit:rgba(230,190,90,.38); --hover:rgba(255,255,255,.05);
   --good:#78bf98; --warn:#d9ad5a; --bad:#de8a8a;
   --good-ink:var(--good); --warn-ink:var(--warn); --bad-ink:var(--bad); --accent-text:var(--accent); --accent-strong:var(--accent); --read-ink:var(--read);
   --enz:#a3b3c8; --read:#86aee6; --primer:#79c19b; --orf:#cdb07a; --comment:#e0a060;
@@ -527,16 +527,6 @@ canvas.gel{width:100%;border-radius:8px;display:block;background:#1b1f26}
 body.resizing{cursor:col-resize;user-select:none}
 body.resizing *{cursor:col-resize!important}
 
-/* ---------- focus view: the sequence fills the window, a small map sits in the corner ---------- */
-.minix{display:none}
-.views.v-focus .splitter{display:none}
-.views.v-focus .seqpane{flex:1 1 100%;border-left:0}
-.views.v-focus .mappane{position:absolute;top:10px;right:22px;width:clamp(200px,24%,300px);height:clamp(200px,24%,300px);z-index:6;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);flex:none}
-.views.v-focus .mappane #mapSvg{height:100%}
-.views.v-focus .mapbar,.views.v-focus .maptools,.views.v-focus .selbar,.views.v-focus .mapnote,.views.v-focus .stylepop{display:none!important}
-.views.v-focus .minix{display:block;position:absolute;top:4px;right:4px;z-index:2;border:0;background:var(--surface2);color:var(--muted);width:22px;height:22px;border-radius:6px;cursor:pointer;line-height:1}
-.views.v-focus .minix:hover{color:var(--ink);background:var(--surface3)}
-.views.v-focus.nomini .mappane{display:none}
 
 /* ---------- hover highlight in the side lists ---------- */
 .item.hov{background:var(--accent-soft);box-shadow:inset 3px 0 0 var(--accent)}
@@ -582,13 +572,57 @@ body.resizing *{cursor:col-resize!important}
 :root[data-cb="1"]{ --good:#0072b2; --warn:#e69f00; --bad:#d55e00; --good-ink:#005a8c; --warn-ink:#8a5d00; --bad-ink:#a84600; --primer:#009e73; }
 :root[data-cb="1"][data-theme="dark"]{ --good:#56b4e9; --warn:#e69f00; --bad:#f08a4b; --good-ink:#56b4e9; --warn-ink:#e69f00; --bad-ink:#f08a4b; --primer:#33c08f; }
 @media (prefers-color-scheme: dark){ :root[data-cb="1"]:not([data-theme="light"]){ --good:#56b4e9; --warn:#e69f00; --bad:#f08a4b; --good-ink:#56b4e9; --warn-ink:#e69f00; --bad-ink:#f08a4b; --primer:#33c08f; } }
-@media (max-width:900px){ .sidegrip{display:none} .views.v-focus .mappane{width:180px;height:180px} }
+@media (max-width:900px){ .sidegrip{display:none} }
 @container mappane (max-width: 520px){ .mapbar .lbl{display:none} .mapbar .btn{padding-left:7px;padding-right:7px} .selinfo .what,.selinfo>.sep{display:none} .rotate span{display:none} .rotate input{width:70px} }
 @container mappane (max-width: 400px){ .mapbar-l .seg button{padding:3px 7px} }
-.views.v-focus:not(.nomini) .seqscroll{right:calc(clamp(200px,24%,300px) + 30px)}
-.views.v-focus:not(.nomini) .seqpane{background:var(--surface)}
-@media (max-width:900px){ .views.v-focus:not(.nomini) .seqscroll{right:206px} }
 .modal.varmodal{width:min(1180px,calc(100vw - 32px))}
+
+/* ---------- keyboard hints in menus ---------- */
+.menu button{display:flex;align-items:center;gap:18px;justify-content:space-between}
+.menu button .mk,.ctxmenu .mk{font-family:var(--mono);font-size:.78rem;color:var(--faint);border:0;background:none;padding:0;letter-spacing:.02em;white-space:nowrap}
+.menu button:hover .mk,.ctxmenu button:hover .mk{color:var(--ink2)}
+
+/* ---------- zoom buttons under Fit ---------- */
+.zoombar{position:absolute;right:12px;top:48px;z-index:3;display:flex;flex-direction:column;align-items:stretch;gap:0;border:1px solid var(--line2);border-radius:9px;background:var(--surface);box-shadow:0 1px 3px rgba(0,0,0,.08);overflow:hidden}
+.zbtn{border:0;background:transparent;color:var(--ink2);width:38px;height:34px;display:grid;place-items:center;cursor:pointer;padding:0;touch-action:manipulation}
+.zbtn:hover{background:var(--surface3)}
+.zbtn:active{background:var(--accent-soft)}
+.zbtn+.zbtn{border-top:1px solid var(--line)}
+.zlvl{border-top:1px solid var(--line);font-size:.74rem;color:var(--muted);text-align:center;padding:2px 0 3px;font-variant-numeric:tabular-nums;cursor:pointer;user-select:none}
+.zlvl:hover{background:var(--surface3);color:var(--ink)}
+@media (pointer:coarse){ .zbtn{width:46px;height:44px} }
+.views.v-seq .zoombar{display:none}
+
+/* ---------- small map floating over the views ---------- */
+.minimap{position:absolute;z-index:8;width:280px;height:280px;min-width:170px;min-height:150px;background:var(--surface);border:1px solid var(--line2);border-radius:12px;box-shadow:var(--shadow);display:flex;flex-direction:column;overflow:hidden;right:26px;top:12px}
+.minimap #miniSvg{flex:1;width:100%;min-height:0;display:block;user-select:none;touch-action:none;cursor:pointer}
+.minimap #miniSvg text{font-family:var(--font)}
+.minihd{display:flex;align-items:center;gap:2px;padding:3px 4px 3px 9px;border-bottom:1px solid var(--line);background:var(--surface2);cursor:grab;user-select:none}
+.minihd.drag{cursor:grabbing}
+.minihd .mttl{flex:1;min-width:0;font-size:.82rem;font-weight:600;color:var(--ink2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.minibtn{border:0;background:transparent;color:var(--muted);width:22px;height:22px;border-radius:6px;cursor:pointer;font-size:.95rem;line-height:1;padding:0;flex:none}
+.minibtn:hover{background:var(--surface3);color:var(--ink)}
+.minigrip{position:absolute;right:0;bottom:0;width:16px;height:16px;cursor:nwse-resize;background:linear-gradient(135deg,transparent 48%,var(--line2) 48%,var(--line2) 60%,transparent 60%,transparent 72%,var(--line2) 72%,var(--line2) 84%,transparent 84%)}
+body.minidrag{user-select:none}
+
+/* ---------- settings in tabs ---------- */
+.modal.setmodal{width:min(780px,100%)}
+.settabs{display:flex;gap:2px;flex-wrap:wrap;border-bottom:1px solid var(--line);margin:0 0 6px;position:sticky;top:0;background:var(--surface);z-index:2;padding-top:2px}
+.settabs button{border:0;background:transparent;padding:7px 12px 8px;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap;font-weight:550;display:inline-flex;align-items:center;gap:7px}
+.settabs button:hover{color:var(--ink2);background:var(--surface2)}
+.settabs button.on{color:var(--ink);border-bottom-color:var(--accent)}
+.settabs button svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.setpane[hidden]{display:none}
+.setpane .setgroup:first-child h4{margin-top:4px}
+@media (max-width:620px){ .settabs button .stl{display:none} .settabs button{padding:8px 11px} }
+
+/* ---------- toolbar: icons only, labels only, or both (Settings → Appearance) ---------- */
+body[data-tb="icons"] :is(.toolbar,.topactions,.mapbar) .lbl{display:none!important}
+body[data-tb="icons"] :is(.toolbar,.topactions) .btn{padding-left:7px;padding-right:7px}
+body[data-tb="icons"] .seg button{padding-left:9px;padding-right:9px}
+body[data-tb="labels"] :is(.toolbar,.topactions,.mapbar) :is(.lbl){display:inline!important}
+body[data-tb="labels"] :is(.toolbar,.topactions,.mapbar) .btn .ic,body[data-tb="labels"] :is(.toolbar,.mapbar) .seg .ic,body[data-tb="labels"] .locktoggle .ic,body[data-tb="labels"] #btnFit svg{display:none!important}
+body[data-tb="both"] :is(.toolbar,.topactions,.mapbar) .lbl{display:inline!important}
 
 </style>
 </head>
@@ -606,12 +640,12 @@ body.resizing *{cursor:col-resize!important}
         <button class="btn ghost" id="btnSave" title="Save or export (Ctrl+S saves GenBank)"><svg class="ic" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h11l3 3v13H5z"/><path d="M8 4v5h7V4M8 20v-6h8v6"/></svg><span class="lbl">Save</span> ▾</button>
         <div class="menu" id="menuSave" hidden>
           <button data-act="saveDNA">SnapGene (.dna) — this file</button>
-          <button data-act="saveGB">GenBank (.gb) — this file</button>
+          <button data-act="saveGB">GenBank (.gb) — this file<kbd class="mk">Ctrl+S</kbd></button>
           <button data-act="saveFASTA">FASTA — this file</button>
           <button data-act="saveFASTAall">FASTA — all open files</button>
           <button data-act="saveSel">FASTA — current selection</button>
           <hr>
-          <button data-act="saveSession">Save session (all files)</button>
+          <button data-act="saveSession">Save session (all files)<kbd class="mk">Ctrl+Shift+S</kbd></button>
           <button data-act="loadSession">Load session…</button>
           <hr>
           <button data-act="saveFeatCSV">Features table (.csv)</button>
@@ -627,8 +661,9 @@ body.resizing *{cursor:col-resize!important}
 
   <div class="toolbar" id="toolbar">
     <div class="seg" id="viewSeg" role="tablist" aria-label="View">
-      <button data-view="map" title="Map only"><svg class="ic" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 8 8"/></svg><span class="lbl">Map</span></button><button data-view="seq" title="Sequence only"><svg class="ic" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/></svg><span class="lbl">Sequence</span></button><button data-view="split" class="on" title="Map and sequence side by side"><svg class="ic" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M12 5v14"/></svg><span class="lbl">Split</span></button><button data-view="focus" title="Focus: the sequence fills the window, with a small map in the corner"><svg class="ic" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><rect x="14" y="7" width="5" height="5" rx="1"/></svg><span class="lbl">Focus</span></button>
+      <button data-view="map" title="Map only"><svg class="ic" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 8 8"/></svg><span class="lbl">Map</span></button><button data-view="seq" title="Sequence only"><svg class="ic" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/></svg><span class="lbl">Sequence</span></button><button data-view="split" class="on" title="Map and sequence side by side"><svg class="ic" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M12 5v14"/></svg><span class="lbl">Split</span></button>
     </div>
+    <button class="btn ghost sm" id="btnMini" title="Small map: a map that floats over the sequence, drag it anywhere (Ctrl+M)" aria-pressed="false"><svg class="ic" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="16.5" cy="12" r="3.2"/></svg><span class="lbl">Small map</span></button>
     <span class="tsep"></span>
     <div class="menuwrap undowrap"><button class="btn ghost sm" id="btnUndo" title="Undo (Ctrl+Z)"><svg class="ic" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg><span class="lbl">Undo</span></button><button class="btn ghost sm caret" id="btnHist" title="Undo history: go back several steps" aria-label="Undo history">▾</button><div class="menu histmenu" id="menuHist" hidden></div></div>
     <button class="btn ghost sm" id="btnRedo" title="Redo (Ctrl+Y)"><svg class="ic" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14l5-5-5-5"/><path d="M20 9H10a6 6 0 0 0 0 12h3"/></svg><span class="lbl">Redo</span></button>
@@ -666,9 +701,9 @@ body.resizing *{cursor:col-resize!important}
         <button data-act="colorSel">Color selected bases…</button>
         <button data-act="clearColors">Clear base colors</button>
         <hr>
-        <button data-act="gotoPos">Go to position… (Ctrl+G)</button>
+        <button data-act="gotoPos">Go to position…<kbd class="mk">Ctrl+G</kbd></button>
         <button data-act="selRange">Select range…</button>
-        <button data-act="rename">Rename file…</button>
+        <button data-act="rename">Rename file…<kbd class="mk">F2</kbd></button>
       </div>
     </div>
     <button class="btn ghost sm" id="btnCompare" title="Compare two open sequences side by side (parent and derivative)"><svg class="ic" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="7" height="16" rx="1.5"/><rect x="14" y="4" width="7" height="16" rx="1.5"/><path d="M6 9h1M6 13h1M17 9h1M17 13h1"/></svg><span class="lbl">Compare</span></button>
@@ -712,14 +747,19 @@ body.resizing *{cursor:col-resize!important}
               <button data-act="mapPNGview">PNG of the current view only</button>
             </div>
           </div>
-          <button class="btn sm" id="btnFit" title="Fit the whole map in view">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg> Fit
+          <button class="btn sm" id="btnFit" title="Fit the whole map in view (F)">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg> <span class="lbl">Fit</span>
           </button>
+        </div>
+        <div class="zoombar" id="zoomBar" role="group" aria-label="Zoom">
+          <button class="zbtn" id="btnZoomIn" title="Zoom in (+)" aria-label="Zoom in"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 6v12M6 12h12"/></svg></button>
+          <button class="zbtn" id="btnZoomOut" title="Zoom out (−)" aria-label="Zoom out"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 12h12"/></svg></button>
+          <div class="zlvl" id="zoomLvl" title="Zoom level">100%</div>
         </div>
         <div class="mapnote" id="mapNote" hidden><span id="mapNoteText"></span><button class="btn sm primary" id="mapNoteBtn"></button><button class="mapnote-x" id="mapNoteX" title="Hide this note" aria-label="Hide this note">×</button></div>
         <div class="stylepop" id="stylePop" hidden></div>
         <div class="selbar" id="selBar"><div class="selinfo" id="selInfo"><span class="maphint" id="mapHint"></span></div><div class="rotate" id="rotateBox" title="Rotate map (or Shift+scroll on the map)"><span>Rotate</span><input type="range" id="rotate" min="0" max="359" value="0" aria-label="Rotate map"></div></div>
-        <button class="minix" id="miniX" title="Hide the small map" aria-label="Hide the small map">×</button>
+        
       </div>
       <div class="splitter" id="splitter" title="Drag to resize · double-click for equal halves"><button class="spbtn" data-collapse="map" title="Hide the map (sequence only)" aria-label="Hide the map">◂</button><button class="spbtn" data-collapse="seq" title="Hide the sequence (map only)" aria-label="Hide the sequence">▸</button></div>
       <div class="pane seqpane" id="seqPane">
@@ -727,6 +767,11 @@ body.resizing *{cursor:col-resize!important}
           <canvas id="seqCanvas"></canvas>
           <div id="seqSpacer"></div>
         </div>
+      </div>
+      <div class="minimap" id="miniMap" hidden>
+        <div class="minihd" id="miniHd"><span class="mttl" id="miniTitle">Map</span><button class="minibtn" id="miniShape" title="Circular or linear">◯</button><button class="minibtn" id="miniBig" title="Open this map in the main view">⤢</button><button class="minibtn" id="miniClose" title="Close the small map (Ctrl+M)" aria-label="Close the small map">×</button></div>
+        <svg id="miniSvg" xmlns="http://www.w3.org/2000/svg"></svg>
+        <div class="minigrip" id="miniGrip" title="Drag to resize"></div>
       </div>
       <div class="welcome" id="welcome">
         <div class="home">
@@ -852,6 +897,7 @@ const SCHEMES = {
   soft: { name: 'Soft (pMap default)', c: { CDS: '#8fb5de', gene: '#a7c4e8', promoter: '#9fcf9a', terminator: '#e3a4a6', rep_origin: '#efcf95', RBS: '#efbfd8', protein_bind: '#94d0cb', primer_bind: '#7fb9b3', regulatory: '#b9d48a', 'protein tag': '#e8d27c', sig_peptide: '#d7a9c9', oriT: '#efcf95', misc_RNA: '#f0b38a', repeat_region: '#c3cbd6', mobile_element: '#9fa9dd', misc_feature: '#c4b5e3', other: '#c3cbd6' } },
   bright: { name: 'Bright', c: { CDS: '#f2b632', gene: '#f6d365', promoter: '#3fa34d', terminator: '#d64545', rep_origin: '#f4e04d', RBS: '#e070c0', protein_bind: '#2a9db5', primer_bind: '#1f8a5b', regulatory: '#8bc34a', 'protein tag': '#ff8c42', sig_peptide: '#a45fd1', oriT: '#ffd23f', misc_RNA: '#ff6f59', repeat_region: '#9e9e9e', mobile_element: '#5c6bc0', misc_feature: '#8f9cf5', other: '#b0bec5' } },
   pastel: { name: 'Pastel', c: { CDS: '#b9d3ee', gene: '#cfe0f3', promoter: '#c6e5c3', terminator: '#f1c9ca', rep_origin: '#f6e2bd', RBS: '#f5d8e7', protein_bind: '#bfe4e1', primer_bind: '#b5dad5', regulatory: '#d8e8b8', 'protein tag': '#f2e6b0', sig_peptide: '#e8cfe1', oriT: '#f6e2bd', misc_RNA: '#f7d3b8', repeat_region: '#dde2e8', mobile_element: '#c9cfee', misc_feature: '#dcd3f0', other: '#dde2e8' } },
+  vivid: { name: 'Vivid (clear on screen)', c: { CDS: '#2f7fd4', gene: '#4aa3e8', promoter: '#2faa5a', terminator: '#d9484f', rep_origin: '#e8b52b', RBS: '#d957a8', protein_bind: '#19a3a3', primer_bind: '#0e9674', regulatory: '#7fbf3f', 'protein tag': '#e8902b', sig_peptide: '#a062d6', oriT: '#e8b52b', misc_RNA: '#e2683f', repeat_region: '#8d99a8', mobile_element: '#5c6bc0', misc_feature: '#8a7fd6', other: '#8d99a8' } },
   okabe: { name: 'Colour-blind safe (Okabe–Ito)', c: { CDS: '#0072b2', gene: '#56b4e9', promoter: '#009e73', terminator: '#d55e00', rep_origin: '#f0e442', RBS: '#cc79a7', protein_bind: '#e69f00', primer_bind: '#66c5ab', regulatory: '#7fcfb5', 'protein tag': '#f3c37a', sig_peptide: '#e3b3cf', oriT: '#f6ee96', misc_RNA: '#ea9e66', repeat_region: '#bbbbbb', mobile_element: '#999999', misc_feature: '#a6c8e0', other: '#cccccc' } },
   gray: { name: 'Grayscale (for print)', c: { CDS: '#7d7d7d', gene: '#9c9c9c', promoter: '#c4c4c4', terminator: '#4f4f4f', rep_origin: '#dedede', RBS: '#b0b0b0', protein_bind: '#a8a8a8', primer_bind: '#8e8e8e', regulatory: '#bdbdbd', 'protein tag': '#d2d2d2', sig_peptide: '#b8b8b8', oriT: '#dedede', misc_RNA: '#a0a0a0', repeat_region: '#e6e6e6', mobile_element: '#909090', misc_feature: '#cfcfcf', other: '#d9d9d9' } }
 };
@@ -873,8 +919,23 @@ function schemeColors() {
   return id === 'custom' ? { ...SCHEMES.soft.c, ...(S.customColors || {}) } : (SCHEMES[id] || SCHEMES.soft).c;
 }
 const defaultColor = type => schemeColors()[schemeKey(type)] || schemeColors().other;
+/* Colour strength: pale colours saved in a file look washed out on screen, so the saturation is lifted (and very
+   light colours darkened a little) by the amount set in Settings → Colour strength. 1.0 leaves every colour alone. */
+const _boost = new Map();
+function boostColor(col, k) {
+  if (!(k > 1)) return col; const key = col + '|' + k; const hit = _boost.get(key); if (hit) return hit;
+  const c = toHex(col); if (!c) return col;
+  const r = parseInt(c.slice(1, 3), 16) / 255, g = parseInt(c.slice(3, 5), 16) / 255, b = parseInt(c.slice(5, 7), 16) / 255;
+  const mx = Math.max(r, g, b), mn = Math.min(r, g, b), d = mx - mn; let h = 0, l = (mx + mn) / 2, sa = 0;
+  if (d) { sa = l > 0.5 ? d / (2 - mx - mn) : d / (mx + mn); h = (mx === r ? (g - b) / d + (g < b ? 6 : 0) : mx === g ? (b - r) / d + 2 : (r - g) / d + 4) / 6; }
+  sa = clamp(sa * k, 0, 1); if (l > 0.60) l = 0.60 + (l - 0.60) / (1 + (k - 1) * 2.2); // keep pale colours from staying washed out
+  const q = l < 0.5 ? l * (1 + sa) : l + sa - l * sa, pp = 2 * l - q;
+  const hue = t => { t = mod(t, 1); return t < 1 / 6 ? pp + (q - pp) * 6 * t : t < 0.5 ? q : t < 2 / 3 ? pp + (q - pp) * (2 / 3 - t) * 6 : pp; };
+  const out = d ? '#' + [hue(h + 1 / 3), hue(h), hue(h - 1 / 3)].map(x => Math.round(clamp(x, 0, 1) * 255).toString(16).padStart(2, '0')).join('') : c;
+  _boost.set(key, out); if (_boost.size > 4000) _boost.clear(); return out;
+}
 // colour a feature is drawn with: its own colour, or its type's colour when "colour by type" is on
-const featColor = f => (typeof state !== 'undefined' && state.settings.colorMode === 'type') ? defaultColor(f.type) : (f.color || defaultColor(f.type));
+const featColor = f => { const S = typeof state !== 'undefined' ? state.settings : null; const base = S && S.colorMode === 'type' ? defaultColor(f.type) : (f.color || defaultColor(f.type)); return S ? boostColor(base, S.satBoost) : base; };
 function luminance(hex) {
   const c = toHex(hex); if (!c) return 0.8;
   const r = parseInt(c.slice(1, 3), 16) / 255, g = parseInt(c.slice(3, 5), 16) / 255, b = parseInt(c.slice(5, 7), 16) / 255;
@@ -1779,7 +1840,7 @@ let THEME = {};
 function isDark() { const t = document.documentElement.dataset.theme; return t ? t === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches; }
 function readTheme() {
   const cs = getComputedStyle(document.documentElement); const g = k => cs.getPropertyValue(k).trim();
-  THEME = { bg: g('--surface'), ink: g('--ink'), ink2: g('--ink2'), muted: g('--muted'), faint: g('--faint'), line: g('--line'), line2: g('--line2'), accent: g('--accent'), accentInk: g('--accent-ink'), sel: g('--sel'), selStrong: g('--sel-strong'), hit: g('--hit'), enz: g('--enz'), primer: g('--primer'), orf: g('--orf'), comment: g('--comment'), read: g('--read') || '#5b86c9', surface2: g('--surface2'), surface3: g('--surface3'), bad: g('--bad'), good: g('--good'), font: g('--font'), mono: g('--mono'), dark: isDark() };
+  THEME = { bg: g('--surface'), ink: g('--ink'), ink2: g('--ink2'), muted: g('--muted'), faint: g('--faint'), line: g('--line'), line2: g('--line2'), accent: g('--accent'), accentInk: g('--accent-ink'), sel: g('--sel'), selStrong: g('--sel-strong'), selLine: g('--sel-line'), hit: g('--hit'), enz: g('--enz'), primer: g('--primer'), orf: g('--orf'), comment: g('--comment'), read: g('--read') || '#5b86c9', surface2: g('--surface2'), surface3: g('--surface3'), bad: g('--bad'), good: g('--good'), font: g('--font'), mono: g('--mono'), dark: isDark() };
 }
 const LIGHT_EXPORT_THEME = { bg: '#ffffff', ink: '#1e2834', ink2: '#3d4a5a', muted: '#6b788a', faint: '#9aa5b4', line: '#dbe1e9', line2: '#c9d2dd', surface3: '#eaeef4', enz: '#5d6c82', primer: '#4e9a74', orf: '#b49a6a', comment: '#c07f3a', accent: '#5a7db5', read: '#5b86c9', dark: false };
 const _mctx = document.createElement('canvas').getContext('2d');
@@ -1791,10 +1852,10 @@ function shade(hex, f) { // f<0 darken, f>0 lighten
   if (f < 0) { r *= 1 + f; g *= 1 + f; b *= 1 + f; } else { r += (255 - r) * f; g += (255 - g) * f; b += (255 - b) * f; }
   return '#' + [r, g, b].map(x => Math.round(clamp(x, 0, 255)).toString(16).padStart(2, '0')).join('');
 }
-function featStroke(color) { // outline that keeps pale features visible on a light background
+function featStroke(color) { // outline that keeps every feature crisp against the background
   const L = luminance(color);
-  if (L > 0.78) return THEME.dark ? { c: shade(color, -0.45), w: 1.1 } : { c: 'rgba(45,58,76,0.62)', w: 1.25 };
-  return { c: shade(color, -0.32), w: 0.9 };
+  if (L > 0.78) return THEME.dark ? { c: shade(color, -0.5), w: 1.2 } : { c: 'rgba(40,52,70,0.72)', w: 1.35 };
+  return { c: shade(color, -0.42), w: 1.1 };
 }
 const THICK_BY_TYPE = { CDS: 1, gene: 1, rep_origin: 1, mobile_element: 0.9, misc_RNA: 0.85, oriT: 0.85, promoter: 0.78, terminator: 0.78, 'protein tag': 0.8, sig_peptide: 0.8, regulatory: 0.7, misc_feature: 0.7, RBS: 0.66, protein_bind: 0.66, repeat_region: 0.6, primer_bind: 0.55, other: 0.75 };
 const thickF = f => state.settings.thickByType ? (THICK_BY_TYPE[schemeKey(f.type)] ?? 0.75) : 1;
@@ -1884,12 +1945,12 @@ function renderMap() {
   readTheme();
   const W = svg.clientWidth || 600, H = svg.clientHeight || 500;
   svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.setAttribute('width', W); svg.setAttribute('height', H);
-  const v = mapView(doc); const mini = state.view === 'focus';
-  svg.innerHTML = v.mapType === 'circular' ? circularSVG(doc, W, H, mini ? { ...v, zoom: 1, panX: 0, panY: 0 } : v, { mini }) : linearSVG(doc, W, H, v, { mini, full: mini });
+  const v = mapView(doc);
+  svg.innerHTML = v.mapType === 'circular' ? circularSVG(doc, W, H, v) : linearSVG(doc, W, H, v);
   $('#rotateBox').hidden = v.mapType !== 'circular';
   $('#rotate').value = v.rot || 0;
   $$('#mapSeg button').forEach(b => { b.classList.toggle('on', b.dataset.map === v.mapType); if (b.dataset.map === 'circular') { b.disabled = !doc.circular; b.title = doc.circular ? 'Circular map' : 'Linear sequences are drawn as a linear map. Use Edit → Switch circular / linear to change the topology.'; } });
-  updateMapNote(doc); applyMapHL();
+  updateMapNote(doc); applyMapHL(); updateZoomBar(doc); scheduleMiniRender();
   if ($('#mapHint')) $('#mapHint').textContent = v.mapType === 'circular' ? 'Scroll to zoom · drag the ring to select · drag elsewhere to move · Shift+scroll to rotate' : 'Scroll to zoom · drag the ruler to select · drag elsewhere to move left or right';
 }
 
@@ -1926,7 +1987,7 @@ function updateMapNote(doc) {
 /* ---------------- circular ---------------- */
 function circularSVG(doc, W, H, v, opts = {}) {
   const S = state.settings, n = doc.seq.length, it = collectMapItems(doc);
-  const fz = S.mapFont, T = S.featThick * clamp(Math.pow(v.zoom, 0.22), 1, 1.6), GAP = Math.max(3, T * 0.22);
+  const fz = S.mapFont; let T = S.featThick * clamp(Math.pow(v.zoom, 0.22), 1, 1.6), GAP = Math.max(3, T * 0.22);
   // the circle is centred in the space right of the show/hide icons, and kept small enough to leave room for labels
   const mini = !!opts.mini, lx = opts.export || mini ? 6 : 68, ox = (lx - 6) / 2;
   const cx = W / 2 + ox + v.panX, cy = H / 2 + v.panY;
@@ -1938,15 +1999,19 @@ function circularSVG(doc, W, H, v, opts = {}) {
   const P = (r, a) => { const [x, y] = pt(r, a); return `${x.toFixed(2)},${y.toFixed(2)}`; };
   const out = [];
   out.push(`<rect x="0" y="0" width="${W}" height="${H}" fill="${opts.white ? '#ffffff' : THEME.bg}" data-kind="bg"/>`);
+  // the small map: features, coverage and the visible part only, everything scaled to its size
+  if (mini) { Object.assign(it, { prim: [], reads: [], orfs: [], enz: [], comments: [] }); R0 = Math.max(12, Math.min(W, H) / 2 - 8 - (it.cov ? 7 : 0)); }
+  const minF = mini ? 2 : S.minFeat;
   // visual minimum size for small features (in bp at the backbone radius)
-  const minBp = S.minFeat / (2 * Math.PI * Math.max(R0, 1)) * n;
+  const minBp = minF / (2 * Math.PI * Math.max(R0, 1)) * n;
   const widened = it.feats.map(f => f.len >= minBp ? f : { start: mod(f.start - (minBp - f.len) / 2, n), len: minBp });
   const featLanes = laneAssign(widened, n); const nLanes = Math.max(1, ...featLanes.map(l => l + 1));
+  if (mini) { T = clamp(Math.min(R0 * 0.11, R0 * 0.42 / nLanes), 1.5, 10); GAP = Math.max(0.5, T * 0.2); } // feature thickness follows the size of the small map
   { // leave about 100 px for labels beside the outermost ring (primers, coverage and reads add rings outside the features)
     const nP0 = it.prim.length ? Math.max(...laneAssign(it.prim.map(x => x.site), n)) + 1 : 0, nR0 = it.reads.length ? Math.max(...laneAssign(it.reads.map(x => traceSpan(x.a)), n)) + 1 : 0;
     const extra = (off ? 6 + nLanes * (T + GAP) : T / 2) + (it.cov ? 9 : 0) + (nP0 ? 8 + nP0 * 8 : 4) + (nR0 ? 4 + nR0 * 9 : 0) + 12;
     // beside the circle labels need ~110 px; above and below they sit side by side and need only ~2 lines
-    if (mini) { R0 = Math.max(12, Math.min(W, H) / 2 - extra - 6); limited = true; } else {
+    if (mini) { if (off) R0 = Math.max(12, R0 - 6 - nLanes * (T + GAP)); limited = true; } else {
     const top = opts.export ? 14 : 50, fitW = (W - lx - 6) / 2 - extra - clamp(W * 0.14, 64, 110), fitH = (H - top - 22) / 2 - extra - 34;
     const fit = Math.min(fitW, fitH, W * 0.36, H * 0.42);
     R0 = Math.max(fit, Math.min(W, H) * 0.2) * v.zoom; limited = true; }
@@ -1959,12 +2024,15 @@ function circularSVG(doc, W, H, v, opts = {}) {
   const orfLanes = laneAssign(it.orfs, n); const nOrf = it.orfs.length ? Math.max(...orfLanes) + 1 : 0;
   const heatW = S.heatStrip && !mini ? 8 : 0, heatR = innerFeat - 5; // density of unique cutters: a thin ring inside the features
   const orfR = L => innerFeat - 8 - heatW - L * 6;
-  const tickR = (nOrf ? orfR(nOrf - 1) : innerFeat - heatW) - 6;
-  const widen = (a0, a1, r) => { const need = S.minFeat / Math.max(r, 1); if (a1 - a0 >= need) return [a0, a1]; const m = (a0 + a1) / 2; return [m - need / 2, m + need / 2]; };
+  // zoomed in far enough: the bases themselves are written inside the backbone, as in the sequence view
+  const perBase = 2 * Math.PI * R / n, showSeq = !mini && !opts.export && perBase >= 7 && n <= 60000;
+  const bfz = showSeq ? Math.min(15, perBase * 0.88) : 0, seqBand = showSeq ? bfz * 2.3 + 8 : 0;
+  const tickR = (nOrf ? orfR(nOrf - 1) : innerFeat - heatW) - 6 - seqBand;
+  const widen = (a0, a1, r) => { const need = minF / Math.max(r, 1); if (a1 - a0 >= need) return [a0, a1]; const m = (a0 + a1) / 2; return [m - need / 2, m + need / 2]; };
   // primer lanes (outside the backbone)
   const pLanes = laneAssign(it.prim.map(x => x.site), n);
   const nP = it.prim.length ? Math.max(...pLanes) + 1 : 0;
-  const covW = it.cov ? 9 : 0, covR = featOut + 5.5; // coverage ring just outside the features
+  const covW = it.cov ? (mini ? 6 : 9) : 0, covR = featOut + (mini ? 3.5 : 5.5); // coverage ring just outside the features
   const primR = L => featOut + covW + 8 + L * 8;
   const rLanes = laneAssign(it.reads.map(x => traceSpan(x.a)), n); const nR = it.reads.length ? Math.max(...rLanes) + 1 : 0;
   const primOut = featOut + covW + (nP ? 8 + nP * 8 : 4);
@@ -1982,7 +2050,7 @@ function circularSVG(doc, W, H, v, opts = {}) {
   if (sel && sel.len > 0) {
     const a0 = ang(sel.start), a1 = ang(sel.start + sel.len); const big = sel.len / n > 0.5 ? 1 : 0; const r1 = Math.max(4, tickR - 18), r2 = outerR + 4;
     if (sel.len >= n) out.push(`<circle cx="${cx}" cy="${cy}" r="${(r1 + r2) / 2}" fill="none" stroke="${THEME.sel}" stroke-width="${r2 - r1}"/>`);
-    else out.push(`<path d="M${P(r1, a0)} L${P(r2, a0)} A${r2},${r2} 0 ${big} 1 ${P(r2, a1)} L${P(r1, a1)} A${r1},${r1} 0 ${big} 0 ${P(r1, a0)} Z" fill="${THEME.sel}"/>`);
+    else out.push(`<path d="M${P(r1, a0)} L${P(r2, a0)} A${r2},${r2} 0 ${big} 1 ${P(r2, a1)} L${P(r1, a1)} A${r1},${r1} 0 ${big} 0 ${P(r1, a0)} Z" fill="${THEME.sel}" stroke="${THEME.selLine}" stroke-width="1.3" stroke-opacity=".9"/>`);
   }
   // search hits
   const hitR = featOut + 3;
@@ -1994,13 +2062,13 @@ function circularSVG(doc, W, H, v, opts = {}) {
   const leaderSlot = out.length; out.push(''); // label leader lines go here, under features, primers and reads
   // coverage ring: green both strands, amber one strand, red low quality only, thin grey not covered
   if (it.cov) it.cov.segs.forEach((g, i) => {
-    const col = covColor(g.cls), w = g.cls === COV.NONE ? 1.4 : 4.5, attrs = `data-kind="coverage" data-id="${i}" style="cursor:pointer"`;
+    const col = covColor(g.cls), w = g.cls === COV.NONE ? 1.4 : mini ? 3 : 4.5, attrs = `data-kind="coverage" data-id="${i}" style="cursor:pointer"`;
     if (g.len >= n) out.push(`<circle cx="${cx}" cy="${cy}" r="${covR}" fill="none" stroke="${col}" stroke-width="${w}" ${attrs}/>`);
     else { const a0 = ang(g.start), a1 = ang(g.start + g.len); out.push(`<path d="M${P(covR, a0)} A${covR},${covR} 0 ${g.len / n > 0.5 ? 1 : 0} 1 ${P(covR, a1)}" fill="none" stroke="${col}" stroke-width="${w}" ${attrs}/>`); }
   });
   // ticks
   const tfz = Math.max(8.5, fz * 0.9);
-  const step = niceStep(n / clamp(2 * Math.PI * tickR / (tfz * 7.5), 4, 60));
+  const step = niceStep(n / clamp(2 * Math.PI * tickR / (tfz * 7.5), 4, 4000));
   for (let p = 0; p < n - step * 0.4 || p === 0; p += step) {
     const a = ang(p); const [x1, y1] = pt(tickR, a), [x2, y2] = pt(tickR - 5, a);
     if ((x1 < -20 || x1 > W + 20 || y1 < -20 || y1 > H + 20)) continue;
@@ -2025,6 +2093,20 @@ function circularSVG(doc, W, H, v, opts = {}) {
     const NB = clamp(Math.round(2 * Math.PI * heatR / 3), 90, 360), dens = cutDensity(doc, 0, n, NB); const mx = Math.max(0.6, ...dens); const col = heatCol();
     out.push(`<circle cx="${cx}" cy="${cy}" r="${heatR}" fill="none" stroke="${THEME.line}" stroke-width="5" data-kind="heat" data-id="heat"/>`);
     let dd = ''; dens.forEach((v, i) => { const o = Math.min(1, v / mx); if (o < 0.04) return; const a0 = ang(i * n / NB), a1 = ang((i + 1) * n / NB); out.push(`<path d="M${P(heatR, a0)} A${heatR},${heatR} 0 0 1 ${P(heatR, a1)}" stroke="${col}" stroke-opacity="${(0.12 + 0.88 * o).toFixed(2)}" stroke-width="5" fill="none" data-kind="heat" data-id="heat"/>`); });
+  }
+  if (showSeq) { // both strands, each letter turned to stand upright on the circle
+    const topR = innerFeat - heatW - 8 - bfz * 0.55, cmpR = topR - bfz * 1.12, mono = esc(THEME.mono);
+    let drawn = 0, tops = '', cmps = '';
+    for (let p = 0; p < n && drawn < 4000; p++) {
+      const a = ang(p + 0.5), [x, y] = pt(topR, a);
+      if (x < -16 || x > W + 16 || y < -16 || y > H + 16) continue;
+      const [x2, y2] = pt(cmpR, a), deg = (a * 180 / Math.PI + 90).toFixed(1), ch = doc.seq[p];
+      const cr = doc.colorRanges.length ? doc.colorRanges.find(c => inRange(p, c, n)) : null;
+      tops += `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" transform="rotate(${deg} ${x.toFixed(1)} ${y.toFixed(1)})" fill="${cr ? cr.color : THEME.ink}">${ch}</text>`;
+      cmps += `<text x="${x2.toFixed(1)}" y="${y2.toFixed(1)}" transform="rotate(${deg} ${x2.toFixed(1)} ${y2.toFixed(1)})" fill="${cr ? cr.color : THEME.faint}">${COMP[ch] || 'N'}</text>`;
+      drawn++;
+    }
+    if (drawn) out.push(`<g font-size="${bfz.toFixed(1)}" font-family="${esc(THEME.mono)}" text-anchor="middle" dominant-baseline="central" pointer-events="none">${tops}${cmps}</g>`);
   }
   // ORFs
   it.orfs.forEach((o, i) => { out.push(arcArrow(cx, cy, orfR(orfLanes[i]), 3, ang(o.start), ang(o.start + o.len), o.strand, n, o.len, THEME.orf, THEME.orf, 0.6, `data-kind="orf" data-i="${i}"`, 0.85)); });
@@ -2122,7 +2204,7 @@ function arcShine(cx, cy, r, T, a0, a1, strand, arrowPx) {
   const span = a1 - a0; let aw = strand ? Math.min(arrowPx / r, span * 0.5) : 0; let b0 = a0, b1 = a1; if (strand === 1) b1 -= aw; else if (strand === -1) b0 += aw;
   const m = 1.6 / r; b0 += m; b1 -= m; if (b1 <= b0) return '';
   const pt = (rr, a) => `${(cx + rr * Math.cos(a)).toFixed(2)},${(cy + rr * Math.sin(a)).toFixed(2)}`, big = b1 - b0 > Math.PI ? 1 : 0, rs = r + T * 0.24, rd = r - T * 0.3;
-  return `<path d="M${pt(rs, b0)} A${rs},${rs} 0 ${big} 1 ${pt(rs, b1)}" fill="none" stroke="#ffffff" stroke-opacity=".34" stroke-width="${(T * 0.26).toFixed(2)}" pointer-events="none"/><path d="M${pt(rd, b0)} A${rd},${rd} 0 ${big} 1 ${pt(rd, b1)}" fill="none" stroke="#000000" stroke-opacity=".07" stroke-width="${(T * 0.22).toFixed(2)}" pointer-events="none"/>`;
+  return `<path d="M${pt(rs, b0)} A${rs},${rs} 0 ${big} 1 ${pt(rs, b1)}" fill="none" stroke="#ffffff" stroke-opacity=".24" stroke-width="${(T * 0.26).toFixed(2)}" pointer-events="none"/><path d="M${pt(rd, b0)} A${rd},${rd} 0 ${big} 1 ${pt(rd, b1)}" fill="none" stroke="#000000" stroke-opacity=".07" stroke-width="${(T * 0.22).toFixed(2)}" pointer-events="none"/>`;
 }
 /* SnapGene-style label columns: labels are stacked in two columns that follow the map (right half, left half), in the
    order of their sites, so leader lines never cross. Each label may only move up or down as far as its straight leader
@@ -2244,7 +2326,7 @@ function placeLabelsFan(labels, g) {
 function linearSVG(doc, W, H, v, opts = {}) {
   const S = state.settings, n = doc.seq.length, it = collectMapItems(doc);
   if (opts.mini) Object.assign(it, { enz: [], comments: [], prim: [], orfs: [] }); // the small map in Focus view: features and reads only
-  const fz = S.mapFont, efz = fz * 0.95, FT = S.featThick, FG = Math.round(fz * 1.7 + 6);
+  const fz = S.mapFont, efz = fz * 0.95, FT = opts.mini ? clamp(H * 0.055, 4, 12) : S.featThick, FG = opts.mini ? 3 : Math.round(fz * 1.7 + 6);
   const [v0, v1] = opts.full ? [0, n] : v.lin; const span = v1 - v0;
   const mini = !!opts.mini, left = mini ? 10 : opts.export ? 44 : 72, right = mini ? 10 : 44, pw = W - left - right;
   const X = p => left + (p - v0) / span * pw;
@@ -2298,7 +2380,7 @@ function linearSVG(doc, W, H, v, opts = {}) {
   if (opts.export) out.push(`<text x="${left}" y="22" font-size="${fz * 1.35}" font-weight="650" fill="${THEME.ink}">${xmlEsc(doc.name)}<tspan font-weight="400" fill="${THEME.muted}" font-size="${fz * 1.05}">  ·  ${fmt(n)} bp · ${doc.circular ? 'circular' : 'linear'}</tspan></text>`);
   // selection and search hits
   const sel = doc._sel;
-  if (sel && sel.len > 0) for (const [a, b] of visParts(sel)) { const x0 = X(Math.max(a, v0)); out.push(`<rect x="${x0}" y="${yAxis - rulerH + 2}" width="${Math.max(1.5, X(Math.min(b, v1)) - x0)}" height="${yEnd - yAxis + rulerH}" fill="${THEME.sel}" rx="2"/>`); }
+  if (sel && sel.len > 0) for (const [a, b] of visParts(sel)) { const x0 = X(Math.max(a, v0)); out.push(`<rect x="${x0}" y="${yAxis - rulerH + 2}" width="${Math.max(1.5, X(Math.min(b, v1)) - x0)}" height="${yEnd - yAxis + rulerH}" fill="${THEME.sel}" stroke="${THEME.selLine}" stroke-width="1.2" stroke-opacity=".85" rx="2"/>`); }
   (doc._hits || []).slice(0, 500).forEach(h => visParts(h).forEach(([a, b]) => { const [x0, x1] = xs(a, b); out.push(`<rect x="${x0}" y="${yAxis - 4}" width="${x1 - x0}" height="${axisH + 8}" fill="${THEME.hit}" rx="2"/>`); }));
   // ruler and backbone
   const ax0 = circ ? X(v0) : X(Math.max(0, v0)), ax1 = circ ? X(v1) : X(Math.min(n, v1));
@@ -2370,7 +2452,7 @@ function linearSVG(doc, W, H, v, opts = {}) {
       else if (f.strand === -1 && realEnd) d = `M${x1},${yt} L${x0 + tip},${yt} L${x0},${y + FT / 2} L${x0 + tip},${yb} L${x1},${yb}Z`;
       else d = `M${x0},${yt} H${x1} V${yb} H${x0}Z`;
       out.push(`<path d="${d}" fill="${fc}" stroke="${st.c}" stroke-width="${st.w}" stroke-linejoin="round" data-kind="feature" data-id="${f.id}" style="cursor:pointer"/>`);
-      if (shaded() && fh >= 6) { const sx0 = (f.strand === -1 && realEnd ? x0 + tip : x0) + 1.5, sx1 = (f.strand === 1 && realEnd ? x1 - tip : x1) - 1.5; if (sx1 > sx0) out.push(`<rect x="${sx0.toFixed(1)}" y="${(yt + 1.3).toFixed(1)}" width="${(sx1 - sx0).toFixed(1)}" height="${(fh * 0.28).toFixed(1)}" rx="1" fill="#ffffff" fill-opacity=".32" pointer-events="none"/><rect x="${sx0.toFixed(1)}" y="${(yb - fh * 0.22 - 0.8).toFixed(1)}" width="${(sx1 - sx0).toFixed(1)}" height="${(fh * 0.22).toFixed(1)}" fill="#000000" fill-opacity=".06" pointer-events="none"/>`); }
+      if (shaded() && fh >= 6) { const sx0 = (f.strand === -1 && realEnd ? x0 + tip : x0) + 1.5, sx1 = (f.strand === 1 && realEnd ? x1 - tip : x1) - 1.5; if (sx1 > sx0) out.push(`<rect x="${sx0.toFixed(1)}" y="${(yt + 1.3).toFixed(1)}" width="${(sx1 - sx0).toFixed(1)}" height="${(fh * 0.28).toFixed(1)}" rx="1" fill="#ffffff" fill-opacity=".22" pointer-events="none"/><rect x="${sx0.toFixed(1)}" y="${(yb - fh * 0.22 - 0.8).toFixed(1)}" width="${(sx1 - sx0).toFixed(1)}" height="${(fh * 0.22).toFixed(1)}" fill="#000000" fill-opacity=".06" pointer-events="none"/>`); }
       const inTxt = insideLabel(f.name, w - (realEnd && f.strand ? tip : 0), Math.min(isz, fh - 3));
       const cxl = (x0 + x1) / 2 + (realEnd ? (f.strand === 1 ? -tip / 2 : f.strand === -1 ? tip / 2 : 0) : 0);
       if (inTxt) out.push(`<text x="${cxl}" y="${y + FT / 2}" font-size="${Math.min(isz, fh - 3)}" font-weight="600" fill="${textOn(fc)}" text-anchor="middle" dominant-baseline="central" pointer-events="none">${xmlEsc(inTxt)}</text>`);
@@ -2435,9 +2517,8 @@ function initMapEvents() {
     const doc = activeDoc(); if (!doc || !MAPGEO) return; e.preventDefault(); if (MAPGEO.mini) return; const v = mapView(doc); const g = MAPGEO;
     if (v.mapType === 'circular') {
       if (e.shiftKey) { v.rot = mod((v.rot || 0) + Math.sign(e.deltaY || e.deltaX) * 4, 360); renderMap(); return; }
-      const f = Math.exp(-e.deltaY * 0.0015); const nz = clamp(v.zoom * f, 0.4, 60);
-      const rc = svg.getBoundingClientRect(); const mx = e.clientX - rc.left - rc.width / 2 - (g.ox || 0), my = e.clientY - rc.top - rc.height / 2;
-      v.panX = mx - (mx - v.panX) * (nz / v.zoom); v.panY = my - (my - v.panY) * (nz / v.zoom); v.zoom = nz;
+      const rc = svg.getBoundingClientRect();
+      mapZoom(Math.exp(-e.deltaY * 0.0015), { x: e.clientX - rc.left, y: e.clientY - rc.top }); return;
     } else {
       const n = doc.seq.length; const [a, b] = v.lin; const span = b - a;
       if (e.shiftKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) { const na = linClamp(doc, a + (e.deltaX || e.deltaY) / g.pw * span, span); v.lin = [na, na + span]; }
@@ -2499,7 +2580,7 @@ function initMapEvents() {
     if (d.mode === 'pan' && still) setSel(doc, { start: mapPos(e).pos, len: 0 }, 'map');
   });
   // the pointer is captured by the map while pressed, so the double-click arrives on the map itself: look up what is under it
-  svg.addEventListener('dblclick', e => { const doc = activeDoc(); const el = (document.elementFromPoint(e.clientX, e.clientY) || e.target).closest('[data-kind]'); if (!doc || !el) return; if (el.dataset.kind === 'overview') { fitMap(); return; } if (el.dataset.kind === 'feature') editFeatureDialog(doc, doc.features.find(f => f.id === el.dataset.id)); if (el.dataset.kind === 'primer') editPrimerDialog(doc, doc.primers.find(p => p.id === el.dataset.id)); if (el.dataset.kind === 'comment') editCommentDialog(doc, doc.comments.find(c => c.id === el.dataset.id)); if (el.dataset.kind === 'read') { const t = (doc.traces || []).find(x => x.id === el.dataset.id); if (t) openTraceViewer(doc, t); } });
+  svg.addEventListener('dblclick', e => { const doc = activeDoc(); const el = (document.elementFromPoint(e.clientX, e.clientY) || e.target).closest('[data-kind]'); if (!doc) return; if (!el || ['bg', 'gc', 'heat'].includes(el.dataset.kind) || el.dataset.kind === 'overview') { fitMap(); return; } /* empty space: back to the whole, centred map */ if (el.dataset.kind === 'feature') editFeatureDialog(doc, doc.features.find(f => f.id === el.dataset.id)); if (el.dataset.kind === 'primer') editPrimerDialog(doc, doc.primers.find(p => p.id === el.dataset.id)); if (el.dataset.kind === 'comment') editCommentDialog(doc, doc.comments.find(c => c.id === el.dataset.id)); if (el.dataset.kind === 'read') { const t = (doc.traces || []).find(x => x.id === el.dataset.id); if (t) openTraceViewer(doc, t); } });
   svg.addEventListener('pointerleave', () => { setMapHL(null); state.hoverPos = null; hideTip(); scheduleMapRender(); updateStatus(); });
   svg.addEventListener('contextmenu', e => { e.preventDefault(); const doc = activeDoc(); if (!doc || !MAPGEO) return; const el = e.target.closest('[data-kind]'); showContextMenu(e, doc, mapPos(e).pos, el); });
 }
@@ -2512,6 +2593,36 @@ function clickMapObject(doc, el) {
   else if (k === 'read') { const t = (doc.traces || []).find(x => x.id === id); if (t) { const a = alignTrace(doc, t); if (!a.fail) setSel(doc, traceSpan(a), 'map'); state.focus.traces = t.id; if (state.settings.panel) switchTab('traces'); } }
   else if (k === 'coverage') { const sum = traceSummary(doc); const g = id === 'sum' ? null : sum.segs[+id]; if (g) setSel(doc, { start: g.start, len: g.len }, 'map'); if (state.settings.panel) switchTab('traces'); }
   else if (k === 'orf') { const o = findORFs(doc, state.settings.orfMin)[+el.dataset.i]; if (o) setSel(doc, { start: o.start, len: o.len }, 'map'); }
+}
+/* ---------------- zoom ---------------- */
+const MAXZ = 1500; // far enough in that the bases themselves are readable on a circular map
+function mapZoom(f, at) { // f > 1 zooms in; at: {x,y} in the map, or the middle of the view
+  const d = activeDoc(); if (!d || !MAPGEO) return; const v = mapView(d), n = d.seq.length;
+  if (v.mapType === 'circular') {
+    // Zooming keeps one point of the map under the same pixel. Once the circle is larger than the window that point
+    // must be on the ring itself, otherwise the ring would slide out of view and leave an empty screen.
+    const svg = $('#mapSvg'), W = svg.clientWidth, H = svg.clientHeight, g = MAPGEO, R = Math.max(1, g.R);
+    let ax, ay;
+    if (!at && R + 30 < Math.min(W, H) / 2) { ax = g.cx; ay = g.cy; } // the whole circle is in view: keep it centred
+    else {
+      const px = at ? at.x : W / 2, py = at ? at.y : H / 2, dx = px - g.cx, dy = py - g.cy, dist = Math.hypot(dx, dy) || 1;
+      if (Math.abs(dist - R) > Math.min(W, H) * 0.3) { ax = g.cx + R * dx / dist; ay = g.cy + R * dy / dist; } // far from the ring: hold the nearest point of it
+      else { ax = px; ay = py; }
+    }
+    const nz = clamp(v.zoom * f, 0.4, MAXZ), mx = ax - W / 2 - (g.ox || 0), my = ay - H / 2;
+    v.panX = mx - (mx - v.panX) * (nz / v.zoom); v.panY = my - (my - v.panY) * (nz / v.zoom); v.zoom = nz;
+  } else {
+    const [a, b] = v.lin, span = b - a, p = at && MAPGEO.pw ? MAPGEO.v0 + (at.x - MAPGEO.left) / MAPGEO.pw * span : (a + b) / 2;
+    const ns = clamp(span / f, Math.min(12, n), n); const na = linClamp(d, p - (p - a) * (ns / span), ns); v.lin = [na, na + ns];
+  }
+  renderMap();
+}
+function zoomPct(d) { const v = mapView(d); return v.mapType === 'circular' ? v.zoom : d.seq.length / Math.max(1e-9, v.lin[1] - v.lin[0]); }
+function updateZoomBar(doc) {
+  const el = $('#zoomLvl'); if (!el) return; const z = zoomPct(doc);
+  el.textContent = z >= 9.95 ? Math.round(z) + '×' : z >= 1 ? z.toFixed(1).replace(/\.0$/, '') + '×' : Math.round(z * 100) + '%';
+  const v = mapView(doc); $('#btnZoomIn').disabled = v.mapType === 'circular' ? v.zoom >= MAXZ * 0.999 : v.lin[1] - v.lin[0] <= Math.min(12, doc.seq.length) + 1e-6;
+  $('#btnZoomOut').disabled = v.mapType === 'circular' ? v.zoom <= 0.41 : v.lin[1] - v.lin[0] >= doc.seq.length - 1e-6;
 }
 let _mapRaf = 0; function scheduleMapRender() { if (_mapRaf) return; _mapRaf = requestAnimationFrame(() => { _mapRaf = 0; renderMap(); }); }
 function fitMap() { const d = activeDoc(); if (!d) return; Object.assign(mapView(d), { zoom: 1, panX: 0, panY: 0, lin: [0, d.seq.length] }); renderMap(); }
@@ -2549,14 +2660,15 @@ function svIndexAt(x, round) { // index within row from x (round => boundary)
   return clamp(j, 0, round ? SV.bpr : SV.bpr - 1);
 }
 function svSizes(f) { // track heights scale with the sequence font size
-  Object.assign(SVH, { pad: 6, strand: Math.round(f * 1.34), feat: Math.round(f * 1.1) + 7, trans: Math.round(f * 1.18) + 2, prim: Math.round(f * 0.8) + 6, enz: Math.round(f * 0.82) + 3, bottom: Math.round(f * 0.85) });
+  Object.assign(SVH, { pad: 6 + Math.round((state.settings.lineGap || 0) / 2), strand: Math.round(f * 1.34), feat: Math.round(f * 1.1) + 7, trans: Math.round(f * 1.18) + 2, prim: Math.round(f * 0.8) + 6, enz: Math.round(f * 0.82) + 3, bottom: Math.round(f * 0.85) });
   SV.lab = Math.max(9, Math.round(f * 0.8 * 10) / 10);
+  SVH.bottom += Math.round((state.settings.lineGap || 0) / 2); // extra space between rows, from Settings
 }
 
 function svLayout(doc, force) {
   const sc = $('#seqScroll'); const W = sc.clientWidth; if (!W) return;
   const S = state.settings, show = S.show;
-  const key = [doc.id, doc._ver, W, S.comp, S.trans, S.frames, S.group, show.features, show.primers, show.enzymes, show.comments, S.enzFilter, (doc.enzymes || []).join(','), S.aa3, S.minAnneal, S.seqFont, S.bpr, isDark(), show.traces, S.chrom, S.traceH, traceSig(doc)].join('|');
+  const key = [doc.id, doc._ver, W, sc.clientHeight, S.comp, S.trans, S.frames, S.group, show.features, show.primers, show.enzymes, show.comments, S.enzFilter, (doc.enzymes || []).join(','), S.aa3, S.minAnneal, S.seqFont, S.bpr, S.lineGap, doc.circular, isDark(), show.traces, S.chrom, S.traceH, traceSig(doc)].join('|');
   if (!force && key === SV.key) return; SV.key = key;
   readTheme();
   SV.font = S.seqFont || 13; svSizes(SV.font);
@@ -2611,8 +2723,19 @@ function svLayout(doc, force) {
   }
   offs[nRows] = y;
   Object.assign(SV, { rows, offs, total: y, nRows, docId: doc.id });
-  $('#seqSpacer').style.height = Math.max(0, y - sc.clientHeight) + 'px';
+  // A circular sequence has no first or last row: the view scrolls on and on in both directions. The rows are drawn
+  // wrapped around, and a tall empty margin above and below lets the scrollbar run; svRecenter() silently moves the
+  // scroll position back by one sequence height whenever it leaves that range, which looks seamless because the
+  // content repeats exactly.
+  const prevTop = SV.docId === doc.id ? svTop() : null;
+  SV.wrap = !!doc.circular && y > sc.clientHeight;
+  SV.pad = SV.wrap ? Math.max(sc.clientHeight * 2, Math.min(y, 60000)) : 0;
+  $('#seqSpacer').style.height = Math.max(0, y + 2 * SV.pad - sc.clientHeight) + 'px';
+  if (prevTop != null) svSetTop(prevTop); else if (SV.pad) sc.scrollTop = SV.pad;
 }
+const svTop = () => $('#seqScroll').scrollTop - (SV.pad || 0);                       // scroll position in sequence coordinates
+function svSetTop(v) { const sc = $('#seqScroll'); sc.scrollTop = (SV.wrap ? mod(v, SV.total || 1) : clamp(v, 0, Math.max(0, SV.total - sc.clientHeight))) + (SV.pad || 0); }
+function svRecenter() { if (!SV.wrap || !SV.total) return; const sc = $('#seqScroll'); const t = sc.scrollTop - SV.pad; if (t < 0) sc.scrollTop += SV.total; else if (t >= SV.total) sc.scrollTop -= SV.total; }
 function svRowAt(y) { let lo = 0, hi = SV.nRows - 1; while (lo < hi) { const m = (lo + hi + 1) >> 1; if (SV.offs[m] <= y) lo = m; else hi = m - 1; } return lo; }
 
 function renderSeq() {
@@ -2624,8 +2747,13 @@ function renderSeq() {
   const ctx = cv.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   ctx.fillStyle = THEME.bg; ctx.fillRect(0, 0, W, H);
   if (!doc.seq.length) { ctx.fillStyle = THEME.faint; ctx.font = `${SV.font}px ${THEME.font}`; ctx.fillText('Empty sequence. Click here and type or paste bases.', 20, 30); if (doc._sel) { ctx.fillStyle = THEME.accent; ctx.fillRect(20, 40, 2, 16); } return; }
-  const top = sc.scrollTop; const r0 = svRowAt(top), r1 = svRowAt(top + H);
-  for (let r = r0; r <= r1; r++) drawRow(ctx, doc, r, SV.offs[r] - top, W);
+  const top = SV.wrap ? mod(svTop(), SV.total) : clamp(svTop(), 0, SV.total);
+  let r = svRowAt(top), dy = SV.offs[r] - top;
+  for (let k = 0; k < SV.nRows && dy < H; k++) { drawRow(ctx, doc, r, dy, W); dy += SV.rows[r].h; if (++r >= SV.nRows) { if (!SV.wrap) break; r = 0; } }
+  if (SV.wrap) { // a thin line where the sequence starts again
+    const t0 = mod(-top, SV.total); if (t0 < H) { ctx.strokeStyle = THEME.accent; ctx.globalAlpha = .5; ctx.setLineDash([5, 4]); ctx.beginPath(); ctx.moveTo(0, t0 + .5); ctx.lineTo(W, t0 + .5); ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1;
+      ctx.font = `${SV.lab}px ${THEME.font}`; ctx.fillStyle = THEME.accent; ctx.textAlign = 'left'; ctx.textBaseline = 'bottom'; ctx.fillText('origin · base 1', SV.left, t0 - 1); ctx.textBaseline = 'alphabetic'; }
+  }
 }
 function drawRow(ctx, doc, r, y, W) {
   const row = SV.rows[r]; const S = state.settings; const n = doc.seq.length; const bpr = SV.bpr; const base = r * bpr; const end = Math.min(n, base + bpr); const cnt = end - base;
@@ -2635,7 +2763,9 @@ function drawRow(ctx, doc, r, y, W) {
   // backgrounds: search hits, selection, hovered base
   for (const h of doc._hits || []) for (const [a, b] of overlap(h)) { ctx.fillStyle = h.cur ? THEME.selStrong : THEME.hit; ctx.fillRect(svX(a), yT, svXEnd(b) - svX(a), strandH); }
   const sel = doc._sel;
-  if (sel && sel.len > 0) for (const [a, b] of overlap(sel)) { ctx.fillStyle = THEME.sel; ctx.fillRect(svX(a) - 1, yT - 1, svXEnd(b) - svX(a) + 2, strandH + 2); }
+  if (sel && sel.len > 0) for (const [a, b] of overlap(sel)) { // filled band plus an outline, so the selection stands out in both themes
+    const x0 = svX(a) - 1, w = svXEnd(b) - svX(a) + 2; ctx.fillStyle = THEME.sel; ctx.fillRect(x0, yT - 1, w, strandH + 2);
+    ctx.strokeStyle = THEME.selLine || THEME.accent; ctx.lineWidth = 1.4; ctx.strokeRect(Math.round(x0) + .5, Math.round(yT) - 1.5, Math.round(w) - 1, Math.round(strandH) + 3); }
   if (state.hoverPos != null && state.hoverSrc === 'seq' && state.hoverPos >= base && state.hoverPos < end) { ctx.fillStyle = THEME.dark ? 'rgba(255,255,255,0.08)' : 'rgba(30,40,52,0.08)'; const j = state.hoverPos - base; ctx.fillRect(svX(j), yT, SV.cw, strandH); }
   // position numbers at both ends of the row
   ctx.font = `${Math.max(10, f * 0.85)}px ${THEME.font}`; ctx.fillStyle = THEME.faint; ctx.textBaseline = 'middle';
@@ -2808,8 +2938,9 @@ function drawReadTrack(ctx, doc, it, y, base, cnt) {
 
 /* hit testing */
 function svHit(clientX, clientY) {
-  const sc = $('#seqScroll'); const rc = sc.getBoundingClientRect(); const x = clientX - rc.left, y = clientY - rc.top + sc.scrollTop;
+  const sc = $('#seqScroll'); const rc = sc.getBoundingClientRect(); const x = clientX - rc.left; let y = clientY - rc.top + svTop();
   if (!SV.nRows) return null;
+  y = SV.wrap ? mod(y, SV.total) : clamp(y, 0, Math.max(0, SV.total - 1));
   const r = svRowAt(y); const row = SV.rows[r]; const yr = y - SV.offs[r]; const base = r * SV.bpr; const vy = clientY - rc.top;
   const res = { r, base, x, y: yr, pos: Math.min(activeDoc().seq.length, base + svIndexAt(x, true)), idx: Math.min(activeDoc().seq.length - 1, base + svIndexAt(x, false)) };
   const inBox = it => it._box && x >= it._box[0] && x <= it._box[2] && vy >= it._box[1] && vy <= it._box[3];
@@ -2824,19 +2955,25 @@ function svHit(clientX, clientY) {
   }
   return { ...res, kind: 'strand' };
 }
-function seqVisibleRange(doc) { // bases shown in the sequence view right now (for the small map in Focus view)
-  const sc = $('#seqScroll'); if (!SV.nRows || SV.docId !== doc.id || !sc.clientHeight) return null; const n = doc.seq.length;
-  const r0 = svRowAt(sc.scrollTop), r1 = svRowAt(sc.scrollTop + sc.clientHeight - 1); const a = r0 * SV.bpr, b = Math.min(n, (r1 + 1) * SV.bpr); return b > a ? { start: a, len: b - a } : null;
+function seqVisibleRange(doc) { // bases shown in the sequence view right now (shaded on the small map)
+  const sc = $('#seqScroll'); if (!SV.nRows || SV.docId !== doc.id || !sc.clientHeight || $('#seqPane').offsetParent === null) return null; const n = doc.seq.length;
+  const t = SV.wrap ? mod(svTop(), SV.total) : clamp(svTop(), 0, SV.total);
+  const r0 = svRowAt(t); let rows = 1, y = SV.offs[r0] + SV.rows[r0].h - t;
+  while (y < sc.clientHeight && rows < SV.nRows) { y += SV.rows[(r0 + rows) % SV.nRows].h; rows++; }
+  const len = Math.min(n, rows * SV.bpr); return { start: mod(r0 * SV.bpr, n), len };
 }
 function scrollSeqTo(pos, center = true) {
-  const doc = activeDoc(); if (!doc) return; svLayout(doc); const sc = $('#seqScroll');
-  const r = Math.floor(clamp(pos, 0, doc.seq.length - 1) / SV.bpr); const y = SV.offs[r];
-  if (y < sc.scrollTop + 10 || y + SV.rows[r].h > sc.scrollTop + sc.clientHeight - 10) sc.scrollTop = center ? y - sc.clientHeight / 3 : y;
+  const doc = activeDoc(); if (!doc || !SV.nRows) return; svLayout(doc); const sc = $('#seqScroll');
+  const r = Math.floor(clamp(pos, 0, Math.max(0, doc.seq.length - 1)) / SV.bpr); const y = SV.offs[r], h = SV.rows[r].h;
+  const t = SV.wrap ? mod(svTop(), SV.total) : svTop();
+  const d = SV.wrap ? mod(y - t, SV.total) : y - t;
+  if (d >= 10 && d + h <= sc.clientHeight - 10) return; // already in view
+  svSetTop(center ? y - sc.clientHeight / 3 : y);
 }
 
 function initSeqEvents() {
   const sc = $('#seqScroll'); let drag = null;
-  sc.addEventListener('scroll', () => { requestAnimationFrame(renderSeq); if (state.view === 'focus') scheduleMapRender(); });
+  sc.addEventListener('scroll', () => { svRecenter(); requestAnimationFrame(renderSeq); scheduleMiniRender(); });
   sc.addEventListener('mousedown', e => {
     const doc = activeDoc(); if (!doc || e.button !== 0) return; sc.focus({ preventScroll: true });
     if (!doc.seq.length) { setSel(doc, { start: 0, len: 0 }, 'seq'); return; }
@@ -2978,7 +3115,8 @@ const LS = { get(k, d) { try { const v = localStorage.getItem(k); return v == nu
 const DEFAULT_SETTINGS = { show: { features: true, primers: true, enzymes: true, orfs: false, comments: true, traces: true }, comp: true, trans: true, frames: false, aa3: false, group: true, enzFilter: 'unique6', minAnneal: 15, orfMin: 100, tm: { ...TM_DEFAULTS }, lock: false, split: 0.5,
   theme: 'system', uiFont: 13, seqFont: 13, mapFont: 10.5, featThick: 18, minFeat: 8, enzPos: true, boldUnique: true, bpr: 0, panel: true,
   labelStyle: 'auto', colorScheme: 'soft', colorMode: 'file', customColors: {}, chrom: true, traceH: 46, trimQ: 'yellow', readLabels: 'hover', readMap: 'both', featPos: 'on',
-  labLayout: 'columns', featStyle: 'shaded', thickByType: false, gcRing: false, heatStrip: false, cbSafe: false, sideW: 360, miniMap: true };
+  labLayout: 'columns', featStyle: 'shaded', thickByType: false, gcRing: false, heatStrip: false, cbSafe: false, sideW: 360,
+  lineGap: 0, satBoost: 1.35, toolbarStyle: 'auto', miniMap: false, miniShape: 'circular', miniW: 280, miniH: 280, miniPos: null };
 const state = {
   docs: [], activeId: null, view: 'split', tab: 'features',
   settings: Object.assign(clone(DEFAULT_SETTINGS), LS.get('pmap.settings', {})),
@@ -3002,7 +3140,7 @@ function addDocs(docs, quiet) {
   docs.forEach(d => setTimeout(() => rememberDoc(d), 40)); // keep a copy for "Recent files"
   if (!quiet && docs.length) toast(docs.length === 1 ? `Opened ${docs[0].name} (${fmt(docs[0].seq.length)} bp)` : `Opened ${docs.length} sequences`);
 }
-function setActive(id) { const prev = activeDoc(); if (prev && prev.id !== id) saveLayout(prev); state.activeId = id; state.checked.features.clear(); state.checked.primers.clear(); restoreLayout(activeDoc()); SV.key = ''; renderAll(); $('#seqScroll').scrollTop = activeDoc()?._scroll || 0; }
+function setActive(id) { const prev = activeDoc(); if (prev && prev.id !== id) { prev._scroll = svTop(); saveLayout(prev); } state.activeId = id; state.checked.features.clear(); state.checked.primers.clear(); restoreLayout(activeDoc()); SV.key = ''; renderAll(); svSetTop(activeDoc()?._scroll || 0); renderSeq(); }
 async function closeDoc(id) {
   const d = state.docs.find(x => x.id === id); if (!d) return;
   if (d.dirty) { const ok = await confirmBox(`Close “${esc(d.name)}”? Unsaved changes will be lost (they are kept in the autosave until you close all files).`, 'Close file'); if (!ok) return; }
@@ -3017,7 +3155,7 @@ function renderTabs() {
     + (!activeDoc() && state.docs.length ? `<div class="doctab on hometab" title="Home screen: open, import or create a sequence"><span class="nm">New tab</span><button class="x" data-closehome="1" aria-label="Close the new tab">×</button></div>` : '')
     + (state.docs.length ? `<button class="newtab" id="btnNewTab" title="New tab: open, import or create a sequence" aria-label="New tab">+</button>` : '');
 }
-function openHomeTab() { if (activeDoc()) { state.prevActive = state.activeId; const d = activeDoc(); d._scroll = $('#seqScroll').scrollTop; saveLayout(d); } state.activeId = null; SV.key = ''; renderAll(); }
+function openHomeTab() { if (activeDoc()) { state.prevActive = state.activeId; const d = activeDoc(); d._scroll = svTop(); saveLayout(d); } state.activeId = null; SV.key = ''; renderAll(); }
 function closeHomeTab() { const d = state.docs.find(x => x.id === state.prevActive) || state.docs[state.docs.length - 1]; if (d) setActive(d.id); }
 function renderAll() {
   const doc = activeDoc();
@@ -3026,13 +3164,13 @@ function renderAll() {
   $('#welcome').hidden = !!doc; if (!doc) renderRecent();
   $('#main').classList.toggle('noside', !state.settings.panel);
   $('#btnPanel').setAttribute('aria-pressed', String(!!state.settings.panel));
-  $('#views').className = 'views v-' + state.view + (state.view === 'focus' && state.settings.miniMap === false ? ' nomini' : '');
+  $('#views').className = 'views v-' + state.view;
   $$('#viewSeg button').forEach(b => b.classList.toggle('on', b.dataset.view === state.view));
   $('#edgeL').hidden = !doc || state.view !== 'seq'; $('#edgeR').hidden = !doc || state.view !== 'map';
   document.documentElement.style.setProperty('--sidew', clamp(+state.settings.sideW || 360, 260, Math.max(280, innerWidth * 0.5)) + 'px');
   $('#optLock').checked = !!state.settings.lock;
   applySplit();
-  renderMap(); renderSeq(); renderSide(); updateStatus();
+  renderMap(); renderSeq(); renderSide(); updateStatus(); renderMini();
   $('#btnUndo').disabled = !doc || !doc._undo.length; $('#btnRedo').disabled = !doc || !doc._redo.length; $('#btnHist').disabled = !doc || !(doc._undo.length || doc._redo.length);
 }
 let _rafAll = 0;
@@ -3187,11 +3325,11 @@ function showContextMenu(e, doc, pos, el, h) {
   if (kind === 'enzyme') { const eid = el?.dataset.id || (h?.item ? h.item.enz + ':' + h.item.pos : ''); const nm = eid.split(':')[0]; const z = ENZ_BY_NAME[nm]; if (z) { const ticked = (doc.enzymes || []).includes(nm); items.push([`Select the ${nm} site`, () => { const [, p0] = eid.split(':'); setSel(doc, { start: +p0, len: z.site.length }, 'map'); }], [ticked ? `Untick ${nm}` : `Tick ${nm} for a digest`, () => { const st = new Set(doc.enzymes || []); ticked ? st.delete(nm) : st.add(nm); doc.enzymes = [...st]; doc.dirty = true; SV.key = ''; renderAll(); }], [`Show only ${nm} on the map`, () => { doc.enzymes = [nm]; state.settings.enzFilter = 'chosen'; state.settings.show.enzymes = true; saveSettings(); syncShowMenu(); SV.key = ''; renderAll(); }], [`Digest with ${nm}…`, () => { const st = new Set(doc.enzymes || []); st.add(nm); doc.enzymes = [...st]; if (!state.settings.panel) togglePanel(); switchTab('enzymes'); setTimeout(() => $('#eDigest')?.click(), 30); }], ['Copy recognition site', () => copyText(z.site, `Copied ${nm} site ${z.site}`)], '-'); } }
   if (kind === 'comment') { const c = doc.comments.find(x => x.id === (el?.dataset.id || h?.item?.id)); if (c) items.push(['Edit comment…', () => editCommentDialog(doc, c)], ['Delete comment', () => { pushUndo(doc, 'Delete comment'); doc.comments = doc.comments.filter(x => x !== c); afterEdit('Comment deleted'); }], '-'); }
   if (kind === 'read') { const t = (doc.traces || []).find(x => x.id === (el?.dataset.id || h?.item?.t?.id)); if (t) items.push(['Open trace viewer', () => openTraceViewer(doc, t)], ['Select the aligned region', () => { const a = alignTrace(doc, t); if (!a.fail) setSel(doc, traceSpan(a), 'map'); }], ['Show mutations and differences…', () => variantsDialog(doc)], ['Hide this read', () => { t.visible = false; SV.key = ''; renderAll(); scheduleAutosave(); }], ['Remove trace', () => removeTrace(doc, t)], '-'); }
-  if (has) items.push(['Add feature from selection…', () => editFeatureDialog(doc, null)], ['Add forward primer from selection', () => primerFromSel(doc, 1)], ['Add reverse primer from selection', () => primerFromSel(doc, -1)], ['Design primers for selection…', () => designPrimersDialog(doc)], '-', ['Copy', () => copySel(false)], ['Copy reverse complement', () => copySel(true)], ['Translate selection', () => showTranslation(doc, { ...sel, strand: 1, name: 'Selection' })], ['Find this sequence', () => { state.find.q = subseq(doc, sel.start, Math.min(sel.len, 500)); state.find.mode = 'dna'; switchTab('find'); runFind(); }], ['Color selected bases…', () => colorSelDialog(doc)], '-', ['Reverse-complement selection', () => menuAction('rcSel')], el ? ['Delete…', () => deleteDialog(doc)] : ['Delete selection', () => deleteSelection()]);
-  else items.push(['Paste here', () => { setSel(doc, { start: pos, len: 0 }, 'seq'); navigator.clipboard?.readText?.().then(pasteText).catch(() => toast('Press Ctrl+V to paste.')); }], ['Insert sequence here…', () => { setSel(doc, { start: pos, len: 0 }, 'seq'); menuAction('insertSeq'); }]);
-  items.push('-', ['Add comment here…', () => editCommentDialog(doc, null, Math.min(pos, doc.seq.length - 1))]);
+  if (has) items.push(['Add feature from selection…', () => editFeatureDialog(doc, null)], ['Add forward primer from selection', () => primerFromSel(doc, 1)], ['Add reverse primer from selection', () => primerFromSel(doc, -1)], ['Design primers for selection…', () => designPrimersDialog(doc)], '-', ['Copy', () => copySel(false), { key: 'Ctrl+C' }], ['Copy reverse complement', () => copySel(true)], ['Translate selection', () => showTranslation(doc, { ...sel, strand: 1, name: 'Selection' })], ['Find this sequence', () => { state.find.q = subseq(doc, sel.start, Math.min(sel.len, 500)); state.find.mode = 'dna'; switchTab('find'); runFind(); }, { key: 'Ctrl+F' }], ['Color selected bases…', () => colorSelDialog(doc)], '-', ['Reverse-complement selection', () => menuAction('rcSel')], el ? ['Delete…', () => deleteDialog(doc), { key: 'Del' }] : ['Delete selection', () => deleteSelection(), { key: 'Del' }]);
+  else items.push(['Paste here', () => { setSel(doc, { start: pos, len: 0 }, 'seq'); navigator.clipboard?.readText?.().then(pasteText).catch(() => toast('Press Ctrl+V to paste.')); }, { key: 'Ctrl+V' }], ['Insert sequence here…', () => { setSel(doc, { start: pos, len: 0 }, 'seq'); menuAction('insertSeq'); }]);
+  items.push('-', ['Add comment here…', () => editCommentDialog(doc, null, Math.min(pos, doc.seq.length - 1))], ['Go to position…', () => menuAction('gotoPos'), { key: 'Ctrl+G' }]);
   if (doc.circular) items.push(['Set origin here', () => { setSel(doc, { start: pos, len: 0 }, 'seq'); menuAction('setOrigin'); }]);
-  if (el) { const v = mapView(doc); items.push('-', ['Fit map (F)', fitMap]); if (doc.circular) items.push([v.mapType === 'circular' ? 'Show as linear map' : 'Show as circular map', () => { v.mapType = v.mapType === 'circular' ? 'linear' : 'circular'; renderMap(); }]); items.push(['Map style…', () => toggleStylePop(true)], ['Export or print the map…', exportDialog]); }
+  if (el) { const v = mapView(doc); items.push('-', ['Fit map', fitMap, { key: 'F' }], ['Zoom in', () => mapZoom(1.35, mapPos(e)), { key: '+' }], ['Zoom out', () => mapZoom(1 / 1.35, mapPos(e)), { key: '−' }]); if (doc.circular) items.push([v.mapType === 'circular' ? 'Show as linear map' : 'Show as circular map', () => { v.mapType = v.mapType === 'circular' ? 'linear' : 'circular'; renderMap(); }]); items.push(['Map style…', () => toggleStylePop(true)], [state.settings.miniMap ? 'Hide the small map' : 'Show the small map', () => toggleMini(), { key: 'Ctrl+M' }], ['Export or print the map…', exportDialog]); }
   openCtx(e, items);
 }
 function copyText(t, msg) { (navigator.clipboard?.writeText(t) || Promise.reject()).then(() => toast(msg || 'Copied'), () => { const ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); toast(msg || 'Copied'); } catch (e) { toast('Copy failed', true); } ta.remove(); }); }
@@ -3362,6 +3500,7 @@ function applySettings() { // theme, interface text size and menu state
   root.style.fontSize = clamp(+S.uiFont || 13, 10, 18) + 'px';
   if (S.theme === 'light' || S.theme === 'dark') root.dataset.theme = S.theme; else delete root.dataset.theme;
   if (S.cbSafe) root.dataset.cb = '1'; else delete root.dataset.cb;
+  document.body.dataset.tb = ['both', 'icons', 'labels'].includes(S.toolbarStyle) ? S.toolbarStyle : 'auto'; // toolbar: icons, labels or both
   syncShowMenu(); SV.key = '';
 }
 function togglePanel() { state.settings.panel = !state.settings.panel; saveSettings(); $('#main').classList.toggle('noside', !state.settings.panel); $('#btnPanel').setAttribute('aria-pressed', String(state.settings.panel)); SV.key = ''; renderViews(); if (state.settings.panel) renderSide(); }
@@ -3407,11 +3546,10 @@ function init() {
       if (state.activeId !== doc.id) setActive(doc.id); else renderTabs(); scheduleAutosave();
     });
   })();
-  $('#doctabs').addEventListener('click', e => { if (state._tabDragged) return; if (e.target.closest('#btnNewTab')) { openHomeTab(); return; } if (e.target.closest('[data-closehome]')) { e.stopPropagation(); closeHomeTab(); return; } const x = e.target.closest('[data-close]'); if (x) { e.stopPropagation(); closeDoc(x.dataset.close); return; } const t = e.target.closest('.doctab'); if (t && t.dataset.id) { const d = activeDoc(); if (d) d._scroll = $('#seqScroll').scrollTop; setActive(t.dataset.id); } });
+  $('#doctabs').addEventListener('click', e => { if (state._tabDragged) return; if (e.target.closest('#btnNewTab')) { openHomeTab(); return; } if (e.target.closest('[data-closehome]')) { e.stopPropagation(); closeHomeTab(); return; } const x = e.target.closest('[data-close]'); if (x) { e.stopPropagation(); closeDoc(x.dataset.close); return; } const t = e.target.closest('.doctab'); if (t && t.dataset.id) { const d = activeDoc(); if (d) d._scroll = svTop(); setActive(t.dataset.id); } });
   $('#doctabs').addEventListener('dblclick', e => { if (e.target.closest('.doctab:not(.hometab)')) menuAction('rename'); });
   $('#viewSeg').addEventListener('click', e => {
     const b = e.target.closest('button'); if (!b) return;
-    if (b.dataset.view === 'focus' && state.view === 'focus') { state.settings.miniMap = state.settings.miniMap === false; saveSettings(); } // Focus again: show or hide the small map
     state.view = b.dataset.view; SV.key = ''; renderAll();
     // bring the current selection (a dragged region or a clicked feature) into view in the sequence
     const d = activeDoc(); if (d && d._sel && state.view !== 'map') requestAnimationFrame(() => { scrollSeqTo(d._sel.start); renderSeq(); });
@@ -3453,6 +3591,9 @@ function init() {
       else if (k === 'f') { e.preventDefault(); $('#quickFind').focus(); $('#quickFind').select(); }
       else if (k === 'g') { e.preventDefault(); menuAction('gotoPos'); }
       else if (k === 'b') { e.preventDefault(); if (activeDoc()) togglePanel(); }
+      else if (k === 'm') { e.preventDefault(); if (activeDoc()) toggleMini(); }
+      else if (k === 'c' || k === 'x') { const d = activeDoc(); if (!d || !d._sel?.len) return; e.preventDefault(); copySel(false); if (k === 'x') { if (isLocked()) return lockedMsg(); deleteSelection(); } } // the sequence view handles its own copy and cut
+      else if (k === 'v') { const d = activeDoc(); if (!d) return; e.preventDefault(); navigator.clipboard?.readText?.().then(pasteText).catch(() => toast('Click in the sequence first, then press Ctrl+V.')); }
       else if (k === 'a' && !e.target.closest('#seqScroll')) { const d = activeDoc(); if (d) { e.preventDefault(); setSel(d, { start: 0, len: d.seq.length }, 'map'); toast(`Selected the whole sequence (${fmt(d.seq.length)} bp)`); } } // the sequence view handles its own Ctrl+A
     } else if (ctrl && e.key.toLowerCase() === 's') { e.preventDefault(); menuAction('saveGB'); }
     else if (!ctrl && !e.altKey && !inField && !e.target.closest('#seqScroll')) {
@@ -3460,6 +3601,9 @@ function init() {
       else if ((e.key === 'Delete' || e.key === 'Backspace') && activeDoc()?._sel?.len) { e.preventDefault(); deleteDialog(activeDoc()); }
       else if (e.key === 'Escape') { const d = activeDoc(); if (d && d._sel && d._sel.len) setSel(d, { start: d._sel.start, len: 0 }, 'map'); }
       else if ((e.key === 'f' || e.key === 'F') && activeDoc() && state.view !== 'seq') { e.preventDefault(); fitMap(); }
+      else if ((e.key === '+' || e.key === '=') && activeDoc() && state.view !== 'seq') { e.preventDefault(); mapZoom(1.35); }
+      else if ((e.key === '-' || e.key === '_') && activeDoc() && state.view !== 'seq') { e.preventDefault(); mapZoom(1 / 1.35); }
+      else if (e.key === 'F2' && activeDoc()) { e.preventDefault(); menuAction('rename'); }
     }
   });
   window.addEventListener('beforeunload', e => { if (state.docs.some(d => d.dirty)) autosaveNow(); });
@@ -4107,8 +4251,8 @@ function helpDialog() {
     ['Editing', [[K('Ctrl', 'Z'), 'Undo'], [K('Ctrl', 'Y') + ' or ' + K('Ctrl', 'Shift', 'Z'), 'Redo'], [K('Ctrl', 'C') + ' / ' + K('Ctrl', 'X') + ' / ' + K('Ctrl', 'V'), 'Copy, cut and paste bases (features travel with copied bases)'], ['A C G T …', 'Type bases at the cursor (IUPAC codes allowed)'], [K('Backspace') + ' / ' + K('Delete'), 'Delete the base before / after the cursor, or the selection']]],
     ['Selecting', [[K('Ctrl', 'A'), 'Select the whole sequence (map or sequence view)'], [K('Shift') + '+click', 'Extend the selection'], [K('Shift') + '+' + K('←') + K('→') + K('↑') + K('↓'), 'Extend the selection in the sequence view'], [K('Home') + ' / ' + K('End'), 'Start / end of the row'], [K('Esc'), 'Clear the selection, close dialogs and menus'], [K('Ctrl', 'G'), 'Go to a position']]],
     ['Finding', [[K('Ctrl', 'F'), 'Quick find: DNA, protein or a feature name'], [K('Enter') + ' / ' + K('Shift', 'Enter'), 'Next / previous match']]],
-    ['Map', [[K('Delete'), 'Delete the selected feature or region: choose feature, sequence or both'], ['Scroll', 'Zoom in and out'], [K('Shift') + '+scroll', 'Rotate a circular map; move a linear map left or right'], ['Drag', 'Drag the ring or ruler to select; drag elsewhere to move the map'], [K('F'), 'Fit the whole map in view'], ['Double-click', 'Edit a feature, primer or comment; open a trace']]],
-    ['Window', [[K('Ctrl', 'B'), 'Show or hide the side panel'], ['+ next to the tabs', 'New tab with the home screen'], ['Drag a tab', 'Reorder the open files'], [K('?'), 'Shortcut sheet (searchable)']]],
+    ['Map', [[K('Delete'), 'Delete the selected feature or region: choose feature, sequence or both'], ['Scroll', 'Zoom in and out'], [K('Shift') + '+scroll', 'Rotate a circular map; move a linear map left or right'], ['Drag', 'Drag the ring or ruler to select; drag elsewhere to move the map'], [K('F'), 'Fit the whole map in view'], [K('+') + ' / ' + K('−'), 'Zoom in and out'], ['Double-click', 'Edit a feature, primer or comment; open a trace']]],
+    ['Window', [[K('Ctrl', 'B'), 'Show or hide the side panel'], [K('Ctrl', 'M'), 'Small map over the sequence'], ['+ next to the tabs', 'New tab with the home screen'], ['Drag a tab', 'Reorder the open files'], [K('?'), 'Shortcut sheet (searchable)']]],
     ['Trace viewer', [[K('←') + ' / ' + K('→'), 'Previous / next difference'], ['Scroll', 'Move along the read'], [K('Ctrl') + '+scroll', 'Zoom']]]
   ];
   openModal({ title: 'pMap · help and keyboard shortcuts', wide: true, body: `<div class="help">
@@ -4127,7 +4271,9 @@ function helpDialog() {
   <tr><td><b>Colors</b></td><td>Settings → Feature colors: choose a color scheme, color features by type, or edit the color of each type.</td></tr>
   <tr><td><b>Right-click</b></td><td>Everywhere: on the map, in the sequence, on file tabs and in the side lists. Options for whatever is under the mouse (edit, copy, digest with this enzyme, open a trace…).</td></tr>
   <tr><td><b>Map style</b></td><td>The <b>Style</b> button on the map: label placement (columns beside the map, as in SnapGene, or around it), shaded or flat arrows, thickness by feature type, color schemes (including colour-blind-safe), a <b>GC content</b> track and a <b>unique-cutter density</b> strip that shows where many unique cutters sit close together.</td></tr>
-  <tr><td><b>Layout</b></td><td><b>Focus</b> shows the sequence across the window with a small map in the corner (the shaded part is what the sequence view shows; click it to jump). Drag the splitter, use its ◂ ▸ buttons to hide the map or the sequence, and drag the side panel's edge to resize it. Each file remembers its own view, panel tab, scroll position and map view.</td></tr>
+  <tr><td><b>Small map</b></td><td><b>Small map</b> in the toolbar (<kbd>Ctrl</kbd>+<kbd>M</kbd>) floats a whole-plasmid map over the sequence. The shaded part is what the sequence view is showing; click or drag inside it to jump there. Drag its title bar to move it, its corner to resize, ◯ to switch between circle and line, ⤢ to open it in the main view.</td></tr>
+  <tr><td><b>Layout</b></td><td>Drag the splitter, use its ◂ ▸ buttons to hide the map or the sequence, and drag the side panel's edge to resize it. Each file remembers its own view, panel tab, scroll position and map view.</td></tr>
+  <tr><td><b>Endless scrolling</b></td><td>A circular sequence has no first or last row: the sequence view keeps scrolling past the origin in both directions. A dashed line marks where base 1 begins again.</td></tr>
   <tr><td><b>Selection strip</b></td><td>Under the map: position, length, GC, Tm, the feature or primer selected (with protein size for a coding sequence), the unique cutters inside, and quick buttons.</td></tr>
   <tr><td><b>Undo history</b></td><td>The ▾ next to Undo lists every step; click one to go back several steps at once (or forward again).</td></tr>
   <tr><td><b>Assembly</b></td><td>Plans Gibson / NEBuilder HiFi and In-Fusion cloning: open the vector (selection, region or enzymes), choose inserts from open files (whole, selection or a feature, either orientation), and get primers with overlap tails, overlap Tm checks and the assembled construct as a new file.</td></tr>
@@ -4138,55 +4284,66 @@ function helpDialog() {
 }
 
 /* ---------------- settings ---------------- */
-function settingsDialog() {
+function settingsDialog(tab) {
   const S = state.settings;
   const row = (label, ctl, hint) => `<div class="setrow"><div><div class="setlabel">${label}</div>${hint ? `<div class="small">${hint}</div>` : ''}</div><div class="setctl">${ctl}</div></div>`;
-  const range = (id, min, max, step, val) => `<input type="range" id="${id}" min="${min}" max="${max}" step="${step}" value="${val}"><output id="${id}Out">${val} px</output>`;
+  const range = (id, min, max, step, val, unit = ' px') => `<input type="range" id="${id}" min="${min}" max="${max}" step="${step}" value="${val}"><output id="${id}Out">${val}${unit}</output>`;
   const chk = (id, on, label) => `<label><input type="checkbox" id="${id}" ${on ? 'checked' : ''}> ${label}</label>`;
-  const body = `
-  <div class="setgroup"><h4>Appearance</h4>
+  const G = {}; // one pane per tab
+  G.appearance = `<div class="setgroup"><h4>Appearance</h4>
     ${row('Theme', `<div class="seg" id="stTheme">${[['system', 'Match system'], ['light', 'Light'], ['dark', 'Dark']].map(([k, l]) => `<button data-t="${k}" class="${S.theme === k ? 'on' : ''}">${l}</button>`).join('')}</div>`)}
     ${row('Interface text size', range('stUi', 11, 17, 0.5, S.uiFont), 'Menus, panels, dialogs and the status bar')}
-    ${row('Colour-blind-safe mode', chk('stCb', S.cbSafe, 'Use Okabe–Ito colors'), 'Coverage, read differences and trace bases use colors that stay distinct with red–green colour blindness. Choose the Okabe–Ito feature scheme below for features too.')}
-  </div>
-  <div class="setgroup"><h4>Map</h4>
+    ${row('Toolbar buttons', `<div class="seg" id="stTb">${[['auto', 'Auto'], ['both', 'Icons and labels'], ['icons', 'Icons only'], ['labels', 'Labels only']].map(([k, l]) => `<button data-t="${k}" class="${(S.toolbarStyle || 'auto') === k ? 'on' : ''}">${l}</button>`).join('')}</div>`, 'Auto shows labels when the window is wide enough and icons only when it is narrow. Hover an icon to see its name. Right-click the toolbar to switch quickly.')}
+    ${row('Colour-blind-safe mode', chk('stCb', S.cbSafe, 'Use Okabe–Ito colors'), 'Coverage, read differences and trace bases use colors that stay distinct with red–green colour blindness. Choose the Okabe–Ito feature scheme under Colors for features too.')}
+  </div>`;
+  G.map = `<div class="setgroup"><h4>Map</h4>
     ${row('Label text size', range('stMapF', 8, 15, 0.5, S.mapFont), 'Feature, enzyme and primer labels on the map')}
     ${row('Feature thickness', range('stThick', 8, 32, 1, S.featThick), 'Height of feature arrows on circular and linear maps')}
     ${row('Minimum feature size', range('stMin', 0, 24, 1, S.minFeat), 'Very short features are drawn at least this long so they stay easy to see and click')}
     ${row('Features on the map', `<div class="seg" id="stFeatPos"><button data-p="on" class="${S.featPos !== 'off' ? 'on' : ''}">On the line</button><button data-p="off" class="${S.featPos === 'off' ? 'on' : ''}">Off the line</button></div>`, 'On the line: features sit on the DNA backbone. Off the line: the backbone is drawn on its own and features run beside it.')}
-    ${row('Feature labels', `<select id="stLabels">${[['auto', 'Inside the arrow when it fits, otherwise outside'], ['inside', 'Inside the arrow only (shortened if needed)'], ['outside', 'Always outside, with leader lines'], ['off', 'Hidden']].map(([k, l]) => `<option value="${k}" ${S.labelStyle === k ? 'selected' : ''}>${l}</option>`).join('')}</select>`)}
-    ${row('Enzyme labels', chk('stEnzPos', S.enzPos, 'Show cut position') + chk('stBold', S.boldUnique, 'Bold unique cutters'))}
-    ${row('Labels around a circular map', `<div class="seg" id="stLabLay"><button data-p="columns" class="${S.labLayout !== 'around' ? 'on' : ''}">Columns</button><button data-p="around" class="${S.labLayout === 'around' ? 'on' : ''}">Around the map</button></div>`, 'Columns: labels stacked beside the map in site order, so leader lines never cross (as in SnapGene). Around: each label next to its site.')}
     ${row('Feature arrows', `<div class="seg" id="stFStyle"><button data-p="shaded" class="${S.featStyle !== 'flat' ? 'on' : ''}">Shaded</button><button data-p="flat" class="${S.featStyle === 'flat' ? 'on' : ''}">Flat</button></div>` + chk('stTbt', S.thickByType, 'Thickness by type'))}
+    ${row('Feature labels', `<select id="stLabels">${[['auto', 'Inside the arrow when it fits, otherwise outside'], ['inside', 'Inside the arrow only (shortened if needed)'], ['outside', 'Always outside, with leader lines'], ['off', 'Hidden']].map(([k, l]) => `<option value="${k}" ${S.labelStyle === k ? 'selected' : ''}>${l}</option>`).join('')}</select>`)}
+    ${row('Labels around a circular map', `<div class="seg" id="stLabLay"><button data-p="columns" class="${S.labLayout !== 'around' ? 'on' : ''}">Columns</button><button data-p="around" class="${S.labLayout === 'around' ? 'on' : ''}">Around the map</button></div>`, 'Columns: labels stacked beside the map in site order, so leader lines never cross (as in SnapGene). Around: each label next to its site.')}
+    ${row('Enzyme labels', chk('stEnzPos', S.enzPos, 'Show cut position') + chk('stBold', S.boldUnique, 'Bold unique cutters'))}
     ${row('Extra map tracks', chk('stGc', S.gcRing, 'GC content') + chk('stHeat', S.heatStrip, 'Unique-cutter density'), 'GC content: GC-rich regions outward or up, AT-rich inward or down. Density: orange where many unique cutters sit close together.')}
-  </div>
-  <div class="setgroup"><h4>Feature colors</h4>
+    ${row('Small map', chk('stMini', S.miniMap, 'Float a small map over the sequence'), 'Also the “Small map” button in the toolbar, or Ctrl+M. Drag its title bar to move it.')}
+  </div>`;
+  G.colors = `<div class="setgroup"><h4>Feature colors</h4>
+    ${row('Colour strength', range('stSat', 1, 2, 0.05, S.satBoost, '×'), 'Lifts the saturation of pale colors saved in a file so features stand out on screen. 1× leaves every colour exactly as saved; the file itself is never changed.')}
     ${row('Colors on the map and sequence', `<div class="seg" id="stCMode"><button data-m="file" class="${S.colorMode !== 'type' ? 'on' : ''}">Each feature’s own color</button><button data-m="type" class="${S.colorMode === 'type' ? 'on' : ''}">Color by feature type</button></div>`, 'Own colors are the ones saved in the file. Coloring by type uses the scheme below and does not change the file.')}
     ${row('Color scheme', `<select id="stScheme">${Object.entries(SCHEMES).map(([k, v]) => `<option value="${k}" ${S.colorScheme === k ? 'selected' : ''}>${v.name}</option>`).join('')}<option value="custom" ${S.colorScheme === 'custom' ? 'selected' : ''}>Custom</option></select>`, 'Also used for new features and for files without colors')}
     <div class="ctypes" id="stTypes"></div>
     <div class="row" style="margin-top:8px"><button class="btn sm" id="stApply" ${activeDoc() ? '' : 'disabled'}>Recolor features in this file by type</button><span class="small">Changes the saved colors (can be undone)</span></div>
-  </div>
-  <div class="setgroup"><h4>Sequence</h4>
+  </div>`;
+  G.sequence = `<div class="setgroup"><h4>Sequence</h4>
     ${row('Sequence text size', range('stSeqF', 10, 22, 0.5, S.seqFont))}
+    ${row('Space between rows', range('stGap', 0, 40, 2, S.lineGap || 0), 'Extra blank space above and below each row of bases')}
     ${row('Bases per row', `<select id="stBpr">${[0, 30, 40, 50, 60, 70, 80, 100, 120, 150].map(v => `<option value="${v}" ${S.bpr === v ? 'selected' : ''}>${v ? v : 'Fit to window'}</option>`).join('')}</select>`, 'A fixed number is used when it fits the window')}
     ${row('Layout', chk('stGroup', S.group, 'Space every 10 bases') + chk('stComp', S.comp, 'Complementary strand'))}
-  </div>
-  <div class="setgroup"><h4>Sequencing traces</h4>
+    <p class="small">A circular sequence scrolls on past the origin in both directions, so there is no first or last row.</p>
+  </div>`;
+  G.traces = `<div class="setgroup"><h4>Sequencing traces</h4>
     ${row('Chromatograms', chk('stChrom', S.chrom !== false, 'Show chromatograms under aligned reads in the sequence view'))}
     ${row('Chromatogram height', range('stTraceH', 24, 120, 2, S.traceH || 46))}
     ${row('Reads on the map', `<select id="stReadMap">${[['both', 'Read arrows and coverage track'], ['coverage', 'Coverage track only'], ['reads', 'Read arrows only']].map(([k, l]) => `<option value="${k}" ${(S.readMap || 'both') === k ? 'selected' : ''}>${l}</option>`).join('')}</select>`)}
     ${row('Read labels on the map', `<select id="stReadLab">${[['hover', 'Only when hovering a read'], ['summary', 'One label for all reads'], ['all', 'A label for every read']].map(([k, l]) => `<option value="${k}" ${(S.readLabels || 'hover') === k ? 'selected' : ''}>${l}</option>`).join('')}</select>`, 'Hovering a read or the coverage track always shows its details')}
     ${row('Bases used for alignment', `<select id="stTrimQ">${[['blue', 'Blue only: quality 30 and higher'], ['yellow', 'Blue and yellow: quality 20 and higher'], ['red', 'All bases, including red (no trimming)']].map(([k, l]) => `<option value="${k}" ${(S.trimQ || 'yellow') === k ? 'selected' : ''}>${l}</option>`).join('')}</select>`, 'Low-quality read ends below this cut-off are not aligned to the template. A region you drag-select on a read in the Traces panel overrides this.')}
   </div>`;
+  const ICO = { appearance: '<path d="M5 7h14M5 12h14M5 17h14"/><circle cx="9" cy="7" r="2.1" fill="var(--surface)"/><circle cx="15" cy="12" r="2.1" fill="var(--surface)"/><circle cx="8" cy="17" r="2.1" fill="var(--surface)"/>', map: '<circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 8.5 8.5"/>', colors: '<circle cx="12" cy="12" r="8.5"/><circle cx="8.6" cy="10" r="1.4" fill="currentColor" stroke="none"/><circle cx="12" cy="7.6" r="1.4" fill="currentColor" stroke="none"/><circle cx="15.4" cy="10" r="1.4" fill="currentColor" stroke="none"/>', sequence: '<path d="M4 7h16M4 12h16M4 17h11"/>', traces: '<path d="M3 17c1.6 0 2-8 3.6-8S8.6 17 10.2 17s1.6-5 3.2-5 1.6 5 3.2 5 2-9 3.4-9"/>' };
+  const TABS = [['appearance', 'Appearance'], ['map', 'Map'], ['colors', 'Colors'], ['sequence', 'Sequence'], ['traces', 'Traces']];
+  const cur = TABS.some(t => t[0] === tab) ? tab : (state.setTab && TABS.some(t => t[0] === state.setTab) ? state.setTab : 'appearance');
+  const body = `<div class="settabs" id="setTabs" role="tablist">${TABS.map(([k, l]) => `<button data-s="${k}" class="${k === cur ? 'on' : ''}" role="tab" aria-selected="${k === cur}"><svg viewBox="0 0 24 24" aria-hidden="true">${ICO[k]}</svg><span class="stl">${l}</span></button>`).join('')}</div>
+    ${TABS.map(([k]) => `<div class="setpane" data-pane="${k}" ${k === cur ? '' : 'hidden'}>${G[k]}</div>`).join('')}`;
   openModal({
-    title: 'Settings', body, buttons: [{ label: 'Reset to defaults', action: () => { const keep = { show: S.show, tm: S.tm, enzFilter: S.enzFilter, split: S.split, lock: S.lock, minAnneal: S.minAnneal, orfMin: S.orfMin, panel: S.panel }; Object.assign(state.settings, clone(DEFAULT_SETTINGS), keep); saveSettings(); applySettings(); afterSettings(); closeModal(null); settingsDialog(); return false; } }, { label: 'Done', primary: true, value: null }],
+    title: 'Settings', body, cls: 'setmodal', buttons: [{ label: 'Reset to defaults', action: () => { const keep = { show: S.show, tm: S.tm, enzFilter: S.enzFilter, split: S.split, lock: S.lock, minAnneal: S.minAnneal, orfMin: S.orfMin, panel: S.panel, sideW: S.sideW }; Object.assign(state.settings, clone(DEFAULT_SETTINGS), keep); saveSettings(); applySettings(); afterSettings(); closeModal(null); settingsDialog(state.setTab); return false; } }, { label: 'Done', primary: true, value: null }],
     onOpen: m => {
       const live = () => { saveSettings(); applySettings(); afterSettings(); };
+      $('#setTabs', m).onclick = e => { const b = e.target.closest('button'); if (!b) return; state.setTab = b.dataset.s; $$('#setTabs button', m).forEach(x => { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-selected', on); }); m.querySelectorAll('.setpane').forEach(x => x.hidden = x.dataset.pane !== b.dataset.s); m.querySelector('.mbody').scrollTop = 0; };
+      $('#stTb', m).onclick = e => { const b = e.target.closest('button'); if (!b) return; S.toolbarStyle = b.dataset.t; $$('#stTb button', m).forEach(x => x.classList.toggle('on', x === b)); live(); };
       $('#stTheme', m).onclick = e => { const b = e.target.closest('button'); if (!b) return; S.theme = b.dataset.t; $$('#stTheme button', m).forEach(x => x.classList.toggle('on', x === b)); live(); };
-      [['stUi', 'uiFont'], ['stMapF', 'mapFont'], ['stThick', 'featThick'], ['stMin', 'minFeat'], ['stSeqF', 'seqFont'], ['stTraceH', 'traceH']].forEach(([id, key]) => { const el = $('#' + id, m); el.oninput = () => { S[key] = +el.value; $('#' + id + 'Out', m).textContent = el.value + ' px'; live(); }; });
-      $('#stLabLay', m).onclick = e => { const b = e.target.closest('button'); if (!b) return; S.labLayout = b.dataset.p; $$('#stLabLay button', m).forEach(x => x.classList.toggle('on', x === b)); live(); };
-      $('#stFStyle', m).onclick = e => { const b = e.target.closest('button'); if (!b) return; S.featStyle = b.dataset.p; $$('#stFStyle button', m).forEach(x => x.classList.toggle('on', x === b)); live(); };
+      [['stUi', 'uiFont', ' px'], ['stMapF', 'mapFont', ' px'], ['stThick', 'featThick', ' px'], ['stMin', 'minFeat', ' px'], ['stSeqF', 'seqFont', ' px'], ['stTraceH', 'traceH', ' px'], ['stGap', 'lineGap', ' px'], ['stSat', 'satBoost', '×']].forEach(([id, key, unit]) => { const el = $('#' + id, m); el.oninput = () => { S[key] = +el.value; $('#' + id + 'Out', m).textContent = (unit === '×' ? (+el.value).toFixed(2) : el.value) + unit; live(); }; });
       [['stEnzPos', 'enzPos'], ['stBold', 'boldUnique'], ['stGroup', 'group'], ['stComp', 'comp'], ['stCb', 'cbSafe'], ['stTbt', 'thickByType'], ['stGc', 'gcRing'], ['stHeat', 'heatStrip']].forEach(([id, key]) => { $('#' + id, m).onchange = e => { S[key] = e.target.checked; live(); }; });
+      $('#stMini', m).onchange = e => { S.miniMap = e.target.checked; saveSettings(); renderMini(); };
       $('#stBpr', m).onchange = e => { S.bpr = +e.target.value; live(); };
       $('#stChrom', m).onchange = e => { S.chrom = e.target.checked; live(); };
       $('#stTrimQ', m).onchange = e => { S.trimQ = e.target.value; live(); renderAll(); };
@@ -4194,6 +4351,8 @@ function settingsDialog() {
       $('#stReadLab', m).onchange = e => { S.readLabels = e.target.value; live(); };
       $('#stLabels', m).onchange = e => { S.labelStyle = e.target.value; live(); syncShowMenu(); };
       $('#stFeatPos', m).onclick = e => { const b = e.target.closest('button'); if (!b) return; S.featPos = b.dataset.p; $$('#stFeatPos button', m).forEach(x => x.classList.toggle('on', x === b)); live(); };
+      $('#stLabLay', m).onclick = e => { const b = e.target.closest('button'); if (!b) return; S.labLayout = b.dataset.p; $$('#stLabLay button', m).forEach(x => x.classList.toggle('on', x === b)); live(); };
+      $('#stFStyle', m).onclick = e => { const b = e.target.closest('button'); if (!b) return; S.featStyle = b.dataset.p; $$('#stFStyle button', m).forEach(x => x.classList.toggle('on', x === b)); live(); };
       const types = () => { const C = schemeColors(); $('#stTypes', m).innerHTML = COLOR_KEYS.map(([k, l]) => `<label class="ctype"><input type="color" data-ck="${esc(k)}" value="${C[k]}"><span>${l}</span></label>`).join(''); $$('#stTypes [data-ck]', m).forEach(inp => inp.oninput = () => { if (S.colorScheme !== 'custom') { S.customColors = { ...schemeColors() }; S.colorScheme = 'custom'; $('#stScheme', m).value = 'custom'; } S.customColors[inp.dataset.ck] = inp.value; live(); }); };
       types();
       $('#stScheme', m).onchange = e => { const v = e.target.value; if (v === 'custom' && !Object.keys(S.customColors || {}).length) S.customColors = { ...schemeColors() }; S.colorScheme = v; types(); live(); };
@@ -5099,7 +5258,9 @@ function openCtx(e, items, at) {
   for (const it of items) {
     if (it === '-') { m.appendChild(document.createElement('hr')); continue; }
     if (it.head) { const d = document.createElement('div'); d.className = 'mlabel'; d.textContent = it.head; m.appendChild(d); continue; }
-    const b = document.createElement('button'); b.textContent = it[0]; if (it[2]?.disabled) b.disabled = true; if (it[2]?.hint) b.title = it[2].hint;
+    const b = document.createElement('button'); b.appendChild(document.createTextNode(it[0]));
+    if (it[2]?.key) { const k = document.createElement('kbd'); k.className = 'mk'; k.textContent = it[2].key; b.appendChild(k); }
+    if (it[2]?.disabled) b.disabled = true; if (it[2]?.hint) b.title = it[2].hint;
     b.onclick = ev => { ev.stopPropagation(); m.hidden = true; it[1](); }; m.appendChild(b);
   }
   m.hidden = false; const w = m.offsetWidth, hh = m.offsetHeight; const x = at ? at.x : e.clientX, y = at ? at.y : e.clientY;
@@ -5131,6 +5292,7 @@ function renderStylePop() {
   ${tg('heatStrip', 'Unique-cutter density', S.heatStrip, 'Orange where many unique cutters sit close together: good places to clone into. Hover the strip to list them.')}
   ${tg('show.orfs', 'Open reading frames', S.show.orfs)}
   <h5>Colors</h5>
+  <div class="srow"><span>Strength</span><input type="range" min="1" max="2" step="0.05" data-rg="satBoost" value="${S.satBoost}" title="Lifts the saturation of pale colors saved in the file so features stand out. 1× leaves them exactly as saved."></div>
   <div class="srow"><span>Scheme</span><select data-sel="colorScheme">${Object.entries(SCHEMES).map(([k, v]) => `<option value="${k}" ${S.colorScheme === k ? 'selected' : ''}>${v.name}</option>`).join('')}<option value="custom" ${S.colorScheme === 'custom' ? 'selected' : ''}>Custom</option></select></div>
   ${seg('colorMode', [['file', 'Each feature’s own color'], ['type', 'By feature type']], S.colorMode === 'type' ? 'type' : 'file')}
   ${tg('cbSafe', 'Colour-blind-safe mode', S.cbSafe, 'Okabe–Ito colors for features, coverage, differences and trace bases')}
@@ -5138,11 +5300,11 @@ function renderStylePop() {
   const live = () => { saveSettings(); applySettings(); syncShowMenu(); SV.key = ''; renderViews(); if (activeDoc()) renderSide(); renderStylePop(); };
   p.querySelectorAll('[data-seg]').forEach(g => g.onclick = e => { const b = e.target.closest('button'); if (!b) return; const k = g.dataset.seg; S[k] = b.dataset.v; if (k === 'colorScheme') S.colorScheme = b.dataset.v; live(); });
   p.querySelectorAll('[data-tg]').forEach(c => c.onchange = () => { const k = c.dataset.tg; if (k.startsWith('show.')) S.show[k.slice(5)] = c.checked; else S[k] = c.checked; if (k === 'cbSafe' && c.checked && S.colorScheme === 'soft') { S.colorScheme = 'okabe'; } live(); });
-  p.querySelectorAll('[data-rg]').forEach(r => r.oninput = () => { S[r.dataset.rg] = +r.value; saveSettings(); SV.key = ''; renderViews(); });
+  p.querySelectorAll('[data-rg]').forEach(r => r.oninput = () => { S[r.dataset.rg] = +r.value; saveSettings(); SV.key = ''; renderViews(); if (r.dataset.rg === 'satBoost') renderSide(); });
   p.querySelectorAll('[data-sel]').forEach(sl => sl.onchange = () => { if (sl.value === 'custom' && !Object.keys(S.customColors || {}).length) S.customColors = { ...schemeColors() }; S[sl.dataset.sel] = sl.value; live(); });
   $('#spX', p).onclick = () => toggleStylePop(false);
-  $('#spMore', p).onclick = () => { toggleStylePop(false); settingsDialog(); };
-  $('#spReset', p).onclick = () => { Object.assign(S, { labelStyle: 'auto', labLayout: 'columns', featPos: 'on', featStyle: 'shaded', thickByType: false, gcRing: false, heatStrip: false, featThick: DEFAULT_SETTINGS.featThick, mapFont: DEFAULT_SETTINGS.mapFont }); live(); };
+  $('#spMore', p).onclick = () => { toggleStylePop(false); settingsDialog('map'); };
+  $('#spReset', p).onclick = () => { Object.assign(S, { labelStyle: 'auto', labLayout: 'columns', featPos: 'on', featStyle: 'shaded', thickByType: false, gcRing: false, heatStrip: false, featThick: DEFAULT_SETTINGS.featThick, mapFont: DEFAULT_SETTINGS.mapFont, satBoost: DEFAULT_SETTINGS.satBoost }); live(); };
 }
 
 /* ---------- "What's selected" strip under the map ---------- */
@@ -5196,7 +5358,7 @@ const layoutKey = d => (d.file || d.name) + '|' + d.seq.length;
 const MAP_KEYS = ['mapType', 'zoom', 'panX', 'panY', 'rot', 'lin'];
 function saveLayout(d) {
   if (!d || !d.seq) return; const sc = $('#seqScroll');
-  const L = { view: state.view, split: state.settings.split, tab: state.tab, scroll: d.id === state.activeId ? sc.scrollTop : (d._scroll || 0) };
+  const L = { view: state.view, split: state.settings.split, tab: state.tab, scroll: d.id === state.activeId ? svTop() : (d._scroll || 0) };
   d.view = d.view || {}; d.view.layout = L; d._scroll = L.scroll;
   const all = LS.get('pmap.layouts', {}); const map = {}; MAP_KEYS.forEach(k => { if (d.view[k] != null) map[k] = d.view[k]; });
   all[layoutKey(d)] = { ...L, map, t: Date.now() };
@@ -5207,7 +5369,7 @@ function restoreLayout(d) {
   if (!d) return; let L = d.view && d.view.layout;
   if (!L) { const r = LS.get('pmap.layouts', {})[layoutKey(d)]; if (r) { L = r; if (r.map && d.view && d.view.zoom == null) Object.assign(d.view, clone(r.map)); } }
   if (!L) return;
-  if (['map', 'seq', 'split', 'focus'].includes(L.view)) state.view = L.view;
+  if (['map', 'seq', 'split'].includes(L.view)) state.view = L.view;
   if (typeof L.split === 'number') state.settings.split = clamp(L.split, 0.2, 0.8);
   if (L.tab && L.tab !== state.tab) { state.tab = L.tab; $$('#sidetabs button').forEach(b => b.classList.toggle('on', b.dataset.tab === L.tab)); }
   if (typeof L.scroll === 'number') d._scroll = L.scroll;
@@ -5228,11 +5390,11 @@ function cheatSheet() {
   const K = (...k) => k.map(x => `<kbd>${x}</kbd>`).join('+');
   const G = [
     ['Files', [[K('Ctrl', 'O'), 'Open files'], [K('Ctrl', 'S'), 'Save as GenBank'], [K('Ctrl', 'Shift', 'S'), 'Save session'], ['Drop files', 'Open, add traces, or compare']]],
-    ['Editing', [[K('Ctrl', 'Z'), 'Undo'], [K('Ctrl', 'Y'), 'Redo'], ['Undo ▾', 'Undo history: go back several steps'], [K('Ctrl', 'C') + ' ' + K('Ctrl', 'X') + ' ' + K('Ctrl', 'V'), 'Copy, cut, paste (features travel along)'], ['A C G T', 'Type bases at the cursor'], [K('Delete'), 'Delete the selection (feature, sequence or both)']]],
+    ['Editing', [[K('Ctrl', 'Z'), 'Undo'], [K('Ctrl', 'Y'), 'Redo'], ['Undo ▾', 'Undo history: go back several steps'], [K('Ctrl', 'C') + ' ' + K('Ctrl', 'X') + ' ' + K('Ctrl', 'V'), 'Copy, cut, paste — in the sequence and on the map'], ['A C G T', 'Type bases at the cursor'], [K('Delete'), 'Delete the selection (feature, sequence or both)'], [K('F2'), 'Rename the file']]],
     ['Selecting', [[K('Ctrl', 'A'), 'Select everything'], [K('Shift') + '+click', 'Extend the selection'], [K('Shift') + '+arrows', 'Extend in the sequence view'], [K('Esc'), 'Clear the selection'], [K('Ctrl', 'G'), 'Go to a position']]],
     ['Finding', [[K('Ctrl', 'F'), 'Quick find: DNA, protein or name'], [K('Enter'), 'Next match'], [K('Shift', 'Enter'), 'Previous match']]],
-    ['Map', [['Scroll', 'Zoom'], [K('Shift') + '+scroll', 'Rotate (circular) or move (linear)'], ['Drag', 'Select on the ring or ruler, move elsewhere'], [K('F'), 'Fit the whole map'], ['Double-click', 'Edit a feature, primer or comment'], ['Right-click', 'Options for what is under the mouse'], ['Style', 'Labels, colors, GC and cutter tracks']]],
-    ['Window', [[K('Ctrl', 'B'), 'Show or hide the side panel'], ['Focus', 'Sequence full width with a small map'], ['Splitter ◂ ▸', 'Hide the map or the sequence'], ['Drag the panel edge', 'Resize the side panel'], [K('?'), 'This sheet']]],
+    ['Map', [['Scroll', 'Zoom'], [K('+') + ' / ' + K('−'), 'Zoom in and out (also the buttons under Fit)'], [K('Shift') + '+scroll', 'Rotate (circular) or move (linear)'], ['Drag', 'Select on the ring or ruler, move elsewhere'], [K('F'), 'Fit the whole map'], ['Double-click', 'Edit a feature, primer or comment'], ['Right-click', 'Options for what is under the mouse'], ['Style', 'Labels, colors, GC and cutter tracks']]],
+    ['Window', [[K('Ctrl', 'B'), 'Show or hide the side panel'], [K('Ctrl', 'M'), 'Small map floating over the sequence'], ['Splitter ◂ ▸', 'Hide the map or the sequence'], ['Drag the panel edge', 'Resize the side panel'], [K('?'), 'This sheet']]],
     ['Trace viewer', [[K('←') + ' ' + K('→'), 'Previous / next difference'], [K('Ctrl') + '+scroll', 'Zoom']]],
   ];
   openModal({ title: 'Keyboard shortcuts', cls: 'cheat', body: `<input type="search" id="cheatQ" placeholder="Search shortcuts, e.g. undo or rotate" aria-label="Search shortcuts">
@@ -5326,7 +5488,9 @@ function initUI() {
   $('#btnStyle').addEventListener('click', e => { e.stopPropagation(); toggleStylePop(); });
   document.addEventListener('pointerdown', e => { const p = $('#stylePop'); if (!p.hidden && !e.target.closest('#stylePop,#btnStyle')) toggleStylePop(false); });
   $('#btnGibson').onclick = () => assemblyDialog();
-  $('#miniX').onclick = () => { state.settings.miniMap = false; saveSettings(); renderAll(); toast('Small map hidden. Click Focus again to bring it back.'); };
+  initMini();
+  $('#btnZoomIn').onclick = () => mapZoom(1.35); $('#btnZoomOut').onclick = () => mapZoom(1 / 1.35);
+  $('#zoomLvl').onclick = fitMap; $('#zoomLvl').title = 'Zoom level · click to fit the whole map (F)';
   // side panel width: drag its left edge; double-click hides it
   const grip = $('#sideGrip');
   grip.addEventListener('pointerdown', e => { if (e.button !== 0) return; grip.setPointerCapture(e.pointerId); grip.classList.add('drag'); document.body.classList.add('resizing');
@@ -5338,7 +5502,7 @@ function initUI() {
   $('#doctabs').addEventListener('contextmenu', e => {
     const t = e.target.closest('.doctab[data-id]'); if (!t) return; const d = state.docs.find(x => x.id === t.dataset.id); if (!d) return;
     if (d.id !== state.activeId) setActive(d.id);
-    openCtx(e, [['Rename…', () => menuAction('rename')], ['Duplicate', () => { const c = deserializeDoc(serializeDoc(d)); c.name = d.name + ' copy'; c.view = {}; addDocs([c]); }], '-', ['Save as SnapGene (.dna)', () => menuAction('saveDNA')], ['Save as GenBank', () => menuAction('saveGB')], ['Save as FASTA', () => menuAction('saveFASTA')], '-',
+    openCtx(e, [['Rename…', () => menuAction('rename'), { key: 'F2' }], ['Duplicate', () => { const c = deserializeDoc(serializeDoc(d)); c.name = d.name + ' copy'; c.view = {}; addDocs([c]); }], '-', ['Save as SnapGene (.dna)', () => menuAction('saveDNA')], ['Save as GenBank', () => menuAction('saveGB'), { key: 'Ctrl+S' }], ['Save as FASTA', () => menuAction('saveFASTA')], '-',
       ['Compare with…', () => compareDialog(d)], ['Plan an assembly into this vector…', () => assemblyDialog()], '-', ['Close', () => closeDoc(d.id)], ['Close other files', async () => { for (const o of state.docs.filter(x => x !== d)) await closeDoc(o.id); }, { disabled: state.docs.length < 2 }]]);
   });
   // right-click in the side panel lists
@@ -5355,7 +5519,72 @@ function initUI() {
     if (state.tab === 'enzymes') { const c = it.querySelector('[data-enz]'); if (!c) return; const nm = c.dataset.enz, z = ENZ_BY_NAME[nm], k = findEnzymeSites(doc)[nm].length;
       openCtx(e, [{ head: `${nm} · ${z.site}` }, [`Show only ${nm} on the map`, () => { doc.enzymes = [nm]; state.settings.enzFilter = 'chosen'; state.settings.show.enzymes = true; saveSettings(); syncShowMenu(); SV.key = ''; renderAll(); }, { disabled: !k }], [`Select the first ${nm} site`, () => { const s = findEnzymeSites(doc)[nm][0]; setSel(doc, { start: s.pos, len: z.site.length }, 'panel'); }, { disabled: !k }], ['Copy recognition site', () => copyText(z.site, `Copied ${z.site}`)]]); return; }
   });
+  // right-click on the toolbar: icons, labels or both
+  const tbMenu = e => { if (e.target.closest('input,select,textarea,.menu')) return; const S = state.settings, cur = S.toolbarStyle || 'auto', set = v => { S.toolbarStyle = v; saveSettings(); applySettings(); };
+    openCtx(e, [{ head: 'Toolbar buttons' }, ...[['auto', 'Auto (labels when there is room)'], ['both', 'Icons and labels'], ['icons', 'Icons only'], ['labels', 'Labels only']].map(([k, l]) => [(cur === k ? '● ' : '○ ') + l, () => set(k)]), '-', ['More in Settings…', () => settingsDialog('appearance')]]); };
+  $('#toolbar').addEventListener('contextmenu', tbMenu); $('.topactions').addEventListener('contextmenu', tbMenu);
   window.addEventListener('resize', () => { document.documentElement.style.setProperty('--sidew', clamp(+state.settings.sideW || 360, 260, Math.max(280, innerWidth * 0.5)) + 'px'); });
+}
+
+/* ---------- the small map: a map that floats over the sequence ---------- */
+let MINIGEO = null, _miniRaf = 0;
+const miniOn = () => !!state.settings.miniMap;
+function scheduleMiniRender() { if (_miniRaf) return; _miniRaf = requestAnimationFrame(() => { _miniRaf = 0; renderMini(); }); }
+function renderMini() {
+  const box = $('#miniMap'), doc = activeDoc(), on = miniOn() && doc && doc.seq.length > 0;
+  $('#btnMini').setAttribute('aria-pressed', String(!!miniOn())); $('#btnMini').classList.toggle('on', !!miniOn());
+  box.hidden = !on; if (!on) return;
+  placeMini();
+  const svg = $('#miniSvg'), W = Math.max(60, svg.clientWidth), H = Math.max(60, svg.clientHeight);
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.setAttribute('width', W); svg.setAttribute('height', H);
+  readTheme();
+  const v = mapView(doc), keep = MAPGEO;
+  const shape = doc.circular && state.settings.miniShape !== 'linear' ? 'circular' : 'linear';
+  svg.innerHTML = shape === 'circular' ? circularSVG(doc, W, H, { ...v, mapType: 'circular', zoom: 1, panX: 0, panY: 0 }, { mini: true })
+    : linearSVG(doc, W, H, { ...v, lin: [0, doc.seq.length] }, { mini: true, full: true });
+  MINIGEO = MAPGEO; MAPGEO = keep;
+  $('#miniTitle').textContent = doc.name;
+  const sh = $('#miniShape'); sh.textContent = shape === 'circular' ? '◯' : '▭'; sh.disabled = !doc.circular;
+  sh.title = doc.circular ? (shape === 'circular' ? 'Show the small map as a line' : 'Show the small map as a circle') : 'Linear sequences are drawn as a line';
+}
+function placeMini() {
+  const box = $('#miniMap'), vw = $('#views').getBoundingClientRect(); if (!vw.width) return;
+  const S = state.settings, w = clamp(S.miniW || 280, 170, Math.max(170, vw.width - 20)), h = clamp(S.miniH || 280, 150, Math.max(150, vw.height - 20));
+  box.style.width = w + 'px'; box.style.height = h + 'px';
+  const p = S.miniPos || { x: vw.width - w - 26, y: 12 };
+  box.style.left = clamp(p.x, 0, Math.max(0, vw.width - w)) + 'px'; box.style.top = clamp(p.y, 0, Math.max(0, vw.height - h)) + 'px'; box.style.right = 'auto';
+}
+function toggleMini(on) {
+  state.settings.miniMap = on == null ? !state.settings.miniMap : on; saveSettings(); renderMini();
+  if (state.settings.miniMap) toast('Small map shown. Drag its title bar to move it, the corner to resize it, × to close it.');
+}
+function miniBaseAt(e) {
+  const g = MINIGEO; if (!g) return null; const rc = $('#miniSvg').getBoundingClientRect(); const x = e.clientX - rc.left, y = e.clientY - rc.top;
+  if (g.type === 'circular') { const a = mod(Math.atan2(y - g.cy, x - g.cx) + Math.PI / 2 - g.rot, 2 * Math.PI); return mod(Math.round(a / (2 * Math.PI) * g.n), g.n); }
+  return clamp(Math.round(g.v0 + (x - g.left) / g.pw * (g.v1 - g.v0)), 0, g.n - 1);
+}
+function initMini() {
+  $('#btnMini').onclick = () => toggleMini();
+  $('#miniClose').onclick = () => toggleMini(false);
+  $('#miniShape').onclick = () => { state.settings.miniShape = state.settings.miniShape === 'linear' ? 'circular' : 'linear'; saveSettings(); renderMini(); };
+  $('#miniBig').onclick = () => { const d = activeDoc(); if (!d) return; const shape = d.circular && state.settings.miniShape !== 'linear' ? 'circular' : 'linear'; mapView(d).mapType = shape; if (state.view === 'seq') state.view = 'split'; renderAll(); };
+  // click or drag inside the small map: go there in the sequence and in the main map
+  const svg = $('#miniSvg'); let jump = false;
+  const go = e => { const d = activeDoc(), p = miniBaseAt(e); if (!d || p == null) return; setSel(d, { start: p, len: 0 }, 'panel'); };
+  svg.addEventListener('pointerdown', e => { if (e.button) return; jump = true; try { svg.setPointerCapture(e.pointerId); } catch (err) { } go(e); });
+  svg.addEventListener('pointermove', e => { if (jump) go(e); });
+  svg.addEventListener('pointerup', () => { jump = false; });
+  svg.addEventListener('dblclick', () => $('#miniBig').click());
+  // move it by its title bar, resize it by the corner
+  const drag = (el, onMove, cls) => el.addEventListener('pointerdown', e => {
+    if (e.button || e.target.closest('.minibtn')) return; e.preventDefault(); try { el.setPointerCapture(e.pointerId); } catch (err) { } el.classList.add(cls); document.body.classList.add('minidrag');
+    const box = $('#miniMap'), st = { x: e.clientX, y: e.clientY, l: box.offsetLeft, t: box.offsetTop, w: box.offsetWidth, h: box.offsetHeight };
+    const mv = ev => onMove(ev, st); const up = () => { el.removeEventListener('pointermove', mv); el.removeEventListener('pointerup', up); el.classList.remove(cls); document.body.classList.remove('minidrag'); saveSettings(); renderMini(); };
+    el.addEventListener('pointermove', mv); el.addEventListener('pointerup', up);
+  });
+  drag($('#miniHd'), (ev, st) => { state.settings.miniPos = { x: st.l + ev.clientX - st.x, y: st.t + ev.clientY - st.y }; placeMini(); }, 'drag');
+  drag($('#miniGrip'), (ev, st) => { state.settings.miniW = st.w + ev.clientX - st.x; state.settings.miniH = st.h + ev.clientY - st.y; placeMini(); scheduleMiniRender(); }, 'drag');
+  new ResizeObserver(() => { if (miniOn()) { placeMini(); scheduleMiniRender(); } }).observe($('#views'));
 }
 
 /* ============================================================
