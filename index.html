@@ -10390,6 +10390,7 @@ themeBtn.addEventListener('click', () => { html.dataset.theme = isDark() ? 'ligh
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change', showTheme); showTheme();
 `.replace(/<\/script/gi, '<\\/script');
   return `<!DOCTYPE html><html lang="en"${t ? ` data-theme="${t}"` : ''}><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#4a6ea8"><link rel="apple-touch-icon" href="icons/pmap-192.png"><link rel="icon" type="image/png" sizes="48x48" href="icons/pmap-48.png">
 <title>Primer Forge ${esc(PF_VERSION)}</title>
 <style>${tokens}
 html,body{height:100%;margin:0;background:var(--bg)}
@@ -10527,6 +10528,17 @@ function pfMarkSVG() {
 
 init();
 
+</script>
+<script>
+/* Installed-app extras (only when pMap is served from a web address, e.g. GitHub Pages):
+   - a service worker keeps a copy so pMap also opens offline;
+   - when installed, files opened from Windows ("Open with → pMap") are loaded. */
+if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+if ('launchQueue' in window) launchQueue.setConsumer(async params => {
+  const files = [];
+  for (const h of params.files || []) { try { files.push(await h.getFile()); } catch (e) {} }
+  if (files.length) handleFiles(files);
+});
 </script>
 </body>
 </html>

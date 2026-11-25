@@ -1,0 +1,58 @@
+{
+  "name": "pMap — plasmid maps and sequences",
+  "short_name": "pMap",
+  "description": "Map. Edit. Visualize. Plasmid map and sequence editor with Primer Forge, running entirely in your browser.",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eef1f5",
+  "theme_color": "#4a6ea8",
+  "icons": [
+    {
+      "src": "icons/pmap-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/pmap-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/pmap-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "file_handlers": [
+    {
+      "action": "./",
+      "accept": {
+        "application/octet-stream": [
+          ".dna",
+          ".gb",
+          ".gbk",
+          ".genbank",
+          ".gbff",
+          ".fa",
+          ".fasta",
+          ".fna",
+          ".fas",
+          ".seq",
+          ".embl",
+          ".ape",
+          ".str",
+          ".ab1",
+          ".abi"
+        ]
+      }
+    }
+  ],
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  }
+}
